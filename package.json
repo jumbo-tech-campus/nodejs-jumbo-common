@@ -10,7 +10,7 @@
     "ts:watch": "tsc -w",
     "unit": "istanbul cover  --print=none --include-all-sources --root=./dist/src --dir=./coverage --report=json jasmine",
     "start": "node dist/src/index.js",
-    "install": "tsc",
+    "install": "tsc -d",
     "prets": "npm run clean; npm run tslint",
     "prets:watch": "npm run clean; npm run tslint",
     "postunit": "remap-istanbul -i ./coverage/coverage-final.json -o ./coverage/report -t html"

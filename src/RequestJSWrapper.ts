@@ -1,5 +1,6 @@
 import * as request from 'request-promise-native';
 import {HTTPRequest, HTTPRequestFactory, HTTPRequestResponse} from './HTTPRequest';
+import {HTTPRequestError} from './HTTPRequestError';
 
 const baseRequest = request.defaults({
   gzip: true,
@@ -40,7 +41,7 @@ export class RequestJSWrapper implements HTTPRequest {
   }
 
   private handleError(requestError: RequestError): never {
-    throw new Error(requestError.error.message);
+    throw new HTTPRequestError(requestError.error.message);
   }
 }
 
