@@ -1,0 +1,5 @@
+.DS_STORE
+.idea/
+coverage/
+dist/
+node_modules/
