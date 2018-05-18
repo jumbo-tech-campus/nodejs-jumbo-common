@@ -36,4 +36,3 @@ export class RequestJSWrapper implements HTTPRequest {
     };
   }
 }
-

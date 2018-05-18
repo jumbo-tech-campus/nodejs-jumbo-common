@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/bunyan": "^1.8.4",
     "@types/jasmine": "2.8.6",
     "@types/nock": "9.1.3",
     "@types/node": "8.10.9",
