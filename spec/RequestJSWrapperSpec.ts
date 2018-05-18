@@ -1,7 +1,7 @@
 import * as nock from 'nock';
 import {OptionsWithUrl} from 'request';
 import {asyncIt} from './helpers/JasmineHelper';
-import {RequestJSWrapper, RequestJSWrapperFactory} from '../src/RequestJSWrapper';
+import {RequestJSWrapper} from '../src/RequestJSWrapper';
 import {HTTPRequestResponse} from '../src/HTTPRequest';
 
 describe('A RequestJSWrapper', () => {
@@ -69,6 +69,7 @@ describe('A RequestJSWrapper', () => {
       await new RequestJSWrapper(options).execute();
     } catch (error) {
       expect(error.message).toEqual('ETIMEDOUT');
+      expect(error.name).toEqual('HTTPRequestError');
 
       return;
     }
@@ -91,15 +92,5 @@ describe('A RequestJSWrapper', () => {
         'content-type': 'application/json'
       },
     });
-  });
-});
-
-describe('A RequestJSWrapperFactory', () => {
-  it('Should be able to create a RequestJSWrapper', () => {
-    const factory = new RequestJSWrapperFactory();
-
-    const request = factory.create({url: 'url'});
-
-    expect(request instanceof RequestJSWrapper).toEqual(true);
   });
 });

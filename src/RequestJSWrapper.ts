@@ -1,5 +1,5 @@
 import * as request from 'request-promise-native';
-import {HTTPRequest, HTTPRequestFactory, HTTPRequestResponse} from './HTTPRequest';
+import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestError} from './HTTPRequestError';
 
 const baseRequest = request.defaults({
@@ -8,10 +8,6 @@ const baseRequest = request.defaults({
     maxSockets: 10240
   }
 });
-
-interface RequestError {
-  error: Error;
-}
 
 export class RequestJSWrapper implements HTTPRequest {
   public readonly options: request.Options;
@@ -30,7 +26,7 @@ export class RequestJSWrapper implements HTTPRequest {
         simple:                  false,
       });
     } catch (requestError) {
-      return this.handleError(requestError);
+      throw new HTTPRequestError(requestError.error.message);
     }
 
     return {
@@ -39,14 +35,5 @@ export class RequestJSWrapper implements HTTPRequest {
       headers:    response.headers,
     };
   }
-
-  private handleError(requestError: RequestError): never {
-    throw new HTTPRequestError(requestError.error.message);
-  }
 }
 
-export class RequestJSWrapperFactory implements HTTPRequestFactory {
-  public create(options: request.Options): HTTPRequest {
-    return new RequestJSWrapper(options);
-  }
-}

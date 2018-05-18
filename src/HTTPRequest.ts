@@ -13,7 +13,3 @@ export interface HTTPRequest {
 
   execute(): Promise<HTTPRequestResponse>;
 }
-
-export interface HTTPRequestFactory {
-  create: (options: any) => HTTPRequest;
-}
