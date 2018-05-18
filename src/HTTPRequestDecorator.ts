@@ -3,7 +3,7 @@ import {HTTPRequest, HTTPRequestOptions, HTTPRequestResponse} from './HTTPReques
 export abstract class HTTPRequestDecorator implements HTTPRequest {
   public request: HTTPRequest;
 
-  public constructor(request: HTTPRequest) {
+  protected constructor(request: HTTPRequest) {
     this.request = request;
   }
 
