@@ -32,7 +32,7 @@ And install the following dependencies:
 * tslint
 * tslint-microsoft-contrib
 
-## nodejs-http-request
+## HTTP request classes
 Reusable classes for basic HTTP Requests
 
 Install following dependencies in main project
