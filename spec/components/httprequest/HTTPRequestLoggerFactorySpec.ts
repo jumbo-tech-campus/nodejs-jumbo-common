@@ -1,7 +1,7 @@
-import {HTTPRequestLoggerFactory} from '../src/HTTPRequestLoggerFactory';
-import {HTTPRequestLogger} from '../src/HTTPRequestLogger';
+import {HTTPRequestLoggerFactory} from '../../../src/components/httprequest/HTTPRequestLoggerFactory';
+import {HTTPRequestLogger} from '../../../src/components/httprequest/HTTPRequestLogger';
 import * as Logger from 'bunyan';
-import {HTTPRequest} from '../src/HTTPRequest';
+import {HTTPRequest} from '../../../src/components/httprequest/HTTPRequest';
 
 describe('A HTTPRequestLoggerFactory', () => {
   const httpRequestFactoryMock = {} as HTTPRequestLoggerFactory;

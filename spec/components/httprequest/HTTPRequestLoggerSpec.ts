@@ -1,8 +1,8 @@
-import {HTTPRequest, HTTPRequestResponse} from '../src/HTTPRequest';
+import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 import * as Logger from 'bunyan';
-import {HTTPRequestLogger} from '../src/HTTPRequestLogger';
-import {HTTPRequestError} from '../src/HTTPRequestError';
-import {asyncIt} from './helpers/JasmineHelper';
+import {HTTPRequestLogger} from '../../../src/components/httprequest/HTTPRequestLogger';
+import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestError';
+import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A HTTPRequestLogger', () => {
   const request      = {} as HTTPRequest;

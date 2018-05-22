@@ -1,8 +1,8 @@
 import * as nock from 'nock';
 import {OptionsWithUrl} from 'request';
-import {asyncIt} from './helpers/JasmineHelper';
-import {RequestJSWrapper} from '../src/RequestJSWrapper';
-import {HTTPRequestResponse} from '../src/HTTPRequest';
+import {asyncIt} from '../../helpers/JasmineHelper';
+import {RequestJSWrapper} from '../../../src/components/httprequest/RequestJSWrapper';
+import {HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 
 describe('A RequestJSWrapper', () => {
   let domain  = 'http://mobileapi.unit-test-jumbo.com';
