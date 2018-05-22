@@ -6,6 +6,7 @@ To use the same rules as this project for Typescript & TSLint create the followi
 ```
 {
    "extends": "./node_modules/jumbo-common/tsconfig-base.json",
+   // Project specific rules:
    "exclude": [
        "node_modules"
    ],
@@ -25,6 +26,11 @@ And the following tslint.json file:
     "extends": "jumbo-common/tslint"
 }
 ```
+
+And install the following dependencies:
+* typescript
+* tslint
+* tslint-microsoft-contrib
 
 ## nodejs-http-request
 Reusable classes for basic HTTP Requests
