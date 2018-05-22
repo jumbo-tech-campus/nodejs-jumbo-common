@@ -5,7 +5,7 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true
   },
-  "rulesDirectory": "node_modules/tslint-microsoft-contrib",
+  "rulesDirectory": "tslint-microsoft-contrib",
   "rules": {
     "class-name": true,
     "curly": true,

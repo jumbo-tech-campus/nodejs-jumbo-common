@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf ./dist",
-    "tslint": "tslint --fix -c tslint.json -r node_modules/tslint-microsoft-contrib/ -t verbose 'spec/**/*.ts' 'src/**/*.ts'",
+    "tslint": "tslint --fix -c tslint.json -t verbose 'spec/**/*.ts' 'src/**/*.ts'",
     "ts": "tsc",
     "ts:watch": "tsc -w",
     "unit": "istanbul cover  --print=none --include-all-sources --root=./dist/src --dir=./coverage --report=json jasmine",
@@ -25,8 +25,6 @@
     "@types/node": "8.10.9",
     "@types/request": "2.47.0",
     "@types/request-promise-native": "1.0.14",
-    "request": "2.85.0",
-    "request-promise-native": "1.0.5",
     "typescript": "2.8.3"
   },
   "devDependencies": {
