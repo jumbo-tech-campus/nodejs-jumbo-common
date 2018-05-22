@@ -30,5 +30,7 @@ And the following tslint.json file:
 Reusable classes for basic HTTP Requests
 
 Install following dependencies in main project
-* requests
-* requests-promise-native
+* request
+* request-promise-native
+* @types/request
+* @types/request-promise-native
