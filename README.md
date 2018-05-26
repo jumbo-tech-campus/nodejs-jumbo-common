@@ -3,10 +3,14 @@
 ## Typescript & TSLint
 
 To use the same rules as this project for Typescript & TSLint create the following tsconfig.json file:
-```
+```json
 {
    "extends": "./node_modules/jumbo-common/tsconfig-base.json",
    // Project specific rules:
+   "compilerOptions": {
+     "outDir": "./dist"
+   },
+
    "exclude": [
        "node_modules"
    ],
@@ -21,7 +25,7 @@ To use the same rules as this project for Typescript & TSLint create the followi
 }
 ```
 And the following tslint.json file:
-```
+```json
 {
     "extends": "jumbo-common/tslint"
 }
