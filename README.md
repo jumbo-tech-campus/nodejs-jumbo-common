@@ -33,6 +33,7 @@ And the following tslint.json file:
 
 And install the following dependencies:
 * typescript
+* tslib
 * tslint
 * tslint-microsoft-contrib
 
