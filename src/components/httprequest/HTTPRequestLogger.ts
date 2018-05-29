@@ -35,7 +35,7 @@ export class HTTPRequestLogger extends HTTPRequestDecorator {
   private handleError(error: HTTPRequestError): never {
     this.logger.error({
       options: super.options,
-      error:   error.message,
+      error:   error.toLogger(),
     }, 'Request error');
 
     throw error;

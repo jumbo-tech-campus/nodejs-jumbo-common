@@ -23,4 +23,11 @@ export abstract class APIError extends Error {
 
     return body;
   }
+
+  public toLogger(): any {
+    return {
+      name:    this.name,
+      message: this.message,
+    };
+  }
 }
