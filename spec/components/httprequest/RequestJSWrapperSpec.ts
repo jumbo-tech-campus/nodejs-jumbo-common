@@ -54,7 +54,8 @@ describe('A RequestJSWrapper', () => {
         timeout: 1,
       }).execute();
     } catch (error) {
-      expect(error.message).toEqual('ESOCKETTIMEDOUT');
+      expect(error.name).toEqual('HTTPRequestTimedoutError');
+      expect(error.message).toEqual('Request timed out');
 
       return;
     }
@@ -68,8 +69,23 @@ describe('A RequestJSWrapper', () => {
     try {
       await new RequestJSWrapper(options).execute();
     } catch (error) {
-      expect(error.message).toEqual('ETIMEDOUT');
+      expect(error.name).toEqual('HTTPRequestTimedoutError');
+      expect(error.message).toEqual('Request timed out');
+
+      return;
+    }
+
+    fail();
+  });
+
+  asyncIt('Can return an invalid HTTPResponse with CUSTOM error', async () => {
+    nock(domain).get(nockUrl).replyWithError('CUSTOM');
+
+    try {
+      await new RequestJSWrapper(options).execute();
+    } catch (error) {
       expect(error.name).toEqual('HTTPRequestError');
+      expect(error.message).toEqual('Internal Server Error');
 
       return;
     }

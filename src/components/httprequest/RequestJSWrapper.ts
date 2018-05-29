@@ -1,6 +1,7 @@
 import * as request from 'request-promise-native';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestError} from './HTTPRequestError';
+import {HTTPRequestTimedoutError} from './HTTPRequestTimedoutError';
 
 const baseRequest = request.defaults({
   gzip: true,
@@ -26,7 +27,11 @@ export class RequestJSWrapper implements HTTPRequest {
         simple:                  false,
       });
     } catch (requestError) {
-      throw new HTTPRequestError(requestError.error.message);
+      if (requestError.error.message === 'ETIMEDOUT' || requestError.error.message === 'ESOCKETTIMEDOUT') {
+        throw new HTTPRequestTimedoutError('Request timed out');
+      }
+
+      throw new HTTPRequestError('Internal Server Error');
     }
 
     return {
