@@ -9,4 +9,18 @@ export abstract class APIError extends Error {
 
     Object.setPrototypeOf(this, APIError.prototype);
   }
+
+  public toResponseBody(tid: string, withStack: boolean): any {
+    const body: any = {
+      name:    this.name,
+      message: this.message,
+      tid:     tid
+    };
+
+    if (withStack) {
+      body.stack = this.stack;
+    }
+
+    return body;
+  }
 }
