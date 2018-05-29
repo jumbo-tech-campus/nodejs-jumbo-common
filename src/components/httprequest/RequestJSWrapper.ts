@@ -27,11 +27,11 @@ export class RequestJSWrapper implements HTTPRequest {
         simple:                  false,
       });
     } catch (requestError) {
-      if (requestError.error.message === 'ETIMEDOUT' || requestError.error.message === 'ESOCKETTIMEDOUT') {
+      if (requestError.error.message === 'ETIMEDOUT') {
         throw new HTTPRequestTimedoutError('Request timed out');
       }
 
-      throw new HTTPRequestError('Internal Server Error');
+      throw new HTTPRequestError(requestError.error.message);
     }
 
     return {

@@ -54,8 +54,8 @@ describe('A RequestJSWrapper', () => {
         timeout: 1,
       }).execute();
     } catch (error) {
-      expect(error.name).toEqual('HTTPRequestTimedoutError');
-      expect(error.message).toEqual('Request timed out');
+      expect(error.name).toEqual('HTTPRequestError');
+      expect(error.message).toEqual('ESOCKETTIMEDOUT');
 
       return;
     }
@@ -85,7 +85,7 @@ describe('A RequestJSWrapper', () => {
       await new RequestJSWrapper(options).execute();
     } catch (error) {
       expect(error.name).toEqual('HTTPRequestError');
-      expect(error.message).toEqual('Internal Server Error');
+      expect(error.message).toEqual('CUSTOM');
 
       return;
     }

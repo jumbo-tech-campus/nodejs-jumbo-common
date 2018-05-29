@@ -4,8 +4,8 @@ import {APIError} from '../../../src/components/helpers/APIError';
 describe('A HTTPRequestError', () => {
   it('Can return a response body', () => {
     const error = new HTTPRequestError('Error');
-    const body = error.toResponseBody('tid', false);
-    const bodyWithStack = error.toResponseBody('tid', true);
+    const body = error.toResponseBody(false);
+    const bodyWithStack = error.toResponseBody(true);
 
     expect(error.statusCode).toEqual(500);
     expect(error.name).toEqual('HTTPRequestError');
@@ -13,7 +13,6 @@ describe('A HTTPRequestError', () => {
 
     expect(body.name).toEqual('HTTPRequestError');
     expect(body.message).toEqual('Error');
-    expect(body.tid).toEqual('tid');
     expect(body.stack).not.toBeDefined();
     expect(bodyWithStack.stack).toBeDefined();
 
