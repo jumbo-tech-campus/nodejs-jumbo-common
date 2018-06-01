@@ -15,6 +15,7 @@ describe('A Retryer', () => {
 
       return Promise.resolve(retries === 3);
     };
+    retryableMock.getLogInformation = () => ({});
   });
 
   asyncIt('Should not retry a succesfull attempt', async () => {
