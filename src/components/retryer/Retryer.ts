@@ -29,8 +29,9 @@ export class Retryer {
 
     if (this.backo.attempts > 1) {
       this.logger.warn({
-        attempts:  this.backo.attempts,
-        retryable: this.retryable.constructor.name
+        attempts:    this.backo.attempts,
+        retryable:   this.retryable.constructor.name,
+        information: this.retryable.getLogInformation(),
       }, 'Retried operation');
     }
   }
