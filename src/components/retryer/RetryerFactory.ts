@@ -1,5 +1,6 @@
 import {Retryer} from './Retryer';
 import {Retryable} from './Retryable';
+import * as Logger from 'bunyan';
 
 export class RetryerFactory {
   private readonly maxAttempts: number;
@@ -15,6 +16,6 @@ export class RetryerFactory {
   }
 
   public create(retryable: Retryable): Retryer {
-    return new Retryer(retryable, this.maxAttempts + 1, this.minInterval, this.maxInterval, this.jitter);
+    return new Retryer({} as Logger, retryable, this.maxAttempts + 1, this.minInterval, this.maxInterval, this.jitter);
   }
 }
