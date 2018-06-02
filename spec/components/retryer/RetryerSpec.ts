@@ -38,6 +38,6 @@ describe('A Retryer', () => {
     await retryer.execute();
 
     expect(retries).toEqual(2);
-    expect(loggerMock.warn).toHaveBeenCalled();
+    expect(loggerMock.warn).toHaveBeenCalledTimes(1);
   });
 });

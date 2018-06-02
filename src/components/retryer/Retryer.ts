@@ -25,9 +25,7 @@ export class Retryer {
       await this.wait(this.backo.duration());
 
       await this.execute();
-    }
-
-    if (this.backo.attempts > 1) {
+    } else if (this.backo.attempts > 1) {
       this.logger.warn({
         attempts:    this.backo.attempts,
         retryable:   this.retryable.constructor.name,
