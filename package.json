@@ -8,7 +8,7 @@
     "tslint": "tslint --fix -c tslint.json -t verbose 'spec/**/*.ts' 'src/**/*.ts'",
     "ts": "tsc",
     "ts:watch": "tsc -w",
-    "unit": "istanbul cover  --print=none --include-all-sources --root=./dist/src --dir=./coverage --report=json jasmine",
+    "unit": "istanbul cover jasmine",
     "start": "node dist/src/index.js",
     "build": "npm run ts && npm run unit",
     "install": "tsc -d",
