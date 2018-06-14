@@ -1,5 +1,8 @@
 .DS_STORE
-.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/dictionaries
+.idea/**/shelf
 coverage/
 dist/
 node_modules/
