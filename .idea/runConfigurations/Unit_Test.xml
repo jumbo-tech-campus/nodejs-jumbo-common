@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Unit Test" type="NodeJSConfigurationType" factoryName="Node.js" path-to-js-file="./node_modules/.bin/jasmine" working-dir="$PROJECT_DIR$">
+    <method />
+  </configuration>
+</component>
