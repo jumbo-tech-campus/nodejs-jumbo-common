@@ -1,4 +1,4 @@
-import {StatsD} from 'node-statsd';
+import {StatsD} from 'hot-shots';
 import {Measurable} from './Measurable';
 
 export class AsyncMeasurer {

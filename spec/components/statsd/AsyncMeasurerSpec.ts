@@ -1,6 +1,6 @@
 import {Measurable} from '../../../src/components/statsd/Measurable';
 import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
-import {StatsD} from 'node-statsd';
+import {StatsD} from 'hot-shots';
 
 describe('An AsyncMeasurer', () => {
   const tagsMock       = ['test:test'];
