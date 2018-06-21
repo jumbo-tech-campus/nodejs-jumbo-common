@@ -1,6 +1,7 @@
 import * as hapi from 'hapi';
 import uuidv4 from 'uuid/v4';
 import * as Logger from 'bunyan';
+import Boom from 'boom';
 
 declare module 'hapi' {
   interface Request {
@@ -29,7 +30,7 @@ export const bunyanTIDLogger: hapi.Plugin<BunyanHapiTIDLoggerOptions> = {
     server.ext('onPreResponse', (request, h) => {
       const response = request.response;
 
-      if (response && 'isBoom' in response && response.isBoom) {
+      if (response instanceof Boom) {
         response.output.headers['x-transaction-id'] = request.tid;
       }
 
