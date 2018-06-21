@@ -1,4 +1,4 @@
-import * as request from 'request-promise-native';
+import request from 'request-promise-native';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestError} from './HTTPRequestError';
 import {HTTPRequestTimedoutError} from './HTTPRequestTimedoutError';

@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 import {OptionsWithUrl} from 'request';
 import {asyncIt} from '../../helpers/JasmineHelper';
 import {RequestJSWrapper} from '../../../src/components/httprequest/RequestJSWrapper';
