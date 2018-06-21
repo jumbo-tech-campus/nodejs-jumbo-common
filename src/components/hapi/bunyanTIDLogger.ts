@@ -25,5 +25,15 @@ export const bunyanTIDLogger: hapi.Plugin<BunyanHapiTIDLoggerOptions> = {
 
       return h.continue;
     });
+
+    server.ext('onPostHandler', (request, h) => {
+      const response = request.response;
+
+      if (response && 'isBoom' in response && response.isBoom) {
+        response.output.headers['x-transaction-id'] = request.tid;
+      }
+
+      return h.continue;
+    });
   },
 };
