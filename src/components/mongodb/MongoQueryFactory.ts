@@ -4,6 +4,7 @@ import {MongoFindOne} from './MongoFindOne';
 import {MongoQueryMeasurer} from './MongoQueryMeasurer';
 import {MongoFind} from './MongoFind';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
+import {ModelPopulateOptions} from 'mongoose';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -14,11 +15,11 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     this.measurer = measurer;
   }
 
-  public createFind(findOptions: Partial<T>): MongoQuery<T[]> {
-    return new MongoQueryMeasurer(this.measurer, new MongoFind(findOptions, this.model));
+  public createFind(findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T[]> {
+    return new MongoQueryMeasurer(this.measurer, new MongoFind(findOptions, this.model, populate));
   }
 
-  public createFindOne(findOptions: Partial<T>): MongoQuery<T | null> {
-    return new MongoQueryMeasurer(this.measurer, new MongoFindOne(findOptions, this.model));
+  public createFindOne(findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T | null> {
+    return new MongoQueryMeasurer(this.measurer, new MongoFindOne(findOptions, this.model, populate));
   }
 }
