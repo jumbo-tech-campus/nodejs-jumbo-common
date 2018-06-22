@@ -8,18 +8,30 @@ import {ModelPopulateOptions} from 'mongoose';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
-  private readonly measurer: AsyncMeasurer;
+  private readonly measurer?: AsyncMeasurer;
 
-  public constructor(model: mongoose.Model<T>, measurer: AsyncMeasurer) {
+  public constructor(model: mongoose.Model<T>, measurer?: AsyncMeasurer) {
     this.model    = model;
     this.measurer = measurer;
   }
 
   public createFind(findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T[]> {
-    return new MongoQueryMeasurer(this.measurer, new MongoFind(findOptions, this.model, populate));
+    let query = new MongoFind(findOptions, this.model, populate);
+
+    if (this.measurer) {
+      return new MongoQueryMeasurer(this.measurer, query);
+    }
+
+    return query;
   }
 
   public createFindOne(findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T | null> {
-    return new MongoQueryMeasurer(this.measurer, new MongoFindOne(findOptions, this.model, populate));
+    let query = new MongoFindOne(findOptions, this.model, populate);
+
+    if (this.measurer) {
+      return new MongoQueryMeasurer(this.measurer, query);
+    }
+
+    return query;
   }
 }
