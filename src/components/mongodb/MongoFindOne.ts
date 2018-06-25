@@ -27,6 +27,7 @@ export class MongoFindOne<T extends mongoose.Document> implements Measurable<T |
     if (this.populate) {
       query = query.populate(this.populate);
     }
+
     return query.exec();
   }
 }

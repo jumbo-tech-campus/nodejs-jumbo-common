@@ -4,7 +4,7 @@ import * as Logger from 'bunyan';
 import Boom from 'boom';
 
 declare module 'hapi' {
-  interface Request {
+  interface ApplicationState {
     tid: string;
     logger: Logger;
   }
@@ -12,16 +12,15 @@ declare module 'hapi' {
 
 interface BunyanHapiTIDLoggerOptions {
   logger: Logger;
-
 }
 
 export const bunyanTIDLogger: hapi.Plugin<BunyanHapiTIDLoggerOptions> = {
-  name:     'bunyanTIDLogger',
+  name:     'logging',
   register: (server, options) => {
     server.ext('onRequest', (request, h) => {
-      request.tid    = uuidv4();
-      request.logger = options.logger.child({
-        transactionID: request.tid,
+      request.app.tid = uuidv4();
+      request.app.logger = options.logger.child({
+        transactionID: request.app.tid,
       });
 
       return h.continue;
@@ -31,7 +30,7 @@ export const bunyanTIDLogger: hapi.Plugin<BunyanHapiTIDLoggerOptions> = {
       const response = request.response;
 
       if (response instanceof Boom) {
-        response.output.headers['x-transaction-id'] = request.tid;
+        response.output.headers['x-transaction-id'] = request.app.tid;
       }
 
       return h.continue;
