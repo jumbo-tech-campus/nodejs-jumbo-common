@@ -1,11 +1,12 @@
 import * as mongoose from 'mongoose';
 import {MongoQuery} from './MongoQuery';
 import {MongoFindOne} from './MongoFindOne';
-import {MongoQueryMeasurer} from './MongoQueryMeasurer';
+import {MongoQueryTelemetry} from './MongoQueryTelemetry';
 import {MongoFind} from './MongoFind';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import {ModelPopulateOptions} from 'mongoose';
 import {MongoCreate} from './MongoCreate';
+import * as Logger from 'bunyan';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -16,31 +17,31 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     this.measurer = measurer;
   }
 
-  public createFind(findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T[]> {
+  public createFind(logger: Logger, findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T[]> {
     let query = new MongoFind(findOptions, this.model, populate);
 
     if (this.measurer) {
-      return new MongoQueryMeasurer(this.measurer, query);
+      return new MongoQueryTelemetry(logger, this.measurer, query);
     }
 
     return query;
   }
 
-  public createFindOne(findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T | null> {
+  public createFindOne(logger: Logger, findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T | null> {
     let query = new MongoFindOne(findOptions, this.model, populate);
 
     if (this.measurer) {
-      return new MongoQueryMeasurer(this.measurer, query);
+      return new MongoQueryTelemetry(logger, this.measurer, query);
     }
 
     return query;
   }
 
-  public createCreate(createOptions: Partial<T>): MongoQuery<T> {
+  public createCreate(logger: Logger, createOptions: Partial<T>): MongoQuery<T> {
     let query = new MongoCreate(createOptions, this.model);
 
     if (this.measurer) {
-      return new MongoQueryMeasurer(this.measurer, query);
+      return new MongoQueryTelemetry(logger, this.measurer, query);
     }
 
     return query;

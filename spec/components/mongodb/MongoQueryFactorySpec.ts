@@ -1,22 +1,24 @@
 import {MongoQueryFactory} from '../../../src/components/mongodb/MongoQueryFactory';
 import * as mongoose from 'mongoose';
 import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
-import {MongoQueryMeasurer} from '../../../src/components/mongodb/MongoQueryMeasurer';
+import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
+import * as Logger from 'bunyan';
 
 describe('A MongoQueryFactory', () => {
+  const loggerMock = {} as Logger;
   const modelMock  = {} as mongoose.Model<mongoose.Document> & any;
   const asyncMeasurerMock = {} as AsyncMeasurer;
   const mongoQueryFactory = new MongoQueryFactory(modelMock, asyncMeasurerMock);
 
   it('Should be able to create MongoFind', () => {
-    const mongoFind = mongoQueryFactory.createFind({});
+    const mongoFind = mongoQueryFactory.createFind(loggerMock, {});
 
-    expect(mongoFind instanceof MongoQueryMeasurer).toEqual(true);
+    expect(mongoFind instanceof MongoQueryTelemetry).toEqual(true);
   });
 
   it('Should be able to create MongoFindOne', () => {
-    const mongoFindOne = mongoQueryFactory.createFindOne({});
+    const mongoFindOne = mongoQueryFactory.createFindOne(loggerMock, {});
 
-    expect(mongoFindOne instanceof MongoQueryMeasurer).toEqual(true);
+    expect(mongoFindOne instanceof MongoQueryTelemetry).toEqual(true);
   });
 });

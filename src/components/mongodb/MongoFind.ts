@@ -8,13 +8,16 @@ export class MongoFind<T extends mongoose.Document> implements Measurable<T[]>, 
   public readonly options: Partial<T>;
   public readonly measurePrefix: string;
   private readonly model: mongoose.Model<T>;
-  private readonly populate?: ModelPopulateOptions | ModelPopulateOptions[];
+  private readonly currentOptions: {
+    populate?: ModelPopulateOptions | ModelPopulateOptions[];
+    projection?: any;
+  };
 
   public constructor(findOptions: Partial<T>, model: mongoose.Model<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]) {
-    this.options       = findOptions;
-    this.measurePrefix = 'mongodb.find.';
-    this.model         = model;
-    this.populate      = populate;
+    this.options        = findOptions;
+    this.measurePrefix  = 'mongodb.find.';
+    this.model          = model;
+    this.currentOptions = {populate};
   }
 
   public get tags(): string[] {
@@ -22,10 +25,10 @@ export class MongoFind<T extends mongoose.Document> implements Measurable<T[]>, 
   }
 
   public execute(): Promise<T[]> {
-    let query = this.model.find(this.options);
+    let query = this.model.find(this.options, this.currentOptions.projection);
 
-    if (this.populate) {
-      query = query.populate(this.populate);
+    if (this.currentOptions.populate) {
+      query = query.populate(this.currentOptions.populate);
     }
 
     return query.exec();

@@ -1,15 +1,21 @@
-import {MongoQueryMeasurer} from '../../../src/components/mongodb/MongoQueryMeasurer';
+import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
 import {MongoQuery} from '../../../src/components/mongodb/MongoQuery';
 import * as mongoose from 'mongoose';
 import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
 import {Measurable} from '../../../src/components/statsd/Measurable';
+import * as Logger from 'bunyan';
 
-describe('A MongoQueryMeasurer', () => {
+describe('A MongoQueryTelemetry', () => {
+  const loggerMock        = {} as Logger;
   const asyncMeasurerMock = {} as AsyncMeasurer;
-  const mongoQueryMock    = {} as MongoQuery<mongoose.Document> & Measurable<mongoose.Document>;
+  const mongoQueryMock    = {
+    constructor: {
+      name: 'MongoQuery',
+    },
+  } as MongoQuery<mongoose.Document> & Measurable<mongoose.Document>;
   const mockResult: any   = {};
 
-  const mongoQueryMeasurer = new MongoQueryMeasurer(asyncMeasurerMock, mongoQueryMock);
+  const mongoQueryMeasurer = new MongoQueryTelemetry(loggerMock, asyncMeasurerMock, mongoQueryMock);
 
   beforeEach(() => {
     asyncMeasurerMock.measure = () => Promise.resolve(mockResult);
