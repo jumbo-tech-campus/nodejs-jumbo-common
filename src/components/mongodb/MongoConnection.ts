@@ -49,7 +49,7 @@ export class MongoConnection {
     });
 
     mongoose.connection.on('disconnected', () => {
-      this.logger.fatal({}, 'Mongoose disconnected');
+      this.logger.info({}, 'Mongoose disconnected');
     });
 
     process.on('SIGINT', () => {
