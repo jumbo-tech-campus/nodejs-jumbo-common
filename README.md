@@ -1,5 +1,11 @@
 # Reuseable components for Jumbo NodeJS projects
 
+For this library it has been decided that all the dependencies are installed as dev dependencies 
+(as much as possible). Because if you don't use a helper component in this library you need the 
+dependencies that component needs.
+
+In this README the components are described and the dependencies that need to be installed.
+
 ## Components
 
 ### Typescript & TSLint
