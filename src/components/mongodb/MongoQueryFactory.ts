@@ -8,6 +8,7 @@ import {ModelPopulateOptions} from 'mongoose';
 import {MongoCreate} from './MongoCreate';
 import * as Logger from 'bunyan';
 import {Measurable} from '../statsd/Measurable';
+import {MongoUpdate} from './MongoUpdate';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -28,6 +29,10 @@ export class MongoQueryFactory<T extends mongoose.Document> {
 
   public createCreate(logger: Logger, createOptions: Partial<T>): MongoQuery<T> {
     return this.createTelemetry(logger, new MongoCreate(createOptions, this.model));
+  }
+
+  public createUpdate(logger: Logger, updateOptions: Partial<T>, updateDocument: Partial<T>): MongoQuery<T> {
+    return this.createTelemetry(logger, new MongoUpdate(updateOptions, updateDocument, this.model));
   }
 
   private createTelemetry<T>(logger: Logger, query: MongoQuery<T> & Measurable<T>): MongoQuery<T> {
