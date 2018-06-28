@@ -3,7 +3,7 @@ import {MongoQuery} from './MongoQuery';
 import {Measurable} from '../statsd/Measurable';
 import {objectToTags} from '../statsd/objectToTags';
 
-export class MongoUpdate<T extends mongoose.Document> implements Measurable<T>, MongoQuery<T> {
+export class MongoUpdate<T extends mongoose.Document> implements Measurable<T | null>, MongoQuery<T | null> {
   public readonly options: Partial<T>;
   public readonly document: Partial<T>;
   public readonly measurePrefix: string;
@@ -20,7 +20,7 @@ export class MongoUpdate<T extends mongoose.Document> implements Measurable<T>, 
     return objectToTags(this.options);
   }
 
-  public execute(): Promise<T> {
-    return this.model.update(this.options, this.document).exec();
+  public execute(): Promise<T | null> {
+    return this.model.findOneAndUpdate(this.options, this.document).exec();
   }
 }
