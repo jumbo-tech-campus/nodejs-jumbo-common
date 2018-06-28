@@ -7,12 +7,16 @@ import * as Logger from 'bunyan';
 
 describe('A MongoQueryTelemetry', () => {
   const loggerMock        = {} as Logger;
+  loggerMock.error        = () => true;
   const asyncMeasurerMock = {} as AsyncMeasurer;
   const mongoQueryMock    = {
     constructor: {
       name: 'MongoQuery',
     },
-  } as MongoQuery<mongoose.Document> & Measurable<mongoose.Document>;
+    options:     {
+      property: 'value',
+    },
+  } as MongoQuery<mongoose.Document> & Measurable<mongoose.Document> & any;
   const mockResult: any   = {};
 
   const mongoQueryMeasurer = new MongoQueryTelemetry(loggerMock, asyncMeasurerMock, mongoQueryMock);
@@ -25,5 +29,30 @@ describe('A MongoQueryTelemetry', () => {
     const result = await mongoQueryMeasurer.execute();
 
     expect(result).toEqual(mockResult);
+  });
+
+  it('Should log an error', async () => {
+    spyOn(loggerMock, 'error');
+    const throwError          = new Error('Error');
+    asyncMeasurerMock.measure = () => {
+      throw throwError;
+    };
+
+    try {
+      await mongoQueryMeasurer.execute();
+    } catch (error) {
+      expect(error).toBe(throwError);
+      expect(loggerMock.error).toHaveBeenCalled();
+
+      return;
+    }
+
+    fail();
+  });
+
+  it('Can return query options', () => {
+    expect(mongoQueryMeasurer.options).toEqual({
+      property: 'value',
+    });
   });
 });
