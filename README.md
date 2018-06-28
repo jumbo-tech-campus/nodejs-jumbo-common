@@ -1,6 +1,8 @@
 # Reuseable components for Jumbo NodeJS projects
 
-## Typescript & TSLint
+## Components
+
+### Typescript & TSLint
 
 To use the same rules as this project for Typescript & TSLint create the following tsconfig.json file:
 ```json
@@ -37,7 +39,8 @@ And install the following dependencies:
 * tslint
 * tslint-microsoft-contrib
 
-## HTTP request classes
+### HTTP request classes
+
 Reusable classes for basic HTTP Requests
 
 Install following dependencies in main project
@@ -45,3 +48,8 @@ Install following dependencies in main project
 * request-promise-native
 * @types/request
 * @types/request-promise-native
+
+### Hapi
+
+#### Bunyan TID Logger
+To use the bunyan logger you need to install `uuid` in your main project
