@@ -58,4 +58,8 @@ Install following dependencies in main project
 ### Hapi
 
 #### Bunyan TID Logger
-To use the bunyan logger you need to install `uuid` in your main project
+To use the bunyan logger you need to install the following dependencies 
+* uuid
+* boom
+* hapi
+* bunyan
