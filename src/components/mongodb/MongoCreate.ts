@@ -8,8 +8,8 @@ export class MongoCreate<T extends mongoose.Document> implements Measurable<T>, 
   public readonly measurePrefix: string;
   private readonly model: mongoose.Model<T>;
 
-  public constructor(findOptions: Partial<T>, model: mongoose.Model<T>) {
-    this.options       = findOptions;
+  public constructor(options: Partial<T>, model: mongoose.Model<T>) {
+    this.options       = options;
     this.measurePrefix = 'mongodb.create.';
     this.model         = model;
   }
