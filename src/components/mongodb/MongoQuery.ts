@@ -1,5 +1,5 @@
 export interface MongoQuery<T> {
-  readonly options: {[key: string]: any};
+  readonly options: object;
 
   execute(): Promise<T>;
 }

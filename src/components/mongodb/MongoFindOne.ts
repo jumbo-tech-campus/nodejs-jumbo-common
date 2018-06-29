@@ -2,19 +2,19 @@ import * as mongoose from 'mongoose';
 import {MongoQuery} from './MongoQuery';
 import {Measurable} from '../statsd/Measurable';
 import {objectToTags} from '../statsd/objectToTags';
-import {ModelPopulateOptions} from 'mongoose';
+import {MongoDocumentQuery} from './MongoDocumentQuery';
 
 export class MongoFindOne<T extends mongoose.Document> implements Measurable<T | null>, MongoQuery<T | null> {
   public readonly options: Partial<T>;
   public readonly measurePrefix: string;
   private readonly model: mongoose.Model<T>;
-  private readonly populate?: ModelPopulateOptions | ModelPopulateOptions[];
+  private readonly documentQuery: MongoDocumentQuery;
 
-  public constructor(options: Partial<T>, model: mongoose.Model<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]) {
+  public constructor(options: Partial<T>, model: mongoose.Model<T>, documentQuery: MongoDocumentQuery) {
     this.options       = options;
     this.measurePrefix = 'mongodb.findone.';
     this.model         = model;
-    this.populate      = populate;
+    this.documentQuery = documentQuery;
   }
 
   public get tags(): string[] {
@@ -22,12 +22,6 @@ export class MongoFindOne<T extends mongoose.Document> implements Measurable<T |
   }
 
   public execute(): Promise<T | null> {
-    let query = this.model.findOne(this.options);
-
-    if (this.populate) {
-      query = query.populate(this.populate);
-    }
-
-    return query.exec();
+    return this.documentQuery.execute(this.model.findOne(this.options));
   }
 }

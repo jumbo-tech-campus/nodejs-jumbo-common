@@ -4,11 +4,11 @@ import {MongoFindOne} from './MongoFindOne';
 import {MongoQueryTelemetry} from './MongoQueryTelemetry';
 import {MongoFind} from './MongoFind';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
-import {ModelPopulateOptions} from 'mongoose';
 import {MongoCreate} from './MongoCreate';
 import * as Logger from 'bunyan';
 import {Measurable} from '../statsd/Measurable';
 import {MongoUpdate} from './MongoUpdate';
+import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -19,12 +19,12 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     this.measurer = measurer;
   }
 
-  public createFind(logger: Logger, findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T[]> {
-    return this.createTelemetry(logger, new MongoFind(findOptions, this.model, populate));
+  public createFind(logger: Logger, findOptions: Partial<T>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T[]> {
+    return this.createTelemetry(logger, new MongoFind(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
-  public createFindOne(logger: Logger, findOptions: Partial<T>, populate?: ModelPopulateOptions | ModelPopulateOptions[]): MongoQuery<T | null> {
-    return this.createTelemetry(logger, new MongoFindOne(findOptions, this.model, populate));
+  public createFindOne(logger: Logger, findOptions: Partial<T>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T | null> {
+    return this.createTelemetry(logger, new MongoFindOne(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
   public createCreate(logger: Logger, createOptions: Partial<T>): MongoQuery<T> {
