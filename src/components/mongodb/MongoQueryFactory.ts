@@ -9,6 +9,7 @@ import * as Logger from 'bunyan';
 import {Measurable} from '../statsd/Measurable';
 import {MongoUpdate} from './MongoUpdate';
 import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
+import {MongoRemove} from './MongoRemove';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -33,6 +34,10 @@ export class MongoQueryFactory<T extends mongoose.Document> {
 
   public createUpdate(logger: Logger, updateOptions: Partial<T>, updateDocument: Partial<T>): MongoQuery<T | null> {
     return this.createTelemetry(logger, new MongoUpdate(updateOptions, updateDocument, this.model));
+  }
+
+  public createRemove(logger: Logger, removeOptions: Partial<T>): MongoQuery<void> {
+    return this.createTelemetry(logger, new MongoRemove(removeOptions, this.model));
   }
 
   private createTelemetry<T>(logger: Logger, query: MongoQuery<T> & Measurable<T>): MongoQuery<T> {

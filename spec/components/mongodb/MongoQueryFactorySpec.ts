@@ -26,14 +26,20 @@ describe('A MongoQueryFactory', () => {
   it('Should be able to create MongoCreate without measurer', () => {
     const mongoQueryFactory = new MongoQueryFactory(modelMock);
 
-    const mongoFindOne = mongoQueryFactory.createCreate(loggerMock, {});
+    const mongoCreate = mongoQueryFactory.createCreate(loggerMock, {});
 
-    expect(mongoFindOne instanceof MongoCreate).toEqual(true);
+    expect(mongoCreate instanceof MongoCreate).toEqual(true);
   });
 
   it('Should be able to create MongoUpdate', () => {
-    const mongoFindOne = mongoQueryFactory.createUpdate(loggerMock, {}, {});
+    const mongoUpdate = mongoQueryFactory.createUpdate(loggerMock, {}, {});
 
-    expect(mongoFindOne instanceof MongoQueryTelemetry).toEqual(true);
+    expect(mongoUpdate instanceof MongoQueryTelemetry).toEqual(true);
+  });
+
+  it('Should be able to create MongoRemove', () => {
+    const mongoRemove = mongoQueryFactory.createRemove(loggerMock, {});
+
+    expect(mongoRemove instanceof MongoQueryTelemetry).toEqual(true);
   });
 });
