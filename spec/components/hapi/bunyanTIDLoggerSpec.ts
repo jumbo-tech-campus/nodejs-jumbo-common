@@ -1,15 +1,26 @@
-import {createTIDLoggerLifecycleMethod, tidErrorHandler} from '../../../src/components/hapi/bunyanTIDLogger';
+import {
+  BunyanHapiTIDLoggerOptions,
+  bunyanTIDLogger,
+  createTIDLoggerLifecycleMethod,
+  tidErrorHandler,
+} from '../../../src/components/hapi/bunyanTIDLogger';
 import * as Logger from 'bunyan';
 import * as hapi from 'hapi';
 import Boom from 'boom';
 
 describe('A bunyanTIDLogger', () => {
+  const serverMock  = {} as hapi.Server;
   const requestMock = {} as hapi.Request & any;
   const hMock       = {} as hapi.ResponseToolkit & any;
 
   beforeEach(() => {
-    requestMock.app  = {};
-    hMock.continue   = Symbol('continue');
+    serverMock.ext = () => void 0;
+    requestMock.app = {};
+    hMock.continue  = Symbol('continue');
+  });
+
+  it('Can register methods', () => {
+    bunyanTIDLogger.register(serverMock, {} as BunyanHapiTIDLoggerOptions);
   });
 
   describe('The tidLoggerLifecycleMethod', () => {

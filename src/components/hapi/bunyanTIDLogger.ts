@@ -10,7 +10,7 @@ declare module 'hapi' {
   }
 }
 
-interface BunyanHapiTIDLoggerOptions {
+export interface BunyanHapiTIDLoggerOptions {
   logger: Logger;
 }
 
