@@ -30,4 +30,10 @@ describe('A MongoQueryFactory', () => {
 
     expect(mongoFindOne instanceof MongoCreate).toEqual(true);
   });
+
+  it('Should be able to create MongoUpdate', () => {
+    const mongoFindOne = mongoQueryFactory.createUpdate(loggerMock, {}, {});
+
+    expect(mongoFindOne instanceof MongoQueryTelemetry).toEqual(true);
+  });
 });
