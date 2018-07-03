@@ -21,7 +21,7 @@
     "dependencies": {
         "@types/boom": "^7.2.0",
         "@types/bunyan": "^1.8.4",
-        "@types/hapi": "^17.0.13",
+        "@types/hapi": "^17.0.14",
         "@types/jasmine": "^2.8.8",
         "@types/mongoose": "^5.0.18",
         "@types/nock": "^9.3.0",
@@ -36,7 +36,7 @@
         "boom": "^7.2.0",
         "istanbul": "^0.4.5",
         "jasmine": "^3.1.0",
-        "nock": "^9.4.0",
+        "nock": "^9.4.1",
         "remap-istanbul": "^0.11.1",
         "request": "^2.87.0",
         "request-promise-native": "^1.0.5",
