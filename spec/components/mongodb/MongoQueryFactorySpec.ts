@@ -42,4 +42,16 @@ describe('A MongoQueryFactory', () => {
 
     expect(mongoRemove instanceof MongoQueryTelemetry).toEqual(true);
   });
+
+  it('Should be able to create MongoFindOrCreate', () => {
+    const mongoFindOrCreate = mongoQueryFactory.createFindOrCreate(loggerMock, {});
+
+    expect(mongoFindOrCreate instanceof MongoQueryTelemetry).toEqual(true);
+  });
+
+  it('Should be able to create MongoFindOrCreate with create Document', () => {
+    const mongoFindOrCreate = mongoQueryFactory.createFindOrCreate(loggerMock, {}, {});
+
+    expect(mongoFindOrCreate instanceof MongoQueryTelemetry).toEqual(true);
+  });
 });
