@@ -10,6 +10,7 @@ import {Measurable} from '../statsd/Measurable';
 import {MongoUpdate} from './MongoUpdate';
 import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
 import {MongoRemove} from './MongoRemove';
+import {MongoFindOrCreate} from './MongoFindOrCreate';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -38,6 +39,19 @@ export class MongoQueryFactory<T extends mongoose.Document> {
 
   public createRemove(logger: Logger, removeOptions: Partial<T>): MongoQuery<void> {
     return this.createTelemetry(logger, new MongoRemove(removeOptions, this.model));
+  }
+
+  public createFindOrCreate(logger: Logger, findOptions: Partial<T>, createOptions?: Partial<T>): MongoQuery<T> {
+    let createQuery: MongoCreate<T>;
+    if (createOptions) {
+       createQuery = new MongoCreate(createOptions, this.model);
+    } else {
+      createQuery = new MongoCreate(findOptions, this.model);
+    }
+
+    return this.createTelemetry(logger, new MongoFindOrCreate(
+      new MongoFindOne(findOptions, this.model, new MongoDocumentQuery()),
+      createQuery));
   }
 
   private createTelemetry<T>(logger: Logger, query: MongoQuery<T> & Measurable<T>): MongoQuery<T> {
