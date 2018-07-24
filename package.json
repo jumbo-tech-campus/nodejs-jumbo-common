@@ -23,27 +23,27 @@
         "@types/bunyan": "^1.8.4",
         "@types/hapi": "^17.0.15",
         "@types/jasmine": "^2.8.8",
-        "@types/mongoose": "^5.2.0",
+        "@types/mongoose": "^5.2.2",
         "@types/nock": "^9.3.0",
         "@types/node": "^8.10.21",
         "@types/request": "^2.47.1",
         "@types/request-promise-native": "^1.0.15",
         "@types/uuid": "^3.4.3",
-        "hot-shots": "^5.7.0"
+        "hot-shots": "^5.8.0"
     },
     "devDependencies": {
         "backo": "^1.1.0",
         "boom": "^7.2.0",
         "istanbul": "^0.4.5",
         "jasmine": "^3.1.0",
-        "nock": "^9.4.1",
+        "nock": "^9.4.3",
         "remap-istanbul": "^0.11.1",
         "request": "^2.87.0",
         "request-promise-native": "^1.0.5",
         "rimraf": "^2.6.2",
         "source-map-support": "^0.5.6",
-        "tslint": "^5.10.0",
-        "tslint-microsoft-contrib": "^5.0.3",
+        "tslint": "^5.11.0",
+        "tslint-microsoft-contrib": "^5.1.0",
         "typescript": "^2.9.2"
     }
 }
