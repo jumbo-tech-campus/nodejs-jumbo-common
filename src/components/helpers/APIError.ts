@@ -12,17 +12,12 @@ export abstract class APIError extends Error {
     Object.setPrototypeOf(this, APIError.prototype);
   }
 
-  public toResponseBody(withStack: boolean): any {
-    const body: any = {
-      name:    this.name,
-      message: this.message,
+  public toResponseBody(): any {
+    return {
+      statusCode: this.statusCode,
+      error:      this.name,
+      message:    this.message,
     };
-
-    if (withStack) {
-      body.stack = this.stack;
-    }
-
-    return body;
   }
 
   public toLogger(): any {
