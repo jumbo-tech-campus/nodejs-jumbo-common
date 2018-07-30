@@ -18,9 +18,9 @@ export class MongoQueryTelemetry<T> implements MongoQuery<T> {
     return this.mongoQuery.options;
   }
 
-  public execute(): Promise<T> {
+  public async execute(): Promise<T> {
     try {
-      return this.measurer.measure(this.mongoQuery);
+      return await this.measurer.measure(this.mongoQuery);
     } catch (error) {
       this.logger.error({
         mongoQuery: this.mongoQuery.constructor.name,
