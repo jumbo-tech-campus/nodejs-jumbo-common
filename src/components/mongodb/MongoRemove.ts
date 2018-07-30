@@ -19,6 +19,6 @@ export class MongoRemove<T extends mongoose.Document> implements Measurable<void
   }
 
   public async execute(): Promise<void> {
-    await this.model.remove(this.options).exec();
+    await this.model.findOneAndRemove(this.options).exec();
   }
 }

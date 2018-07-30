@@ -7,7 +7,7 @@ describe('A MongoRemove', () => {
   const mongoRemove = new MongoRemove({}, modelMock);
 
   beforeEach(() => {
-    modelMock.remove = () => ({
+    modelMock.findOneAndRemove = () => ({
       exec: () => Promise.resolve(void 0),
     });
   });
