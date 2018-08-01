@@ -1,7 +1,7 @@
-import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
-import {RetryerFactory} from './RetryerFactory';
-import {Retryable} from './Retryable';
-import {HTTPRequest, HTTPRequestResponse} from '../httprequest/HTTPRequest';
+import {HTTPRequestDecorator} from './HTTPRequestDecorator';
+import {RetryerFactory} from '../retryer/RetryerFactory';
+import {Retryable} from '../retryer/Retryable';
+import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 
 export class HTTPRequestRetryer extends HTTPRequestDecorator {
   private readonly retryerFactory: RetryerFactory;
