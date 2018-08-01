@@ -97,7 +97,7 @@ export class RetryableMongoConnection implements Retryable {
   }
 }
 
-const connectToMongo = async (logger: Logger, config: MongoConnectionConfig) => {
+export const connectToMongo = async (logger: Logger, config: MongoConnectionConfig) => {
   const mongoConnection = new MongoConnection(logger, config);
   const retryableMongoConnection = new RetryableMongoConnection(mongoConnection);
   const mongoConnectionRetryer = new Retryer(logger, retryableMongoConnection, 5, 100, 100, 100);
