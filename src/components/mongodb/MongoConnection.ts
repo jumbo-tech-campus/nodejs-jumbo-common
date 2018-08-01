@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import * as Logger from 'bunyan';
+import {Retryable} from '../retryer/Retryable';
+import {Retryer} from '../retryer/Retryer';
 
 interface MongoConnectionConfig {
   mongoURL: string;
@@ -63,3 +65,42 @@ export class MongoConnection {
     return mongooseConnection;
   }
 }
+
+export class RetryableMongoConnection implements Retryable {
+  private readonly mongoConnection: MongoConnection;
+  private mongoose?: mongoose.Mongoose;
+
+  public constructor(mongoConnection: MongoConnection) {
+    this.mongoConnection = mongoConnection;
+  }
+
+  public async attempt(): Promise<boolean> {
+    try {
+      this.mongoose = await this.mongoConnection.connect();
+
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  public getLogInformation(): object {
+    return {};
+  }
+
+  public async connect(): Promise<mongoose.Mongoose> {
+    if (!this.mongoose) {
+      throw new Error('No Mongo connection available');
+    }
+
+    return this.mongoose;
+  }
+}
+
+const connectToMongo = async (logger: Logger, config: MongoConnectionConfig) => {
+  const mongoConnection = new MongoConnection(logger, config);
+  const retryableMongoConnection = new RetryableMongoConnection(mongoConnection);
+  const mongoConnectionRetryer = new Retryer(logger, retryableMongoConnection, 5, 100, 100, 100);
+
+  return mongoConnectionRetryer.execute();
+};
