@@ -46,7 +46,9 @@ export class MongoConnection {
     });
 
     mongoose.connection.on('reconnected', () => {
-      console.log('MongoDB reconnected!');
+      this.logger.info({
+        mongoURL: this.config.mongoURL,
+      }, 'Mongoose reconnected');
     });
 
     mongoose.connection.on('disconnected', () => {
