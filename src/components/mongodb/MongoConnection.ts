@@ -20,21 +20,24 @@ export class MongoConnection {
 
   public async connect(): Promise<mongoose.Mongoose> {
     let mongooseConnection: mongoose.Mongoose;
+    let mongooseOptions = {
+      user:   this.config.mongoUser,
+      pass:   this.config.mongoPass,
+      dbName: this.config.mongoDBName,
+      auth:   {
+        authdb: this.config.mongoAuthDB,
+      },
+      server: {
+        auto_reconnect: true
+      },
+    };
 
-    try {
-      mongooseConnection = await mongoose.connect(this.config.mongoURL, {
-        user:   this.config.mongoUser,
-        pass:   this.config.mongoPass,
-        dbName: this.config.mongoDBName,
-        auth:   {
-          authdb: this.config.mongoAuthDB,
-        },
-      });
-    } catch (error) {
-      this.logger.error({error: error}, 'Error connecting to MongoDB');
-
-      throw error;
-    }
+    mongoose.connection.on('error', (err) => {
+      this.logger.error({
+        error: err,
+      }, 'Mongoose connection error');
+      mongoose.disconnect();
+    });
 
     mongoose.connection.on('connected', () => {
       this.logger.info({
@@ -42,15 +45,16 @@ export class MongoConnection {
       }, 'Mongoose connected');
     });
 
-    mongoose.connection.on('error', (err) => {
-      this.logger.error({
-        error: err,
-      }, 'Mongoose connection error');
+    mongoose.connection.on('reconnected', () => {
+      console.log('MongoDB reconnected!');
     });
 
     mongoose.connection.on('disconnected', () => {
       this.logger.info({}, 'Mongoose disconnected');
+      mongoose.connect(this.config.mongoURL, mongooseOptions);
     });
+
+    mongoose.connect(this.config.mongoURL, mongooseOptions);
 
     process.on('SIGINT', () => {
       mongoose.connection.close(() => {
