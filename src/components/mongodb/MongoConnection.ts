@@ -7,6 +7,7 @@ interface MongoConnectionConfig {
   mongoPass: string;
   mongoDBName: string;
   mongoAuthDB?: string;
+  mongoReconnectDelay?: number;
 }
 
 export class MongoConnection {
@@ -32,17 +33,25 @@ export class MongoConnection {
       },
     };
 
+    //Set a sane default
+    let mongoReconnectDelay = (this.config.mongoReconnectDelay) ? this.config.mongoReconnectDelay : 1000;
+
     mongoose.connection.on('error', (err) => {
       this.logger.error({
         error: err,
       }, 'Mongoose connection error');
-      mongoose.disconnect();
+      if (!isConnectedBefore) {
+        mongoose.disconnect();
+      } else {
+        process.exit(1);
+      }
     });
 
     mongoose.connection.on('connected', () => {
       this.logger.info({
         mongoURL: this.config.mongoURL,
       }, 'Mongoose connected');
+      isConnectedBefore = true;
     });
 
     mongoose.connection.on('reconnected', () => {
@@ -53,10 +62,15 @@ export class MongoConnection {
 
     mongoose.connection.on('disconnected', () => {
       this.logger.info({}, 'Mongoose disconnected');
-      mongoose.connect(this.config.mongoURL, mongooseOptions);
+      if (!isConnectedBefore) {
+        setTimeout(mongo_connect(), mongoReconnectDelay);
     });
 
-    mongoose.connect(this.config.mongoURL, mongooseOptions);
+    function mongo_connect(): void {
+      mongoose.connect(this.config.mongoURL, mongooseOptions);
+    }
+
+    mongo_connect();
 
     process.on('SIGINT', () => {
       mongoose.connection.close(() => {
