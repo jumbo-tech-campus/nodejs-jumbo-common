@@ -33,6 +33,8 @@ export class MongoConnection {
       },
     };
 
+    let isConnectedBefore = false;
+
     //Set a sane default
     let mongoReconnectDelay = (this.config.mongoReconnectDelay) ? this.config.mongoReconnectDelay : 1000;
 
@@ -64,6 +66,7 @@ export class MongoConnection {
       this.logger.info({}, 'Mongoose disconnected');
       if (!isConnectedBefore) {
         setTimeout(mongo_connect(), mongoReconnectDelay);
+      }
     });
 
     function mongo_connect(): void {
