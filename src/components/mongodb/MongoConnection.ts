@@ -29,7 +29,6 @@ export class MongoConnection {
         auth:   {
           authdb: this.config.mongoAuthDB,
         },
-        useNewUrlParser: true,
       });
     } catch (error) {
       this.logger.error({error: error}, 'Error connecting to MongoDB');
