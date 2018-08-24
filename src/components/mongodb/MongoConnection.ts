@@ -69,6 +69,7 @@ export class MongoConnection {
 export class RetryableMongoConnection implements Retryable {
   private readonly mongoConnection: MongoConnection;
   private mongoose?: mongoose.Mongoose;
+  private error?: Error;
 
   public constructor(mongoConnection: MongoConnection) {
     this.mongoConnection = mongoConnection;
@@ -80,6 +81,8 @@ export class RetryableMongoConnection implements Retryable {
 
       return true;
     } catch (error) {
+      this.error = error;
+
       return false;
     }
   }
@@ -89,6 +92,10 @@ export class RetryableMongoConnection implements Retryable {
   }
 
   public async connect(): Promise<mongoose.Mongoose> {
+    if (this.error) {
+      throw this.error;
+    }
+
     if (!this.mongoose) {
       throw new Error('No Mongo connection available');
     }
@@ -100,7 +107,9 @@ export class RetryableMongoConnection implements Retryable {
 export const connectToMongo = async (logger: Logger, config: MongoConnectionConfig) => {
   const mongoConnection = new MongoConnection(logger, config);
   const retryableMongoConnection = new RetryableMongoConnection(mongoConnection);
-  const mongoConnectionRetryer = new Retryer(logger, retryableMongoConnection, 5, 100, 100, 100);
+  const mongoConnectionRetryer = new Retryer(logger, retryableMongoConnection, 5, 1000, 1000, 1000);
 
-  return mongoConnectionRetryer.execute();
+  await mongoConnectionRetryer.execute();
+
+  return await retryableMongoConnection.connect();
 };
