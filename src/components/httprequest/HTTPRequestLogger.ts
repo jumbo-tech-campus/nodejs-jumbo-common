@@ -2,20 +2,14 @@ import * as Logger from 'bunyan';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 import {HTTPRequestError} from './HTTPRequestError';
-import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
-import {Measurable} from '../statsd/Measurable';
 
 export class HTTPRequestLogger extends HTTPRequestDecorator {
   private logger: Logger;
-  private readonly measurer: AsyncMeasurer;
-  private request: HTTPRequest & Measurable<any>;
 
-  public constructor(logger: Logger, request: HTTPRequest & Measurable<any>,  measurer: AsyncMeasurer) {
+  public constructor(logger: Logger, request: HTTPRequest) {
     super(request);
 
     this.logger = logger;
-    this.measurer = measurer;
-    this.request = request;
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
@@ -26,7 +20,7 @@ export class HTTPRequestLogger extends HTTPRequestDecorator {
     let response: HTTPRequestResponse;
 
     try {
-      response = await this.measurer.measure(this.request);
+      response = await super.execute();
     } catch (error) {
       return this.handleError(error);
     }
