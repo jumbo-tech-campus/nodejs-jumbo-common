@@ -6,8 +6,8 @@ import * as Logger from 'bunyan';
 import {MongoCreate} from '../../../src/components/mongodb/MongoCreate';
 
 describe('A MongoQueryFactory', () => {
-  const loggerMock = {} as Logger;
-  const modelMock  = {} as mongoose.Model<mongoose.Document> & any;
+  const loggerMock        = {} as Logger;
+  const modelMock         = {} as mongoose.Model<mongoose.Document> & any;
   const asyncMeasurerMock = {} as AsyncMeasurer;
   const mongoQueryFactory = new MongoQueryFactory(modelMock, asyncMeasurerMock);
 
@@ -35,6 +35,12 @@ describe('A MongoQueryFactory', () => {
     const mongoUpdate = mongoQueryFactory.createUpdate(loggerMock, {}, {});
 
     expect(mongoUpdate instanceof MongoQueryTelemetry).toEqual(true);
+  });
+
+  it('Should be able to create MongoUpdateMany', () => {
+    const mongoUpdateMany = mongoQueryFactory.createUpdateMany(loggerMock, {}, {});
+
+    expect(mongoUpdateMany instanceof MongoQueryTelemetry).toEqual(true);
   });
 
   it('Should be able to create MongoRemove', () => {

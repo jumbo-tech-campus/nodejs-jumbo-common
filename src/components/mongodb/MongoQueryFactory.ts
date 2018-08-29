@@ -11,6 +11,7 @@ import {MongoUpdate} from './MongoUpdate';
 import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
 import {MongoRemove} from './MongoRemove';
 import {MongoFindOrCreate} from './MongoFindOrCreate';
+import {MongoUpdateMany} from './MongoUpdateMany';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -37,6 +38,10 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(logger, new MongoUpdate(updateOptions, updateDocument, this.model));
   }
 
+  public createUpdateMany(logger: Logger, updateOptions: Partial<T>, updateDocument: Partial<T>): MongoQuery<void> {
+    return this.createTelemetry(logger, new MongoUpdateMany(updateOptions, updateDocument, this.model));
+  }
+
   public createRemove(logger: Logger, removeOptions: Partial<T>): MongoQuery<void> {
     return this.createTelemetry(logger, new MongoRemove(removeOptions, this.model));
   }
@@ -44,7 +49,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
   public createFindOrCreate(logger: Logger, findOptions: Partial<T>, createOptions?: Partial<T>): MongoQuery<T> {
     let createQuery: MongoCreate<T>;
     if (createOptions) {
-       createQuery = new MongoCreate(createOptions, this.model);
+      createQuery = new MongoCreate(createOptions, this.model);
     } else {
       createQuery = new MongoCreate(findOptions, this.model);
     }
