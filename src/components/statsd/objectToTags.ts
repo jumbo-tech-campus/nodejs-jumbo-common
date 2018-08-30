@@ -1,6 +1,4 @@
-import {Dictionary} from '../helpers/Dictionary';
-
-export const objectToTags = (options: Dictionary<any>): string[] => {
+export const objectToTags = (options: Record<string, any>): string[] => {
   let tags: string[] = [];
 
   for (let key of Object.keys(options)) {
