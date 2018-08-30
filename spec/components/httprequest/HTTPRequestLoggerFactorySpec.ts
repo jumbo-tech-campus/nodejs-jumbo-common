@@ -2,6 +2,7 @@ import {HTTPRequestLoggerFactory} from '../../../src/components/httprequest/HTTP
 import {HTTPRequestLogger} from '../../../src/components/httprequest/HTTPRequestLogger';
 import * as Logger from 'bunyan';
 import {HTTPRequest} from '../../../src/components/httprequest/HTTPRequest';
+import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
 
 describe('A HTTPRequestLoggerFactory', () => {
   const httpRequestFactoryMock = {} as HTTPRequestLoggerFactory;
@@ -11,7 +12,7 @@ describe('A HTTPRequestLoggerFactory', () => {
   });
 
   it('Should be able to create a HTTPRequestLogger', () => {
-    const factory = new HTTPRequestLoggerFactory(httpRequestFactoryMock, {} as Logger);
+    const factory = new HTTPRequestLoggerFactory(httpRequestFactoryMock, {} as Logger, {} as AsyncMeasurer);
 
     const request = factory.create({url: 'url'});
 

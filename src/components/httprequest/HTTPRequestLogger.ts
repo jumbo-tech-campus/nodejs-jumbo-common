@@ -2,31 +2,37 @@ import * as Logger from 'bunyan';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 import {HTTPRequestError} from './HTTPRequestError';
+import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
+import {Measurable} from '../statsd/Measurable';
+import {HTTPRequestMeasurer} from './HTTPRequestMeasurer';
 
 export class HTTPRequestLogger extends HTTPRequestDecorator {
   private logger: Logger;
+  private readonly measurer: AsyncMeasurer;
+  public request: HTTPRequest & Measurable<any>;
 
-  public constructor(logger: Logger, request: HTTPRequest) {
+  public constructor(logger: Logger, request: HTTPRequest & HTTPRequestMeasurer, measurer: AsyncMeasurer) {
     super(request);
-
-    this.logger = logger;
+    this.logger   = logger;
+    this.measurer = measurer;
+    this.request  = request;
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
     this.logger.debug({
-      options: super.options
+      options: super.options,
     }, 'Request options');
 
     let response: HTTPRequestResponse;
 
     try {
-      response = await super.execute();
+      response = await this.measurer.measure(this.request);
     } catch (error) {
       return this.handleError(error);
     }
 
     this.logger.debug({
-      response: response
+      response: response,
     }, 'Request response');
 
     return response;

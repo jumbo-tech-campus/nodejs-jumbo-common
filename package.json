@@ -17,8 +17,7 @@
     },
     "author": "",
     "license": "MIT",
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/boom": "^7.2.0",
         "@types/bunyan": "^1.8.4",
