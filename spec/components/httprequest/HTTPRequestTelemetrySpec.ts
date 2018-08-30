@@ -1,13 +1,13 @@
 import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 import * as Logger from 'bunyan';
-import {HTTPRequestLogger} from '../../../src/components/httprequest/HTTPRequestLogger';
+import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
 import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestError';
 import {asyncIt} from '../../helpers/JasmineHelper';
 import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
-import {HTTPRequestMeasurer} from '../../../src/components/httprequest/HTTPRequestMeasurer';
+import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
 
-describe('A HTTPRequestLogger', () => {
-  const request      = {} as HTTPRequest & HTTPRequestMeasurer;
+describe('A HTTPRequestTelemetry', () => {
+  const request      = {} as HTTPRequest & HTTPRequestMeasurable;
   const responseMock = {} as HTTPRequestResponse;
   const loggerMock   = {} as Logger;
   const measurerMock = {} as AsyncMeasurer;
@@ -22,7 +22,7 @@ describe('A HTTPRequestLogger', () => {
     spyOn(loggerMock, 'debug');
     measurerMock.measure = () => Promise.resolve({} as any);
 
-    const requestLogger = new HTTPRequestLogger(loggerMock, request, measurerMock);
+    const requestLogger = new HTTPRequestTelemetry(loggerMock, request, measurerMock);
 
     const response = await requestLogger.execute();
 
@@ -37,7 +37,7 @@ describe('A HTTPRequestLogger', () => {
       throw new HTTPRequestError('ETIMEDOUT');
     };
 
-    const requestLogger = new HTTPRequestLogger(loggerMock, request, measurerMock);
+    const requestLogger = new HTTPRequestTelemetry(loggerMock, request, measurerMock);
     try {
       await requestLogger.execute();
     } catch (error) {

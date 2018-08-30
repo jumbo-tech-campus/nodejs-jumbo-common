@@ -4,14 +4,14 @@ import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 import {HTTPRequestError} from './HTTPRequestError';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import {Measurable} from '../statsd/Measurable';
-import {HTTPRequestMeasurer} from './HTTPRequestMeasurer';
+import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 
-export class HTTPRequestLogger extends HTTPRequestDecorator {
+export class HTTPRequestTelemetry extends HTTPRequestDecorator {
   private logger: Logger;
   private readonly measurer: AsyncMeasurer;
-  public request: HTTPRequest & Measurable<any>;
+  public request: HTTPRequest & Measurable<HTTPRequestResponse>;
 
-  public constructor(logger: Logger, request: HTTPRequest & HTTPRequestMeasurer, measurer: AsyncMeasurer) {
+  public constructor(logger: Logger, request: HTTPRequestMeasurable, measurer: AsyncMeasurer) {
     super(request);
     this.logger   = logger;
     this.measurer = measurer;

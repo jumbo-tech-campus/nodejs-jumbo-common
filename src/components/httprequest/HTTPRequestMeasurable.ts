@@ -1,9 +1,9 @@
 import {objectToTags} from '../statsd/objectToTags';
 import {Measurable} from '../statsd/Measurable';
-import {HTTPRequest} from './HTTPRequest';
+import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 
-export class HTTPRequestMeasurer extends HTTPRequestDecorator implements Measurable<any> {
+export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measurable<HTTPRequestResponse> {
   public measurePrefix: string;
   public request: HTTPRequest;
 
