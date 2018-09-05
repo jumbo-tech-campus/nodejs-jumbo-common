@@ -8,6 +8,7 @@ describe('A MongoDocumentQuery', () => {
   beforeEach(() => {
     mongoDocumentMock.populate = () => mongoDocumentMock;
     mongoDocumentMock.sort     = () => mongoDocumentMock;
+    mongoDocumentMock.select   = () => mongoDocumentMock;
     mongoDocumentMock.exec     = () => Promise.resolve(validResult);
   });
 
@@ -25,6 +26,7 @@ describe('A MongoDocumentQuery', () => {
         path: 'something',
       },
       sort:     [],
+      select:   'something',
     });
 
     const result = await mongoDocumentQuery.execute(mongoDocumentMock);

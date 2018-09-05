@@ -4,6 +4,7 @@ export interface MongoDocumentQueryOptions {
   populate?: mongoose.ModelPopulateOptions | mongoose.ModelPopulateOptions[];
   projection?: any;
   sort?: [string | 1 | -1][];
+  select?: string;
 }
 
 export class MongoDocumentQuery {
@@ -20,6 +21,10 @@ export class MongoDocumentQuery {
 
     if (this.queryOptions.sort) {
       query = query.sort(this.queryOptions.sort);
+    }
+
+    if (this.queryOptions.select) {
+      query = query.select(this.queryOptions.select);
     }
 
     return query.exec();
