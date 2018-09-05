@@ -19,6 +19,6 @@ export class MongoCount<T extends mongoose.Document> implements MongoQuery<numbe
   }
 
   public execute(): Promise<number> {
-    return this.model.count(this.options).exec();
+    return this.model.countDocuments(this.options).exec();
   }
 }
