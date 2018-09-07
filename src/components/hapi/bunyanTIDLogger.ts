@@ -15,7 +15,7 @@ export interface BunyanHapiTIDLoggerOptions {
 }
 
 export const createTIDLoggerLifecycleMethod = (options: BunyanHapiTIDLoggerOptions): hapi.Lifecycle.Method => (request, h) => {
-  request.app.tid = uuidv4();
+  request.app.tid    = uuidv4();
   request.app.logger = options.logger.child({
     transactionID: request.app.tid,
   });
@@ -28,6 +28,19 @@ export const tidErrorHandler: hapi.Lifecycle.Method = (request, h) => {
 
   if (response instanceof Boom) {
     response.output.headers['x-transaction-id'] = request.app.tid;
+
+    if (response.output.statusCode >= 500) {
+      request.app.logger.error({
+        request: {
+          path:    request.path,
+          method:  request.method,
+          headers: request.headers,
+          query:   request.query,
+          payload: request.payload,
+        },
+        error:   response,
+      });
+    }
   }
 
   return h.continue;

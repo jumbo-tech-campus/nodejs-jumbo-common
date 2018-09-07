@@ -56,7 +56,7 @@ describe('A MongoQueryFactory', () => {
   });
 
   it('Should be able to create MongoCount', () => {
-    const mongoCount = mongoQueryFactory.createCount(loggerMock, {});
+    const mongoCount  = mongoQueryFactory.createCount(loggerMock, {});
 
     expect(mongoCount instanceof MongoQueryTelemetry).toEqual(true);
   });
