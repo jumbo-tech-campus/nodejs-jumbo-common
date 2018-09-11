@@ -39,7 +39,7 @@ export const tidErrorHandler: hapi.Lifecycle.Method = (request, h) => {
           payload: request.payload,
         },
         error:   response,
-      });
+      }, 'Request Error');
     }
   }
 
