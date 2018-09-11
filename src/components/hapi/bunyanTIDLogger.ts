@@ -28,19 +28,6 @@ export const tidErrorHandler: hapi.Lifecycle.Method = (request, h) => {
 
   if (response instanceof Boom) {
     response.output.headers['x-transaction-id'] = request.app.tid;
-
-    if (response.output.statusCode >= 500) {
-      request.app.logger.error({
-        request: {
-          path:    request.path,
-          method:  request.method,
-          headers: request.headers,
-          query:   request.query,
-          payload: request.payload,
-        },
-        error:   response,
-      }, 'Request Error');
-    }
   }
 
   return h.continue;
