@@ -15,7 +15,7 @@ export interface BunyanHapiTIDLoggerOptions {
 }
 
 export const createTIDLoggerLifecycleMethod = (options: BunyanHapiTIDLoggerOptions): hapi.Lifecycle.Method => (request, h) => {
-  request.app.tid = uuidv4();
+  request.app.tid    = uuidv4();
   request.app.logger = options.logger.child({
     transactionID: request.app.tid,
   });
