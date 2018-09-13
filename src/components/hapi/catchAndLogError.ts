@@ -16,6 +16,8 @@ export const catchUnhandledError = (lifecycleMethod: hapi.Lifecycle.Method): hap
         },
         error:   error,
       }, 'Unhandled error in route');
+
+      throw Boom.internal();
     }
 
     throw error;

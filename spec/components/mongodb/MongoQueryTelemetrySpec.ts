@@ -34,9 +34,7 @@ describe('A MongoQueryTelemetry', () => {
   it('Should log an error', async () => {
     spyOn(loggerMock, 'error');
     const throwError          = new Error('Error');
-    asyncMeasurerMock.measure = () => {
-      throw throwError;
-    };
+    asyncMeasurerMock.measure = () => Promise.reject(throwError);
 
     try {
       await mongoQueryMeasurer.execute();
