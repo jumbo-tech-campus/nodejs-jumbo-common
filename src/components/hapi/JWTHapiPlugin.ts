@@ -1,5 +1,4 @@
 import * as hapi from 'hapi';
-import {verify} from 'jsonwebtoken';
 import Boom from 'boom';
 import {JWTWrapper} from '../jwt/JWTWrapper';
 
