@@ -7,7 +7,11 @@ export class JWTWrapper {
     this.privateKey = privateKey;
   }
 
-  public async signToken(payload: Object, options: Object): Promise<string> {
-    return await jwt.sign(payload, this.privateKey, options);
+  public signToken(payload: Object, options: jwt.SignOptions): string {
+    return jwt.sign(payload, this.privateKey, options);
+  }
+
+  public verify(header: string): Record<string, string> {
+    return jwt.verify(header, this.privateKey) as Record<string, string>;
   }
 }
