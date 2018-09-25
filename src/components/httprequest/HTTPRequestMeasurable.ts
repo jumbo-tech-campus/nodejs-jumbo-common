@@ -15,6 +15,10 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
   }
 
   public get tags(): string[] {
-    return objectToTags(this.request.options);
+    const options = this.request.options;
+
+    delete options.body;
+
+    return objectToTags(options);
   }
 }
