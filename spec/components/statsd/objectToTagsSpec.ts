@@ -19,4 +19,12 @@ describe('An objectToTags', () => {
 
     expect(result).toEqual([]);
   });
+
+  it('Should skip empty strings', () => {
+    const result = objectToTags({
+      emptystring: '',
+    });
+
+    expect(result).toEqual([]);
+  });
 });
