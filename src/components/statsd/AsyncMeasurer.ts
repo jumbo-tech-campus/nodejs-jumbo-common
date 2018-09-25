@@ -13,13 +13,16 @@ export class AsyncMeasurer {
     try {
       const result = await measureable.execute();
 
-      this.statsD.timing(measureable.measurePrefix + 'duration', Date.now() - before, measureable.tags.push('result:success'));
-      this.statsD.increment(measureable.measurePrefix + 'count', 1, measureable.tags.push('result:success'));
+      this.statsD.timing(
+        measureable.measurePrefix + 'duration',
+        Date.now() - before,
+        measureable.tags.concat('result:success'));
+      this.statsD.increment(measureable.measurePrefix + 'count', 1, measureable.tags.concat('result:success'));
 
       return result;
     } catch (error) {
-      this.statsD.timing(measureable.measurePrefix + 'duration', Date.now() - before, measureable.tags.push('result:failed'));
-      this.statsD.increment(measureable.measurePrefix + 'count', 1, measureable.tags.push('result:failed'));
+      this.statsD.timing(measureable.measurePrefix + 'duration', Date.now() - before, measureable.tags.concat('result:failed'));
+      this.statsD.increment(measureable.measurePrefix + 'count', 1, measureable.tags.concat('result:failed'));
 
       throw error;
     }
