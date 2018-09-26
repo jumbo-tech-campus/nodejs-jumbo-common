@@ -2,9 +2,25 @@ import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPReq
 import {HTTPRequest} from '../../../src/components/httprequest/HTTPRequest';
 
 describe('A HTTPRequestMeasurable', () => {
-  let request = new HTTPRequestMeasurable({options: {}} as HTTPRequest);
+  let request: HTTPRequestMeasurable;
+  beforeEach(() => {
+    const httpRequestMock = {options: {}} as HTTPRequest;
+    request           = new HTTPRequestMeasurable(httpRequestMock);
 
-  it('Should be able to return tags', () => {
+    httpRequestMock.execute = () => Promise.resolve({
+      statusCode: 200,
+      headers:    {},
+      body:       {},
+    });
+  });
+
+  it('Should be able to return tags with statusCode', async () => {
+    await request.execute();
+
+    expect(request.tags).toEqual(['statusCode:200']);
+  });
+
+  it('Should be able to return tags without statusCode', async () => {
     expect(request.tags).toEqual([]);
   });
 });

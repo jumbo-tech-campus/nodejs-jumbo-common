@@ -6,6 +6,7 @@ import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measurable<HTTPRequestResponse> {
   public measurePrefix: string;
   public request: HTTPRequest;
+  private response?: HTTPRequestResponse;
 
   public constructor(request: HTTPRequest) {
     super(request);
@@ -15,10 +16,20 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
   }
 
   public get tags(): string[] {
-    const options = this.request.options;
+    const options: any = this.request.options;
 
     delete options.body;
 
+    if (this.response) {
+      options.statusCode = this.response.statusCode;
+    }
+
     return objectToTags(options);
+  }
+
+  public async execute(): Promise<HTTPRequestResponse> {
+    this.response = await this.request.execute();
+
+    return this.response;
   }
 }
