@@ -4,11 +4,12 @@ import {Retryable} from '../../../src/components/retryer/Retryable';
 import {Retryer} from '../../../src/components/retryer/Retryer';
 import {asyncIt} from '../../helpers/JasmineHelper';
 import {HTTPRequestRetryer} from '../../../src/components/retryer/HTTPRequestRetryer';
+import {Measurable} from '../../../src/components/statsd/Measurable';
 
 describe('An HTTPRequestRetryer', () => {
   const retryerFactoryMock = {} as RetryerFactory;
   const retryerMock        = {} as Retryer;
-  const retryableRequest   = {} as Retryable & HTTPRequest;
+  const retryableRequest   = {} as Retryable & HTTPRequest & Measurable<HTTPRequestResponse>;
   const resultMock         = {} as HTTPRequestResponse;
 
   beforeEach(() => {

@@ -1,36 +1,33 @@
 import {Retryable} from './Retryable';
-import * as Logger from 'bunyan';
+import {StatsD} from 'hot-shots';
+import {Measurable} from '../statsd/Measurable';
 
 const backo = require('backo');
 
 export class Retryer {
-  private readonly logger: Logger;
-  private readonly retryable: Retryable;
+  private readonly statsD: StatsD;
+  private readonly retryable: Retryable & Measurable<any>;
   private readonly backo: any;
   private readonly maxAttempts: number;
 
-  public constructor(logger: Logger, retryable: Retryable, maxAttempts: number, minInterval: number, maxInterval: number, jitter: number) {
-    this.logger      = logger;
+  public constructor(logger: StatsD, retryable: Retryable & Measurable<any>, maxAttempts: number, minInterval: number, maxInterval: number, jitter: number) {
+    this.statsD      = logger;
     this.retryable   = retryable;
     this.backo       = new backo({
       min:    minInterval,
       max:    maxInterval,
-      jitter: jitter
+      jitter: jitter,
     });
     this.maxAttempts = maxAttempts - 1;
   }
 
   public async execute(): Promise<void> {
     if (await this.shouldAttempt()) {
+      this.statsD.increment('retry', 1, this.retryable.tags.concat('retryable:' + this.retryable.constructor.name));
+
       await this.wait(this.backo.duration());
 
       await this.execute();
-    } else if (this.backo.attempts > 1) {
-      this.logger.warn({
-        attempts:    this.backo.attempts,
-        retryable:   this.retryable.constructor.name,
-        information: this.retryable.getLogInformation(),
-      }, 'Retried operation');
     }
   }
 

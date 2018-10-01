@@ -2,12 +2,13 @@ import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
 import {RetryerFactory} from './RetryerFactory';
 import {Retryable} from './Retryable';
 import {HTTPRequest, HTTPRequestResponse} from '../httprequest/HTTPRequest';
+import {Measurable} from '../statsd/Measurable';
 
 export class HTTPRequestRetryer extends HTTPRequestDecorator {
   private readonly retryerFactory: RetryerFactory;
-  private readonly retryableRequest: Retryable & HTTPRequest;
+  private readonly retryableRequest: Retryable & HTTPRequest & Measurable<HTTPRequestResponse>;
 
-  public constructor(retryerFactory: RetryerFactory, retryableRequest: Retryable & HTTPRequest) {
+  public constructor(retryerFactory: RetryerFactory, retryableRequest: Retryable & HTTPRequest & Measurable<HTTPRequestResponse>) {
     super(retryableRequest);
 
     this.retryerFactory   = retryerFactory;

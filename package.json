@@ -10,7 +10,7 @@
         "ts:watch": "tsc -w",
         "test": "istanbul cover jasmine",
         "start": "node dist/src/index.js",
-        "build": "npm run ts && npm run unit",
+        "build": "npm run ts && npm run test",
         "prets": "npm run clean; npm run tslint",
         "prets:watch": "npm run clean; npm run tslint",
         "posttest": "remap-istanbul -i ./coverage/coverage-final.json -o ./coverage/report -t html"
