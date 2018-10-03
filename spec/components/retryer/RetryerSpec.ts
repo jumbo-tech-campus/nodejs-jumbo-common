@@ -5,7 +5,7 @@ import {StatsD} from 'hot-shots';
 import {Measurable} from '../../../src/components/statsd/Measurable';
 
 describe('A Retryer', () => {
-  let retries         = 0;
+  let retries: number;
   const retryableMock = {
     constructor: {
       name: 'test',
@@ -15,6 +15,7 @@ describe('A Retryer', () => {
   const statsDMock    = {} as StatsD;
 
   beforeEach(() => {
+    retries = 0;
     statsDMock.increment            = () => void 0;
     retryableMock.attempt           = () => {
       retries++;
@@ -36,15 +37,16 @@ describe('A Retryer', () => {
     expect(statsDMock.increment).not.toHaveBeenCalled();
   });
 
-  asyncIt('Should be able to retry a failed attempt', async () => {
+  asyncIt('Should be able to retry a failed attempt three times', async () => {
     spyOn(statsDMock, 'increment');
 
-    const retryer = new Retryer(statsDMock, retryableMock, 2, 1, 1, 1);
+    const retryer = new Retryer(statsDMock, retryableMock, 5, 1, 1, 1);
 
     await retryer.execute();
 
-    expect(retries).toEqual(2);
+    expect(retries).toEqual(3);
     expect(statsDMock.increment).toHaveBeenCalledTimes(2);
-    expect(statsDMock.increment).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Number), ['tags:one', 'attempt:1']);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(0)).toEqual([jasmine.any(String), jasmine.any(Number), ['tags:one', 'retry-attempt:1']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(1)).toEqual([jasmine.any(String), jasmine.any(Number), ['tags:one', 'retry-attempt:2']]);
   });
 });
