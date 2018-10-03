@@ -45,6 +45,6 @@ describe('A Retryer', () => {
 
     expect(retries).toEqual(2);
     expect(statsDMock.increment).toHaveBeenCalledTimes(2);
-    expect(statsDMock.increment).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Number), ['tags:one', 'retryable:test']);
+    expect(statsDMock.increment).toHaveBeenCalledWith(jasmine.any(String), jasmine.any(Number), ['tags:one', 'attempt:1']);
   });
 });
