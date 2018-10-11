@@ -7,8 +7,8 @@ describe('An AsyncMeasurer', () => {
   let measurableMock: Measurable<any>;
   const statsDMock     = {} as StatsD;
   statsDMock.timing    = () => void 0;
-  statsDMock.increment = () => void 0;
   const resultMock     = {};
+  const defaultTags = ['default:tag', 'statsd:tag'];
 
   const asyncMeasurer = new AsyncMeasurer(statsDMock);
 
@@ -17,9 +17,6 @@ describe('An AsyncMeasurer', () => {
       tags: ['test:test'],
     } as Measurable<any>;
 
-    spyOn(statsDMock, 'timing');
-    spyOn(statsDMock, 'increment');
-
     measurableMock.execute = () => Promise.resolve(resultMock);
   });
 
@@ -27,7 +24,9 @@ describe('An AsyncMeasurer', () => {
     let result: any;
 
     beforeEach(async () => {
-      result = await asyncMeasurer.measure(measurableMock);
+      spyOn(statsDMock, 'timing');
+
+      result = await asyncMeasurer.measure(measurableMock, defaultTags);
     });
 
     it('Has the correct result', () => {
@@ -36,12 +35,7 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), tagsMock.concat('result:success'));
-    });
-
-    it('Increment has been called on statsd client', () => {
-      expect(statsDMock.increment).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), tagsMock.concat('result:success'));
+        jasmine.any(String), jasmine.any(Number), tagsMock.concat(defaultTags, 'result:success'));
     });
   });
 
@@ -50,12 +44,12 @@ describe('An AsyncMeasurer', () => {
     let error = Error('Error');
 
     beforeEach(async () => {
-      measurableMock.execute = () => {
-        throw error;
-      };
+      spyOn(statsDMock, 'timing');
+
+      measurableMock.execute = () => Promise.reject(error);
 
       try {
-        await asyncMeasurer.measure(measurableMock);
+        await asyncMeasurer.measure(measurableMock, defaultTags);
       } catch (error) {
         result = error;
 
@@ -71,12 +65,7 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), tagsMock.concat('result:failed'));
-    });
-
-    it('Increment has been called on statsd client', () => {
-      expect(statsDMock.increment).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), tagsMock.concat('result:failed'));
+        jasmine.any(String), jasmine.any(Number), tagsMock.concat(defaultTags, 'result:failed'));
     });
   });
 });

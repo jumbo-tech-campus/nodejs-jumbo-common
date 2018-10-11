@@ -8,21 +8,23 @@ export class AsyncMeasurer {
     this.statsD = statsD;
   }
 
-  public async measure<T>(measureable: Measurable<T>): Promise<T> {
+  public async measure<T>(measureable: Measurable<T>, defaultTags: string[] = []): Promise<T> {
     const before = Date.now();
+
     try {
       const result = await measureable.execute();
 
       this.statsD.timing(
         measureable.measurePrefix + 'duration',
         Date.now() - before,
-        measureable.tags.concat('result:success'));
-      this.statsD.increment(measureable.measurePrefix + 'count', 1, measureable.tags.concat('result:success'));
+        measureable.tags.concat(defaultTags, 'result:success'));
 
       return result;
     } catch (error) {
-      this.statsD.timing(measureable.measurePrefix + 'duration', Date.now() - before, measureable.tags.concat('result:failed'));
-      this.statsD.increment(measureable.measurePrefix + 'count', 1, measureable.tags.concat('result:failed'));
+      this.statsD.timing(
+        measureable.measurePrefix + 'duration',
+        Date.now() - before,
+        measureable.tags.concat(defaultTags, 'result:failed'));
 
       throw error;
     }
