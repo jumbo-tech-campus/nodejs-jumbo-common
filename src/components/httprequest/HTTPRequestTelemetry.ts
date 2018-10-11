@@ -10,12 +10,15 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
   private logger: Logger;
   private readonly measurer: AsyncMeasurer;
   public request: HTTPRequest & Measurable<HTTPRequestResponse>;
+  private readonly defaultStatsDTags?: string[];
 
-  public constructor(logger: Logger, request: HTTPRequestMeasurable, measurer: AsyncMeasurer) {
+  public constructor(logger: Logger, request: HTTPRequestMeasurable, measurer: AsyncMeasurer, defaultStatsDTags?: string[]) {
     super(request);
-    this.logger   = logger;
-    this.measurer = measurer;
-    this.request  = request;
+
+    this.logger            = logger;
+    this.measurer          = measurer;
+    this.request           = request;
+    this.defaultStatsDTags = defaultStatsDTags;
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
@@ -26,7 +29,7 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
     let response: HTTPRequestResponse;
 
     try {
-      response = await this.measurer.measure(this.request);
+      response = await this.measurer.measure(this.request, this.defaultStatsDTags);
     } catch (error) {
       return this.handleError(error);
     }
