@@ -20,13 +20,13 @@
     "dependencies": {},
     "devDependencies": {
         "@types/boom": "^7.2.0",
-        "@types/bunyan": "^1.8.4",
-        "@types/hapi": "^17.6.0",
-        "@types/jasmine": "^2.8.8",
+        "@types/bunyan": "^1.8.5",
+        "@types/hapi": "^17.6.1",
+        "@types/jasmine": "^2.8.9",
         "@types/jsonwebtoken": "^7.2.8",
-        "@types/mongoose": "^5.2.17",
+        "@types/mongoose": "^5.2.19",
         "@types/nock": "^9.3.0",
-        "@types/node": "^8.10.30",
+        "@types/node": "^8.10.36",
         "@types/request": "^2.47.1",
         "@types/request-promise-native": "^1.0.15",
         "@types/uuid": "^3.4.4",
@@ -36,7 +36,7 @@
         "istanbul": "^0.4.5",
         "jasmine": "^3.2.0",
         "jsonwebtoken": "^8.3.0",
-        "nock": "^10.0.0",
+        "nock": "^10.0.1",
         "remap-istanbul": "^0.12.0",
         "request": "^2.88.0",
         "request-promise-native": "^1.0.5",
@@ -44,6 +44,6 @@
         "source-map-support": "^0.5.9",
         "tslint": "^5.11.0",
         "tslint-microsoft-contrib": "^5.2.1",
-        "typescript": "^3.1.1"
+        "typescript": "^3.1.3"
     }
 }
