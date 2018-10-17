@@ -30,4 +30,37 @@ describe('An AsyncSequence', () => {
 
     expect(result).toEqual(sequence);
   });
+
+  it('Does not continue after failing promise', async () => {
+    const throwError = new Error('Error');
+    const sequence: number[] = [];
+
+    let count = 0;
+
+    const callback = async (value: { wait: number, value: number }) =>
+      await new Promise<number>((resolve: (value: number) => void, reject: (error: Error) => void) => {
+        if (count === 1) {
+          reject(throwError);
+        }
+
+        setTimeout(() => {
+          sequence.push(value.value);
+
+          resolve(value.value);
+        }, value.wait);
+
+        count++;
+      });
+
+    try {
+      await asyncSequence(iterable, callback);
+    } catch (error) {
+      expect(error).toBe(throwError);
+      expect(sequence).toEqual([0]);
+
+      return;
+    }
+
+    fail('Should throw error');
+  });
 });
