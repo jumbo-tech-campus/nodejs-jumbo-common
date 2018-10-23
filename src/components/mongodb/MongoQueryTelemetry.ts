@@ -1,7 +1,7 @@
-import {MongoQuery} from './MongoQuery';
-import {Measurable} from '../statsd/Measurable';
-import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import * as Logger from 'bunyan';
+import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
+import {Measurable} from '../statsd/Measurable';
+import {MongoQuery} from './MongoQuery';
 
 export class MongoQueryTelemetry<T> implements MongoQuery<T> {
   private readonly logger: Logger;
@@ -14,7 +14,7 @@ export class MongoQueryTelemetry<T> implements MongoQuery<T> {
     this.mongoQuery = mongoQuery;
   }
 
-  public get options(): {[key: string]: any} {
+  public get options(): { [key: string]: unknown } {
     return this.mongoQuery.options;
   }
 

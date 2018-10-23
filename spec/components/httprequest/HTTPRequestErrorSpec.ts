@@ -1,5 +1,5 @@
-import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestError';
 import {APIError} from '../../../src/components/helpers/APIError';
+import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestError';
 
 describe('A HTTPRequestError', () => {
   it('Can return a response body', () => {

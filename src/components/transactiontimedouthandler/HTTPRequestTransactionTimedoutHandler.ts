@@ -1,8 +1,8 @@
 import * as Logger from 'bunyan';
-import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
-import {TransactionTimedoutHandler} from './TransactionTimedoutHandler';
 import {HTTPRequest, HTTPRequestResponse} from '../httprequest/HTTPRequest';
+import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
 import {TransactionTimedoutError} from './TransactionTimedoutError';
+import {TransactionTimedoutHandler} from './TransactionTimedoutHandler';
 
 export class HTTPRequestTransactionTimedoutHandler extends HTTPRequestDecorator {
   private logger: Logger;

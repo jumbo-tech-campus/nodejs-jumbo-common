@@ -1,18 +1,18 @@
-import * as mongoose from 'mongoose';
-import {MongoQuery} from './MongoQuery';
-import {MongoFindOne} from './MongoFindOne';
-import {MongoQueryTelemetry} from './MongoQueryTelemetry';
-import {MongoFind} from './MongoFind';
-import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
-import {MongoCreate} from './MongoCreate';
 import * as Logger from 'bunyan';
+import * as mongoose from 'mongoose';
+import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import {Measurable} from '../statsd/Measurable';
-import {MongoUpdate} from './MongoUpdate';
-import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
-import {MongoRemove} from './MongoRemove';
-import {MongoFindOrCreate} from './MongoFindOrCreate';
-import {MongoUpdateMany} from './MongoUpdateMany';
 import {MongoCount} from './MongoCount';
+import {MongoCreate} from './MongoCreate';
+import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
+import {MongoFind} from './MongoFind';
+import {MongoFindOne} from './MongoFindOne';
+import {MongoFindOrCreate} from './MongoFindOrCreate';
+import {MongoQuery} from './MongoQuery';
+import {MongoQueryTelemetry} from './MongoQueryTelemetry';
+import {MongoRemove} from './MongoRemove';
+import {MongoUpdate} from './MongoUpdate';
+import {MongoUpdateMany} from './MongoUpdateMany';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -64,7 +64,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
       createQuery));
   }
 
-  private createTelemetry<T>(logger: Logger, query: MongoQuery<T> & Measurable<T>): MongoQuery<T> {
+  private createTelemetry<S>(logger: Logger, query: MongoQuery<S> & Measurable<S>): MongoQuery<S> {
     if (this.measurer) {
       return new MongoQueryTelemetry(logger, this.measurer, query);
     }

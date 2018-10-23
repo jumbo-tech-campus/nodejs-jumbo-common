@@ -1,7 +1,5 @@
-import * as hapi from 'hapi';
-import uuidv4 from 'uuid/v4';
 import * as Logger from 'bunyan';
-import Boom from 'boom';
+import * as hapi from 'hapi';
 
 declare module 'hapi' {
   interface ApplicationState {

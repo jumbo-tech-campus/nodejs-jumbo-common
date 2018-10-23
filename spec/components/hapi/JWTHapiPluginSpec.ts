@@ -1,30 +1,30 @@
 import * as hapi from 'hapi';
 import {sign} from 'jsonwebtoken';
 import {createJWTUnpacker} from '../../../src/components/hapi/JWTHapiPlugin';
-import {loggerMock} from '../../helpers/mocks/loggerMock';
 import {JWTWrapper} from '../../../src/components/jwt/JWTWrapper';
+import {loggerMock} from '../../helpers/mocks/loggerMock';
 
 describe('A Hapi JumboTokenPlugin', () => {
   const jwtWrapperMock          = {} as JWTWrapper;
   const unpackerLifecycleMethod = createJWTUnpacker({
     jwtHeader:  'x-jumbo-token',
-    jwtWrapper: jwtWrapperMock,
+    jwtWrapper: jwtWrapperMock
   });
   const requestMock             = {} as hapi.Request & any;
   const hMock                   = {} as hapi.ResponseToolkit & any;
 
   beforeEach(() => {
     requestMock.app     = {
-      logger: loggerMock,
+      logger: loggerMock
     };
     requestMock.headers = {
       'x-jumbo-token': sign({
-        CustomerID: 'customerID',
-      }, 'supersecret'),
+        CustomerID: 'customerID'
+      },                    'supersecret')
     };
     hMock.continue      = Symbol('continue');
     jwtWrapperMock.verify = () => ({
-      CustomerID: 'customerID',
+      CustomerID: 'customerID'
     });
   });
 

@@ -1,8 +1,8 @@
-import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
-import {RetryerFactory} from './RetryerFactory';
-import {Retryable} from './Retryable';
 import {HTTPRequest, HTTPRequestResponse} from '../httprequest/HTTPRequest';
+import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
 import {Measurable} from '../statsd/Measurable';
+import {Retryable} from './Retryable';
+import {RetryerFactory} from './RetryerFactory';
 
 export class HTTPRequestRetryer extends HTTPRequestDecorator {
   private readonly retryerFactory: RetryerFactory;

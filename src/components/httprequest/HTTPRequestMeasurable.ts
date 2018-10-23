@@ -1,5 +1,5 @@
-import {objectToTags} from '../statsd/objectToTags';
 import {Measurable} from '../statsd/Measurable';
+import {objectToTags} from '../statsd/objectToTags';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 
@@ -10,13 +10,13 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
 
   public constructor(request: HTTPRequest) {
     super(request);
-    this.request = request;
+    this.request       = request;
     this.measurePrefix = 'httprequest.';
 
   }
 
   public get tags(): string[] {
-    const options: any = this.request.options;
+    const options: Record<string, unknown> = this.request.options;
 
     delete options.body;
 

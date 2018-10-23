@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import * as Logger from 'bunyan';
+import mongoose from 'mongoose';
 
 interface MongoConnectionConfig {
   mongoURL: string;
@@ -52,8 +52,8 @@ export class MongoConnection {
       this.logger.info({}, 'Mongoose disconnected');
     });
 
-    process.on('SIGINT', () => {
-      mongoose.connection.close(() => {
+    process.on('SIGINT', async () => {
+      await mongoose.connection.close(() => {
         this.logger.info({}, 'Disconnect Mongoose through app termination');
 
         process.exit(0);

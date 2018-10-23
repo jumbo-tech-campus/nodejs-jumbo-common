@@ -1,21 +1,21 @@
 import nock from 'nock';
 import {OptionsWithUrl} from 'request';
-import {asyncIt} from '../../helpers/JasmineHelper';
-import {RequestJSWrapper} from '../../../src/components/httprequest/RequestJSWrapper';
 import {HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
+import {RequestJSWrapper} from '../../../src/components/httprequest/RequestJSWrapper';
+import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A RequestJSWrapper', () => {
-  let domain  = 'http://mobileapi.unit-test-jumbo.com';
-  let url     = 'v2/test/url';
-  let nockUrl = '/' + url;
-  let options = {
-    url: `${domain}/${url}`,
+  const domain  = 'http://mobileapi.unit-test-jumbo.com';
+  const url     = 'v2/test/url';
+  const nockUrl = '/' + url;
+  const options = {
+    url: `${domain}/${url}`
   } as OptionsWithUrl;
 
   asyncIt('Can return a valid HTTPResponse', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});
 
-    let response = await new RequestJSWrapper(options).execute() as HTTPRequestResponse;
+    const response = await new RequestJSWrapper(options).execute();
 
     expect(response.body).toEqual('{}');
     expect(response.headers).toEqual({'content-type': 'application/json'});
@@ -24,10 +24,10 @@ describe('A RequestJSWrapper', () => {
   asyncIt('Can return a valid HTTPResponse with JSON body', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});
 
-    let response = await new RequestJSWrapper({
+    const response = await new RequestJSWrapper({
       ...options,
       json: true
-    }).execute() as HTTPRequestResponse;
+    }).execute();
 
     expect(response.body).toEqual({});
     expect(response.headers).toEqual({'content-type': 'application/json'});
@@ -36,10 +36,10 @@ describe('A RequestJSWrapper', () => {
   asyncIt('Can return a 4** valid HTTPResponse with JSON body', async () => {
     nock(domain).get(nockUrl).reply(400, {}, {});
 
-    let response = await new RequestJSWrapper({
+    const response = await new RequestJSWrapper({
       ...options,
       json: true
-    }).execute() as HTTPRequestResponse;
+    }).execute();
 
     expect(response.body).toEqual({});
     expect(response.headers).toEqual({'content-type': 'application/json'});
@@ -51,7 +51,7 @@ describe('A RequestJSWrapper', () => {
     try {
       await new RequestJSWrapper({
         ...options,
-        timeout: 1,
+        timeout: 1
       }).execute();
     } catch (error) {
       expect(error.name).toEqual('HTTPRequestError');
@@ -96,9 +96,9 @@ describe('A RequestJSWrapper', () => {
   asyncIt('Can use a baseURL', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});
 
-    let result = await new RequestJSWrapper({
+    const result = await new RequestJSWrapper({
       baseUrl: domain,
-      url: '/' + url,
+      url: '/' + url
     }).execute();
 
     expect(result).toEqual({
@@ -106,7 +106,7 @@ describe('A RequestJSWrapper', () => {
       body: '{}',
       headers: {
         'content-type': 'application/json'
-      },
+      }
     });
   });
 });

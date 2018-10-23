@@ -1,5 +1,5 @@
-import {MongoDocumentQuery} from '../../../src/components/mongodb/MongoDocumentQuery';
 import {DocumentQuery} from 'mongoose';
+import {MongoDocumentQuery} from '../../../src/components/mongodb/MongoDocumentQuery';
 
 describe('A MongoDocumentQuery', () => {
   const mongoDocumentMock = {} as DocumentQuery<any, any>;
@@ -23,10 +23,10 @@ describe('A MongoDocumentQuery', () => {
   it('Can execute a DocumentQuery with all options', async () => {
     const mongoDocumentQuery = new MongoDocumentQuery({
       populate: {
-        path: 'something',
+        path: 'something'
       },
       sort:     [],
-      select:   'something',
+      select:   'something'
     });
 
     const result = await mongoDocumentQuery.execute(mongoDocumentMock);

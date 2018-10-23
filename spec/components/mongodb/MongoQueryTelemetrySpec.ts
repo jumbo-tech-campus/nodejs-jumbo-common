@@ -1,9 +1,9 @@
-import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
-import {MongoQuery} from '../../../src/components/mongodb/MongoQuery';
+import * as Logger from 'bunyan';
 import * as mongoose from 'mongoose';
+import {MongoQuery} from '../../../src/components/mongodb/MongoQuery';
+import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
 import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
 import {Measurable} from '../../../src/components/statsd/Measurable';
-import * as Logger from 'bunyan';
 
 describe('A MongoQueryTelemetry', () => {
   const loggerMock        = {} as Logger;
@@ -11,11 +11,11 @@ describe('A MongoQueryTelemetry', () => {
   const asyncMeasurerMock = {} as AsyncMeasurer;
   const mongoQueryMock    = {
     constructor: {
-      name: 'MongoQuery',
+      name: 'MongoQuery'
     },
     options:     {
-      property: 'value',
-    },
+      property: 'value'
+    }
   } as MongoQuery<mongoose.Document> & Measurable<mongoose.Document> & any;
   const mockResult: any   = {};
 
@@ -50,7 +50,7 @@ describe('A MongoQueryTelemetry', () => {
 
   it('Can return query options', () => {
     expect(mongoQueryMeasurer.options).toEqual({
-      property: 'value',
+      property: 'value'
     });
   });
 });

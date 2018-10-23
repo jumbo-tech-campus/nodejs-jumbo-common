@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
-import {MongoQuery} from './MongoQuery';
 import {Measurable} from '../statsd/Measurable';
 import {objectToTags} from '../statsd/objectToTags';
+import {MongoQuery} from './MongoQuery';
 
 export class MongoRemove<T extends mongoose.Document> implements Measurable<void>, MongoQuery<void> {
   public readonly options: Partial<T>;

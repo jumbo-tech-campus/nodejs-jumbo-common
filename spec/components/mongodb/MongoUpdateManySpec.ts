@@ -5,12 +5,12 @@ describe('A MongoUpdateMany', () => {
   const modelMock = {} as mongoose.Model<mongoose.Document> & any;
 
   const mongoUpdateMany = new MongoUpdateMany({
-    property: 'value',
-  } as any, {}, modelMock);
+    property: 'value'
+  } as any,                                   {}, modelMock);
 
   beforeEach(() => {
     modelMock.updateMany = () => ({
-      exec: () => Promise.resolve({}),
+      exec: () => Promise.resolve({})
     });
   });
 

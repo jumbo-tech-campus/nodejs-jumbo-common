@@ -1,9 +1,9 @@
-import {MongoQueryFactory} from '../../../src/components/mongodb/MongoQueryFactory';
-import * as mongoose from 'mongoose';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
-import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
 import * as Logger from 'bunyan';
+import * as mongoose from 'mongoose';
 import {MongoCreate} from '../../../src/components/mongodb/MongoCreate';
+import {MongoQueryFactory} from '../../../src/components/mongodb/MongoQueryFactory';
+import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
+import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
 
 describe('A MongoQueryFactory', () => {
   const loggerMock        = {} as Logger;

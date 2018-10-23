@@ -1,5 +1,5 @@
-import {MongoRemove} from '../../../src/components/mongodb/MongoRemove';
 import * as mongoose from 'mongoose';
+import {MongoRemove} from '../../../src/components/mongodb/MongoRemove';
 
 describe('A MongoRemove', () => {
   const modelMock = {} as mongoose.Model<mongoose.Document> & any;
@@ -8,7 +8,7 @@ describe('A MongoRemove', () => {
 
   beforeEach(() => {
     modelMock.findOneAndRemove = () => ({
-      exec: () => Promise.resolve(void 0),
+      exec: () => Promise.resolve(void 0)
     });
   });
 

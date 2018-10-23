@@ -1,15 +1,15 @@
 import * as Logger from 'bunyan';
-import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
-import {HTTPRequestDecorator} from './HTTPRequestDecorator';
-import {HTTPRequestError} from './HTTPRequestError';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import {Measurable} from '../statsd/Measurable';
+import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
+import {HTTPRequestDecorator} from './HTTPRequestDecorator';
+import {HTTPRequestError, isHTTPRequestError} from './HTTPRequestError';
 import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 
 export class HTTPRequestTelemetry extends HTTPRequestDecorator {
+  public request: HTTPRequest & Measurable<HTTPRequestResponse>;
   private logger: Logger;
   private readonly measurer: AsyncMeasurer;
-  public request: HTTPRequest & Measurable<HTTPRequestResponse>;
   private readonly defaultStatsDTags?: string[];
 
   public constructor(logger: Logger, request: HTTPRequestMeasurable, measurer: AsyncMeasurer, defaultStatsDTags?: string[]) {
@@ -31,7 +31,11 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
     try {
       response = await this.measurer.measure(this.request, this.defaultStatsDTags);
     } catch (error) {
-      return this.handleError(error);
+      if (isHTTPRequestError(error)) {
+        this.handleError(error);
+      }
+
+      throw error;
     }
 
     this.logger.debug({
@@ -41,12 +45,10 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
     return response;
   }
 
-  private handleError(error: HTTPRequestError): never {
+  private handleError(error: HTTPRequestError): void {
     this.logger.error({
       options: super.options,
       error:   error.toLogger(),
     }, 'Request error');
-
-    throw error;
   }
 }

@@ -1,12 +1,12 @@
+import boom from 'boom';
+import * as Logger from 'bunyan';
+import * as hapi from 'hapi';
 import {
   BunyanHapiTIDLoggerOptions,
   bunyanTIDLogger,
   createTIDLoggerLifecycleMethod,
-  tidErrorHandler,
+  tidErrorHandler
 } from '../../../src/components/hapi/bunyanTIDLogger';
-import * as Logger from 'bunyan';
-import * as hapi from 'hapi';
-import Boom from 'boom';
 
 describe('A bunyanTIDLogger', () => {
   const serverMock  = {} as hapi.Server;
@@ -31,7 +31,7 @@ describe('A bunyanTIDLogger', () => {
     });
 
     const tidLoggerLifecycleMethod = createTIDLoggerLifecycleMethod({
-      logger: loggerMock,
+      logger: loggerMock
     });
 
     it('Adds a logger and tid to the request object', () => {

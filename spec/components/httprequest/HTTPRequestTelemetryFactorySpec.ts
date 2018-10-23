@@ -1,7 +1,7 @@
-import {HTTPRequestTelemetryFactory} from '../../../src/components/httprequest/HTTPRequestTelemetryFactory';
-import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
 import * as Logger from 'bunyan';
 import {HTTPRequest} from '../../../src/components/httprequest/HTTPRequest';
+import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
+import {HTTPRequestTelemetryFactory} from '../../../src/components/httprequest/HTTPRequestTelemetryFactory';
 import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
 
 describe('A HTTPRequestTelemetryFactory', () => {

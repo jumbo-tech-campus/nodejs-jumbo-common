@@ -1,5 +1,4 @@
 import hapi from 'hapi';
-import Boom from 'boom';
 
 export const catchUnhandledError = (lifecycleMethod: hapi.Lifecycle.Method): hapi.Lifecycle.Method => async (request, h) => {
   try {

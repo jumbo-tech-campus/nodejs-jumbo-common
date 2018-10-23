@@ -1,10 +1,10 @@
 import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
-import {RetryerFactory} from '../../../src/components/retryer/RetryerFactory';
+import {HTTPRequestRetryer} from '../../../src/components/retryer/HTTPRequestRetryer';
 import {Retryable} from '../../../src/components/retryer/Retryable';
 import {Retryer} from '../../../src/components/retryer/Retryer';
-import {asyncIt} from '../../helpers/JasmineHelper';
-import {HTTPRequestRetryer} from '../../../src/components/retryer/HTTPRequestRetryer';
+import {RetryerFactory} from '../../../src/components/retryer/RetryerFactory';
 import {Measurable} from '../../../src/components/statsd/Measurable';
+import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('An HTTPRequestRetryer', () => {
   const retryerFactoryMock = {} as RetryerFactory;

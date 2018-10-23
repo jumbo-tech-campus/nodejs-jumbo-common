@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
-import {MongoFindOne} from '../../../src/components/mongodb/MongoFindOne';
 import {MongoDocumentQuery} from '../../../src/components/mongodb/MongoDocumentQuery';
+import {MongoFindOne} from '../../../src/components/mongodb/MongoFindOne';
 
 describe('A MongoFindOne', () => {
   const modelMock              = {} as mongoose.Model<mongoose.Document> & any;

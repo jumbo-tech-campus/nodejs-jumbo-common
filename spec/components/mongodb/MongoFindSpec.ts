@@ -1,6 +1,6 @@
-import {MongoFind} from '../../../src/components/mongodb/MongoFind';
 import * as mongoose from 'mongoose';
 import {MongoDocumentQuery} from '../../../src/components/mongodb/MongoDocumentQuery';
+import {MongoFind} from '../../../src/components/mongodb/MongoFind';
 
 describe('A MongoFind', () => {
   const modelMock              = {} as mongoose.Model<mongoose.Document> & any;

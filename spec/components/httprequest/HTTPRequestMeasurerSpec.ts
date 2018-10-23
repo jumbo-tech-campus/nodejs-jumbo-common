@@ -1,5 +1,5 @@
-import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
 import {HTTPRequest} from '../../../src/components/httprequest/HTTPRequest';
+import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
 
 describe('A HTTPRequestMeasurable', () => {
   let request: HTTPRequestMeasurable;
@@ -10,7 +10,7 @@ describe('A HTTPRequestMeasurable', () => {
     httpRequestMock.execute = () => Promise.resolve({
       statusCode: 200,
       headers:    {},
-      body:       {},
+      body:       {}
     });
   });
 

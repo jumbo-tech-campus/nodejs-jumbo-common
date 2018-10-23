@@ -1,10 +1,10 @@
-import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 import * as Logger from 'bunyan';
-import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
+import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestError';
-import {asyncIt} from '../../helpers/JasmineHelper';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
 import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
+import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
+import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
+import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A HTTPRequestTelemetry', () => {
   const request      = {} as HTTPRequest & HTTPRequestMeasurable;

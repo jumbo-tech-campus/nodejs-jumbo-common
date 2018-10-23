@@ -1,8 +1,8 @@
-import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
-import {asyncIt} from '../../helpers/JasmineHelper';
-import {TransactionTimedoutHandler} from '../../../src/components/transactiontimedouthandler/TransactionTimedoutHandler';
-import {HTTPRequestTransactionTimedoutHandler} from '../../../src/components/transactiontimedouthandler/HTTPRequestTransactionTimedoutHandler';
 import * as Logger from 'bunyan';
+import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
+import {HTTPRequestTransactionTimedoutHandler} from '../../../src/components/transactiontimedouthandler/HTTPRequestTransactionTimedoutHandler';
+import {TransactionTimedoutHandler} from '../../../src/components/transactiontimedouthandler/TransactionTimedoutHandler';
+import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A HTTPRequestTimeoutHandler', () => {
   const httpRequestMock       = {} as HTTPRequest;

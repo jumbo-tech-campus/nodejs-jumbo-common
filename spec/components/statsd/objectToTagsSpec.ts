@@ -5,7 +5,7 @@ describe('An objectToTags', () => {
     const result = objectToTags({
       test: 1,
       blob: 'string',
-      bool: true,
+      bool: true
     });
 
     expect(result).toEqual(['test:1', 'blob:string', 'bool:true']);
@@ -14,7 +14,7 @@ describe('An objectToTags', () => {
   it('Should skip arrays and objects', () => {
     const result = objectToTags({
       array: ['sadf'],
-      obj: {test: 'test'},
+      obj: {test: 'test'}
     });
 
     expect(result).toEqual([]);
@@ -22,7 +22,7 @@ describe('An objectToTags', () => {
 
   it('Should skip empty strings', () => {
     const result = objectToTags({
-      emptystring: '',
+      emptystring: ''
     });
 
     expect(result).toEqual([]);

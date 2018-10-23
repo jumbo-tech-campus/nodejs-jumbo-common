@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
+import {Measurable} from '../statsd/Measurable';
 import {objectToTags} from '../statsd/objectToTags';
 import {MongoDocumentQuery} from './MongoDocumentQuery';
 import {MongoQuery} from './MongoQuery';
-import {Measurable} from '../statsd/Measurable';
 
 export class MongoFind<T extends mongoose.Document> implements MongoQuery<T[]>, Measurable<T[]> {
   public readonly options: Partial<T>;
@@ -21,7 +21,7 @@ export class MongoFind<T extends mongoose.Document> implements MongoQuery<T[]>, 
     return objectToTags(this.options);
   }
 
-  public execute(): Promise<T[]> {
+  public async execute(): Promise<T[]> {
     return this.documentQuery.execute(this.model.find(this.options));
   }
 }

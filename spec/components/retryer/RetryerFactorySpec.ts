@@ -1,7 +1,7 @@
-import {Retryable} from '../../../src/components/retryer/Retryable';
-import {RetryerFactory} from '../../../src/components/retryer/RetryerFactory';
-import {Retryer} from '../../../src/components/retryer/Retryer';
 import {StatsD} from 'hot-shots';
+import {Retryable} from '../../../src/components/retryer/Retryable';
+import {Retryer} from '../../../src/components/retryer/Retryer';
+import {RetryerFactory} from '../../../src/components/retryer/RetryerFactory';
 import {Measurable} from '../../../src/components/statsd/Measurable';
 
 describe('A RetryerFactory', () => {

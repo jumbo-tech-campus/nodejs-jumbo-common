@@ -1,9 +1,9 @@
-import {Measurable} from '../../../src/components/statsd/Measurable';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
 import {StatsD} from 'hot-shots';
+import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
+import {Measurable} from '../../../src/components/statsd/Measurable';
 
 describe('An AsyncMeasurer', () => {
-  let tagsMock: string[] = ['test:test'];
+  const tagsMock: string[] = ['test:test'];
   let measurableMock: Measurable<any>;
   const statsDMock     = {} as StatsD;
   statsDMock.timing    = () => void 0;
@@ -14,7 +14,7 @@ describe('An AsyncMeasurer', () => {
 
   beforeEach(() => {
     measurableMock = {
-      tags: ['test:test'],
+      tags: ['test:test']
     } as Measurable<any>;
 
     measurableMock.execute = () => Promise.resolve(resultMock);
@@ -41,7 +41,7 @@ describe('An AsyncMeasurer', () => {
 
   describe('When the measurable throws an error', async () => {
     let result: any;
-    let error = Error('Error');
+    const error = Error('Error');
 
     beforeEach(async () => {
       spyOn(statsDMock, 'timing');

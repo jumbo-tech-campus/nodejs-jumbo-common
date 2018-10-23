@@ -1,5 +1,5 @@
 export class TransactionTimedoutHandler {
-  private readonly transactionTimeoutInSeconds: number | any;
+  private readonly transactionTimeoutInSeconds: number;
   private readonly transactionStartTimeStamp: number;
 
   public constructor(transactionTimeoutInSeconds: number, transactionStartTimeStamp: number) {

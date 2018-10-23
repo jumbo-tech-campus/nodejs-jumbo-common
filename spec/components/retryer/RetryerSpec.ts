@@ -1,16 +1,16 @@
-import {asyncIt} from '../../helpers/JasmineHelper';
+import {StatsD} from 'hot-shots';
 import {Retryable} from '../../../src/components/retryer/Retryable';
 import {Retryer} from '../../../src/components/retryer/Retryer';
-import {StatsD} from 'hot-shots';
 import {Measurable} from '../../../src/components/statsd/Measurable';
+import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A Retryer', () => {
   let tries: number;
   const retryableMock = {
     constructor: {
-      name: 'test',
+      name: 'test'
     },
-    tags:        ['tags:one'],
+    tags:        ['tags:one']
   } as Retryable & Measurable<any>;
   const statsDMock    = {} as StatsD;
 

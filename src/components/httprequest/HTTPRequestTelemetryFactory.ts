@@ -1,9 +1,9 @@
-import {HTTPRequestFactory} from './HTTPRequestFactory';
 import * as Logger from 'bunyan';
-import {HTTPRequest, HTTPRequestOptions} from './HTTPRequest';
-import {HTTPRequestTelemetry} from './HTTPRequestTelemetry';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
+import {HTTPRequest, HTTPRequestOptions} from './HTTPRequest';
+import {HTTPRequestFactory} from './HTTPRequestFactory';
 import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
+import {HTTPRequestTelemetry} from './HTTPRequestTelemetry';
 
 export class HTTPRequestTelemetryFactory implements HTTPRequestFactory {
   private readonly httpRequestFactory: HTTPRequestFactory;
@@ -17,7 +17,8 @@ export class HTTPRequestTelemetryFactory implements HTTPRequestFactory {
   }
 
   public create(options: HTTPRequestOptions): HTTPRequest {
-    let request: HTTPRequest = this.httpRequestFactory.create(options);
+    const request: HTTPRequest = this.httpRequestFactory.create(options);
+
     return new HTTPRequestTelemetry(this.logger, new HTTPRequestMeasurable(request), this.measurer);
   }
 }

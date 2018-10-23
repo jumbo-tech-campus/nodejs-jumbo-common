@@ -1,4 +1,5 @@
 export interface Retryable {
-  attempt: () => Promise<boolean>;
-  getLogInformation: () => object;
+  attempt(): Promise<boolean>;
+
+  getLogInformation(): object;
 }

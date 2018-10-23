@@ -1,11 +1,11 @@
-import {MongoFindOrCreate} from '../../../src/components/mongodb/MongoFindOrCreate';
 import mongoose from 'mongoose';
-import {MongoFindOne} from '../../../src/components/mongodb/MongoFindOne';
 import {MongoCreate} from '../../../src/components/mongodb/MongoCreate';
+import {MongoFindOne} from '../../../src/components/mongodb/MongoFindOne';
+import {MongoFindOrCreate} from '../../../src/components/mongodb/MongoFindOrCreate';
 
 describe('A MongoFindOrCreate', () => {
   const mongoFindOneMock = {
-    options: {},
+    options: {}
   } as MongoFindOne<mongoose.Document>;
   const mongoCreateMock  = {} as MongoCreate<mongoose.Document>;
   const documentMock     = {} as mongoose.Document;

@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
+import {Measurable} from '../statsd/Measurable';
 import {objectToTags} from '../statsd/objectToTags';
 import {MongoQuery} from './MongoQuery';
-import {Measurable} from '../statsd/Measurable';
 
 export class MongoCount<T extends mongoose.Document> implements MongoQuery<number>, Measurable<number> {
   public readonly options: Partial<T>;
@@ -18,7 +18,7 @@ export class MongoCount<T extends mongoose.Document> implements MongoQuery<numbe
     return objectToTags(this.options);
   }
 
-  public execute(): Promise<number> {
+  public async execute(): Promise<number> {
     return this.model.countDocuments(this.options).exec();
   }
 }
