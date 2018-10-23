@@ -3,10 +3,11 @@ export const asyncSequence = async <T, S>(iterable: T[], callback: (value: T, in
 
   const result: S[] = [];
 
-  iterable.forEach(async (value, index, array) =>
+  iterable.forEach((value, index, array) => {
     chain = chain.then(async () => {
       result.push(await callback(value, index, array));
-    }));
+    });
+  });
 
   await chain;
 

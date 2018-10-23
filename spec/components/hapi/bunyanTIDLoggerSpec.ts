@@ -1,3 +1,4 @@
+import Boom from 'boom';
 import * as Logger from 'bunyan';
 import * as hapi from 'hapi';
 import {BunyanHapiTIDLoggerOptions, bunyanTIDLogger, createTIDLoggerLifecycleMethod, tidErrorHandler} from '../../../src/components/hapi/bunyanTIDLogger';

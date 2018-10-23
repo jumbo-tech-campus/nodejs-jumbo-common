@@ -5,5 +5,3 @@ export class HTTPRequestError extends APIError {
     super(message, 500, 'SERVER_ERROR');
   }
 }
-
-export const isHTTPRequestError = (error: unknown): error is HTTPRequestError => error instanceof HTTPRequestError;

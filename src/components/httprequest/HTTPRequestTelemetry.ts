@@ -1,10 +1,11 @@
 /* tslint:disable:no-unsafe-any */
 import * as Logger from 'bunyan';
+import {isAPIError} from '../helpers/APIError';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import {Measurable} from '../statsd/Measurable';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
-import {HTTPRequestError, isHTTPRequestError} from './HTTPRequestError';
+import {HTTPRequestError} from './HTTPRequestError';
 import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 
 export class HTTPRequestTelemetry extends HTTPRequestDecorator {
@@ -32,7 +33,7 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
     try {
       response = await this.measurer.measure(this.request, this.defaultStatsDTags);
     } catch (error) {
-      if (isHTTPRequestError(error)) {
+      if (isAPIError(error)) {
         this.handleError(error);
       }
 

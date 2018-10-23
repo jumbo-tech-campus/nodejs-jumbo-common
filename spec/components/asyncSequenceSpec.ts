@@ -32,35 +32,34 @@ describe('An AsyncSequence', () => {
   });
 
   it('Does not continue after failing promise', async () => {
-    const throwError         = new Error('Error');
     const sequence: number[] = [];
 
     let count = 0;
 
-    const callback = async (value: { wait: number; value: number }) =>
-      new Promise<number>((resolve: (value: number) => void, reject: (error: Error) => void) => {
-        if (count === 1) {
-          reject(throwError);
-        }
+    const callback = async (value: { wait: number; value: number }) => new Promise<number>((resolve: (value: number) => void, reject: (error: unknown) => void) => {
+      if (count === 1) {
+        reject(new Error('Weird Error'));
+      }
 
-        setTimeout(() => {
-          sequence.push(value.value);
+      setTimeout(() => {
+        sequence.push(value.value);
 
-          resolve(value.value);
-        }, value.wait);
+        resolve(value.value);
+      }, value.wait);
 
-        count = count + 1;
-      });
+      count = count + 1;
+    });
+
+    let error: Error | undefined;
 
     try {
       await asyncSequence(iterable, callback);
-    } catch (error) {
-      expect(error).toBe(throwError);
-      expect(sequence).toEqual([0]);
-
-      return;
+    } catch (e) {
+      error = e;
     }
 
-    fail('Should throw error');
+    expect(error).toBeDefined();
+    expect(error!.message).toBe('Weird Error');
+    expect(sequence).toEqual([0]);
   });
 });

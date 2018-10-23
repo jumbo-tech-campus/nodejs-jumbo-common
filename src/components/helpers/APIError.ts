@@ -27,3 +27,5 @@ export abstract class APIError extends Error {
     };
   }
 }
+
+export const isAPIError = (error: unknown): error is APIError => error instanceof APIError;
