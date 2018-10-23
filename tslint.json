@@ -119,7 +119,7 @@
         "no-empty-line-after-opening-brace": true,
         "no-implicit-dependencies": false,
         "no-parameter-reassignment": false,
-
+        "no-submodule-imports": false,
         "no-relative-imports": false,
         "restrict-plus-operands": false,
         "strict-boolean-expressions": false,
