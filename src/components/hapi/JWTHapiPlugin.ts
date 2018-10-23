@@ -1,3 +1,4 @@
+import Boom from 'boom';
 import * as hapi from 'hapi';
 import {JWTWrapper} from '../jwt/JWTWrapper';
 
@@ -42,5 +43,7 @@ export const createJWTUnpacker = (options: JWTHapiPluginOptions): hapi.Lifecycle
 
 export const jwtHapiPlugin: hapi.Plugin<JWTHapiPluginOptions> = {
   name:     'jwt-plugin',
-  register: (server, options) => server.ext('onRequest', createJWTUnpacker(options)),
+  register: (server, options) => {
+    server.ext('onRequest', createJWTUnpacker(options));
+  },
 };

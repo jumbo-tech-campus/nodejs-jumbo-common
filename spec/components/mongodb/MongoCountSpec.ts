@@ -13,7 +13,7 @@ describe('A MongoCount', () => {
   describe('When quering', () => {
     beforeEach(() => {
       modelMock.countDocuments = () => ({
-        exec: () => Promise.resolve(5)
+        exec: async () => Promise.resolve(5),
       });
     });
 

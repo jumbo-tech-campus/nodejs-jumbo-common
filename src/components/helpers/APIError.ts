@@ -12,7 +12,7 @@ export abstract class APIError extends Error {
     Object.setPrototypeOf(this, APIError.prototype);
   }
 
-  public toResponseBody(): any {
+  public toResponseBody(): Record<string, unknown> {
     return {
       statusCode: this.statusCode,
       error:      this.name,
@@ -20,7 +20,7 @@ export abstract class APIError extends Error {
     };
   }
 
-  public toLogger(): any {
+  public toLogger(): Record<string, unknown> {
     return {
       name:    this.name,
       message: this.message,

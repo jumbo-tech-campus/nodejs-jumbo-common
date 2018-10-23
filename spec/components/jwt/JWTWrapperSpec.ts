@@ -10,12 +10,13 @@ describe('A JWTWrapper ', () => {
   });
 
   it('Should throw error if no key provided', () => {
-    const jwtWrapperMock = new JWTWrapper('');
+    const jwtWrapperMockWithoutKey = new JWTWrapper('');
 
     try {
-      jwtWrapperMock.signToken({}, {});
+      jwtWrapperMockWithoutKey.signToken({}, {});
     } catch (error) {
       expect(error).toBeDefined();
+
       return;
     }
 
@@ -24,7 +25,7 @@ describe('A JWTWrapper ', () => {
 
   it('Can verify a token', () => {
     const jwt = jwtWrapperMock.verify(jwtWrapperMock.signToken({}, {
-      noTimestamp: true
+      noTimestamp: true,
     }));
 
     expect(jwt).toEqual({});

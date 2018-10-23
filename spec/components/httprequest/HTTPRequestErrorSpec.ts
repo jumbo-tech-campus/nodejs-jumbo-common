@@ -4,7 +4,7 @@ import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestE
 describe('A HTTPRequestError', () => {
   it('Can return a response body', () => {
     const error = new HTTPRequestError('Error');
-    const body = error.toResponseBody();
+    const body  = error.toResponseBody();
 
     expect(error.statusCode).toEqual(500);
     expect(error.name).toEqual('HTTPRequestError');
@@ -16,6 +16,6 @@ describe('A HTTPRequestError', () => {
 
     expect(error instanceof Error).toEqual(true);
     expect(error instanceof APIError).toEqual(true);
-    expect(error instanceof HTTPRequestError).toEqual(false); // TODO: Should work as well
+    expect(error instanceof HTTPRequestError).toEqual(false);
   });
 });

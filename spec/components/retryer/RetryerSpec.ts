@@ -2,33 +2,32 @@ import {StatsD} from 'hot-shots';
 import {Retryable} from '../../../src/components/retryer/Retryable';
 import {Retryer} from '../../../src/components/retryer/Retryer';
 import {Measurable} from '../../../src/components/statsd/Measurable';
-import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A Retryer', () => {
   let tries: number;
   const retryableMock = {
     constructor: {
-      name: 'test'
+      name: 'test',
     },
-    tags:        ['tags:one']
+    tags:        ['tags:one'],
   } as Retryable & Measurable<any>;
   const statsDMock    = {} as StatsD;
 
   beforeEach(() => {
-    tries = 0;
+    tries                           = 0;
     statsDMock.increment            = () => void 0;
-    retryableMock.attempt           = () => {
-      tries++;
+    retryableMock.attempt           = async () => {
+      tries = tries + 1;
 
       return Promise.resolve(tries === 3);
     };
     retryableMock.getLogInformation = () => ({});
   });
 
-  asyncIt('Should not retry a succesfull attempt', async () => {
+  it('Should not retry a succesfull attempt', async () => {
     spyOn(statsDMock, 'increment');
 
-    retryableMock.attempt = () => Promise.resolve(true);
+    retryableMock.attempt = async () => Promise.resolve(true);
 
     const retryer = new Retryer(statsDMock, retryableMock, 2, 1, 1, 1);
 
@@ -37,7 +36,7 @@ describe('A Retryer', () => {
     expect(statsDMock.increment).not.toHaveBeenCalled();
   });
 
-  asyncIt('Should be able to retry a failed attempt three times', async () => {
+  it('Should be able to retry a failed attempt three times', async () => {
     spyOn(statsDMock, 'increment');
     spyOn(retryableMock, 'attempt').and.callThrough();
 
@@ -53,9 +52,9 @@ describe('A Retryer', () => {
     expect((statsDMock.increment as jasmine.Spy).calls.argsFor(2)).toEqual([]);
   });
 
-  asyncIt('Should be able to retry until max attempts', async () => {
-    retryableMock.attempt = () => {
-      tries++;
+  it('Should be able to retry until max attempts', async () => {
+    retryableMock.attempt = async () => {
+      tries = tries + 1;
 
       return Promise.resolve(false);
     };

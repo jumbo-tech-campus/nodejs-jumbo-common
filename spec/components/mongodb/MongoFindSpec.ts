@@ -16,7 +16,7 @@ describe('A MongoFind', () => {
   describe('When quering', () => {
     beforeEach(() => {
       modelMock.find                 = () => ({});
-      mongoDocumentQueryMock.execute = () => Promise.resolve(resultMock as any);
+      mongoDocumentQueryMock.execute = async () => Promise.resolve(resultMock as any);
     });
 
     it('Should be able to find objects', async () => {

@@ -4,7 +4,6 @@ import {Retryable} from '../../../src/components/retryer/Retryable';
 import {Retryer} from '../../../src/components/retryer/Retryer';
 import {RetryerFactory} from '../../../src/components/retryer/RetryerFactory';
 import {Measurable} from '../../../src/components/statsd/Measurable';
-import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('An HTTPRequestRetryer', () => {
   const retryerFactoryMock = {} as RetryerFactory;
@@ -14,11 +13,11 @@ describe('An HTTPRequestRetryer', () => {
 
   beforeEach(() => {
     retryerFactoryMock.create = () => retryerMock;
-    retryerMock.execute       = () => Promise.resolve();
-    retryableRequest.execute  = () => Promise.resolve(resultMock);
+    retryerMock.execute       = async () => Promise.resolve();
+    retryableRequest.execute  = async () => Promise.resolve(resultMock);
   });
 
-  asyncIt('Returns the response from the Retryer', async () => {
+  it('Returns the response from the Retryer', async () => {
     const requestRetryer = new HTTPRequestRetryer(retryerFactoryMock, retryableRequest);
 
     const result = await requestRetryer.execute();

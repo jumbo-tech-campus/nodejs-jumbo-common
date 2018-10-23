@@ -1,5 +1,7 @@
+import Boom from 'boom';
 import * as Logger from 'bunyan';
 import * as hapi from 'hapi';
+import uuid from 'uuid';
 
 declare module 'hapi' {
   interface ApplicationState {
@@ -13,7 +15,7 @@ export interface BunyanHapiTIDLoggerOptions {
 }
 
 export const createTIDLoggerLifecycleMethod = (options: BunyanHapiTIDLoggerOptions): hapi.Lifecycle.Method => (request, h) => {
-  request.app.tid    = uuidv4();
+  request.app.tid    = uuid.v4();
   request.app.logger = options.logger.child({
     transactionID: request.app.tid,
   });

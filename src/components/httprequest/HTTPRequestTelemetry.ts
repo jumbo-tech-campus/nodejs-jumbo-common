@@ -1,3 +1,4 @@
+/* tslint:disable:no-unsafe-any */
 import * as Logger from 'bunyan';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import {Measurable} from '../statsd/Measurable';

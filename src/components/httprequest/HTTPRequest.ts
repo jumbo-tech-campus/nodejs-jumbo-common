@@ -5,7 +5,7 @@ export type HTTPRequestOptions = request.Options;
 export interface HTTPRequestResponse {
   headers: { [headerName: string]: string | string[] | undefined };
   statusCode: number;
-  body: any;
+  body: unknown;
 }
 
 export interface HTTPRequest {

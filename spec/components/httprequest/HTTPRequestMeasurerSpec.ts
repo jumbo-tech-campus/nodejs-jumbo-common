@@ -5,12 +5,12 @@ describe('A HTTPRequestMeasurable', () => {
   let request: HTTPRequestMeasurable;
   beforeEach(() => {
     const httpRequestMock = {options: {}} as HTTPRequest;
-    request           = new HTTPRequestMeasurable(httpRequestMock);
+    request               = new HTTPRequestMeasurable(httpRequestMock);
 
-    httpRequestMock.execute = () => Promise.resolve({
+    httpRequestMock.execute = async () => Promise.resolve({
       statusCode: 200,
       headers:    {},
-      body:       {}
+      body:       {},
     });
   });
 

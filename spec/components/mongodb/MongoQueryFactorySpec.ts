@@ -24,9 +24,9 @@ describe('A MongoQueryFactory', () => {
   });
 
   it('Should be able to create MongoCreate without measurer', () => {
-    const mongoQueryFactory = new MongoQueryFactory(modelMock);
+    const mongoQueryFactoryWithoutMeasurer = new MongoQueryFactory(modelMock);
 
-    const mongoCreate = mongoQueryFactory.createCreate(loggerMock, {});
+    const mongoCreate = mongoQueryFactoryWithoutMeasurer.createCreate(loggerMock, {});
 
     expect(mongoCreate instanceof MongoCreate).toEqual(true);
   });
@@ -56,7 +56,7 @@ describe('A MongoQueryFactory', () => {
   });
 
   it('Should be able to create MongoCount', () => {
-    const mongoCount  = mongoQueryFactory.createCount(loggerMock, {});
+    const mongoCount = mongoQueryFactory.createCount(loggerMock, {});
 
     expect(mongoCount instanceof MongoQueryTelemetry).toEqual(true);
   });

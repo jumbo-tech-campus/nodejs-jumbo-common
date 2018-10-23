@@ -5,19 +5,19 @@ import {Measurable} from '../../../src/components/statsd/Measurable';
 describe('An AsyncMeasurer', () => {
   const tagsMock: string[] = ['test:test'];
   let measurableMock: Measurable<any>;
-  const statsDMock     = {} as StatsD;
-  statsDMock.timing    = () => void 0;
-  const resultMock     = {};
-  const defaultTags = ['default:tag', 'statsd:tag'];
+  const statsDMock         = {} as StatsD;
+  statsDMock.timing        = () => void 0;
+  const resultMock         = {};
+  const defaultTags        = ['default:tag', 'statsd:tag'];
 
   const asyncMeasurer = new AsyncMeasurer(statsDMock);
 
   beforeEach(() => {
     measurableMock = {
-      tags: ['test:test']
+      tags: ['test:test'],
     } as Measurable<any>;
 
-    measurableMock.execute = () => Promise.resolve(resultMock);
+    measurableMock.execute = async () => Promise.resolve(resultMock);
   });
 
   describe('When measuring a measurable', async () => {
@@ -46,7 +46,7 @@ describe('An AsyncMeasurer', () => {
     beforeEach(async () => {
       spyOn(statsDMock, 'timing');
 
-      measurableMock.execute = () => Promise.reject(error);
+      measurableMock.execute = async () => Promise.reject(error);
 
       try {
         await asyncMeasurer.measure(measurableMock, defaultTags);

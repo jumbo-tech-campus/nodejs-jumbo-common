@@ -2,14 +2,14 @@ import * as mongoose from 'mongoose';
 import {MongoCreate} from '../../../src/components/mongodb/MongoCreate';
 
 describe('A MongoCreate', () => {
-  const modelMock  = {} as mongoose.Model<mongoose.Document> & any;
+  const modelMock = {} as mongoose.Model<mongoose.Document> & any;
 
   const mongoCreate = new MongoCreate({
-    property: 'value'
-  } as any,                           modelMock);
+    property: 'value',
+  } as any, modelMock);
 
   beforeEach(() => {
-    modelMock.create = () => Promise.resolve({});
+    modelMock.create = async () => Promise.resolve({});
   });
 
   it('Can save a document', async () => {

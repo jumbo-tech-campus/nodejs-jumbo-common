@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "clean": "rimraf ./dist ./coverage",
-        "tslint": "tslint --project ./tsconfig.json -c tslint.json -t verbose 'spec/**/*.ts' 'src/**/*.ts'",
+        "tslint:spec": "tslint --project ./tsconfig.json -c ./spec/tslint.json -t verbose 'spec/**/*.ts'",
+        "tslint:src": "tslint --project ./tsconfig.json -c ./tslint.json -t verbose 'src/**/*.ts'",
+        "tslint": "npm run tslint:spec && npm run tslint:src",
         "ts": "tsc",
         "ts:watch": "tsc -w",
         "test": "istanbul cover jasmine",

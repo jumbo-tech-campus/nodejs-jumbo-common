@@ -1,3 +1,5 @@
+/* tslint:disable:no-unsafe-any */
+import * as Boom from 'boom';
 import hapi from 'hapi';
 
 export const catchUnhandledError = (lifecycleMethod: hapi.Lifecycle.Method): hapi.Lifecycle.Method => async (request, h) => {

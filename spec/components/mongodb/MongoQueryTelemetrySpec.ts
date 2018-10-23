@@ -11,18 +11,18 @@ describe('A MongoQueryTelemetry', () => {
   const asyncMeasurerMock = {} as AsyncMeasurer;
   const mongoQueryMock    = {
     constructor: {
-      name: 'MongoQuery'
+      name: 'MongoQuery',
     },
     options:     {
-      property: 'value'
-    }
+      property: 'value',
+    },
   } as MongoQuery<mongoose.Document> & Measurable<mongoose.Document> & any;
   const mockResult: any   = {};
 
   const mongoQueryMeasurer = new MongoQueryTelemetry(loggerMock, asyncMeasurerMock, mongoQueryMock);
 
   beforeEach(() => {
-    asyncMeasurerMock.measure = () => Promise.resolve(mockResult);
+    asyncMeasurerMock.measure = async () => Promise.resolve(mockResult);
   });
 
   it('Should be able to measure a MongoQuery', async () => {
@@ -34,7 +34,7 @@ describe('A MongoQueryTelemetry', () => {
   it('Should log an error', async () => {
     spyOn(loggerMock, 'error');
     const throwError          = new Error('Error');
-    asyncMeasurerMock.measure = () => Promise.reject(throwError);
+    asyncMeasurerMock.measure = async () => Promise.reject(throwError);
 
     try {
       await mongoQueryMeasurer.execute();
@@ -50,7 +50,7 @@ describe('A MongoQueryTelemetry', () => {
 
   it('Can return query options', () => {
     expect(mongoQueryMeasurer.options).toEqual({
-      property: 'value'
+      property: 'value',
     });
   });
 });

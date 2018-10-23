@@ -8,7 +8,7 @@ describe('A RetryerFactory', () => {
   const retryableMock = {} as Retryable & Measurable<any>;
 
   it('Can create a retryer', () => {
-    const retryerFactory = new RetryerFactory({} as StatsD, 6, 1 , 1, 1);
+    const retryerFactory = new RetryerFactory({} as StatsD, 6, 1, 1, 1);
 
     const retryer = retryerFactory.create(retryableMock);
 

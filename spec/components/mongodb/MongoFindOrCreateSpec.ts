@@ -5,7 +5,7 @@ import {MongoFindOrCreate} from '../../../src/components/mongodb/MongoFindOrCrea
 
 describe('A MongoFindOrCreate', () => {
   const mongoFindOneMock = {
-    options: {}
+    options: {},
   } as MongoFindOne<mongoose.Document>;
   const mongoCreateMock  = {} as MongoCreate<mongoose.Document>;
   const documentMock     = {} as mongoose.Document;
@@ -13,8 +13,8 @@ describe('A MongoFindOrCreate', () => {
   const mongoFindOrCreate = new MongoFindOrCreate<mongoose.Document>(mongoFindOneMock, mongoCreateMock);
 
   beforeEach(() => {
-    mongoFindOneMock.execute = () => Promise.resolve(documentMock);
-    mongoCreateMock.execute  = () => Promise.resolve(documentMock);
+    mongoFindOneMock.execute = async () => Promise.resolve(documentMock);
+    mongoCreateMock.execute  = async () => Promise.resolve(documentMock);
   });
 
   it('Should be able to find a document', async () => {
@@ -24,7 +24,7 @@ describe('A MongoFindOrCreate', () => {
   });
 
   it('Should be able to create a document', async () => {
-    mongoFindOneMock.execute = () => Promise.resolve(null);
+    mongoFindOneMock.execute = async () => Promise.resolve(null);
 
     const document = await mongoFindOrCreate.execute();
 

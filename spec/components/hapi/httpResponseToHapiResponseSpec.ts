@@ -17,8 +17,8 @@ describe('A httpResponseToHapiResponse', () => {
       statusCode: 200,
       body:       {},
       headers:    {
-        location: 'location'
-      }
+        location: 'location',
+      },
     };
 
     httpResponseToHapiResponse(httpResponse, hMock);
@@ -35,7 +35,7 @@ describe('A httpResponseToHapiResponse', () => {
 
     const httpResponse: HTTPResponse = {
       statusCode: 200,
-      body:       {}
+      body:       {},
     };
 
     httpResponseToHapiResponse(httpResponse, hMock);

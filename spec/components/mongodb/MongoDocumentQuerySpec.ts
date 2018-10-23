@@ -9,7 +9,7 @@ describe('A MongoDocumentQuery', () => {
     mongoDocumentMock.populate = () => mongoDocumentMock;
     mongoDocumentMock.sort     = () => mongoDocumentMock;
     mongoDocumentMock.select   = () => mongoDocumentMock;
-    mongoDocumentMock.exec     = () => Promise.resolve(validResult);
+    mongoDocumentMock.exec     = async () => Promise.resolve(validResult);
   });
 
   it('Can execute a DocumentQuery without any options', async () => {
@@ -23,10 +23,10 @@ describe('A MongoDocumentQuery', () => {
   it('Can execute a DocumentQuery with all options', async () => {
     const mongoDocumentQuery = new MongoDocumentQuery({
       populate: {
-        path: 'something'
+        path: 'something',
       },
       sort:     [],
-      select:   'something'
+      select:   'something',
     });
 
     const result = await mongoDocumentQuery.execute(mongoDocumentMock);

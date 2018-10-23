@@ -6,5 +6,4 @@ export class HTTPRequestError extends APIError {
   }
 }
 
-// TODO: Test function
 export const isHTTPRequestError = (error: unknown): error is HTTPRequestError => error instanceof HTTPRequestError;

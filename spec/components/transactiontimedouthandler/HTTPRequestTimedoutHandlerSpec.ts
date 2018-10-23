@@ -2,7 +2,6 @@ import * as Logger from 'bunyan';
 import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 import {HTTPRequestTransactionTimedoutHandler} from '../../../src/components/transactiontimedouthandler/HTTPRequestTransactionTimedoutHandler';
 import {TransactionTimedoutHandler} from '../../../src/components/transactiontimedouthandler/TransactionTimedoutHandler';
-import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A HTTPRequestTimeoutHandler', () => {
   const httpRequestMock       = {} as HTTPRequest;
@@ -14,16 +13,16 @@ describe('A HTTPRequestTimeoutHandler', () => {
 
   beforeEach(() => {
     timeoutHandlerMock.timedOut = () => false;
-    httpRequestMock.execute     = () => Promise.resolve(responseMock);
+    httpRequestMock.execute     = async () => Promise.resolve(responseMock);
   });
 
-  asyncIt('Should be able to execute a request when transaction is not yet timed out', async () => {
+  it('Should be able to execute a request when transaction is not yet timed out', async () => {
     const result = await requestTimeoutHandler.execute();
 
     expect(result).toEqual(responseMock);
   });
 
-  asyncIt('Should throw an error when transaction is timed out', async () => {
+  it('Should throw an error when transaction is timed out', async () => {
     spyOn(loggerMock, 'error');
     timeoutHandlerMock.timedOut = () => true;
 

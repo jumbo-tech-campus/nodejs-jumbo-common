@@ -1,0 +1,12 @@
+{
+    "extends": [
+        "../tslint.json"
+    ],
+    "rules": {
+        "no-any": false,
+        "no-http-string": false,
+        "no-object-literal-type-assertion": false,
+        "no-unsafe-any": false,
+        "mocha-no-side-effect-code": false
+    }
+}

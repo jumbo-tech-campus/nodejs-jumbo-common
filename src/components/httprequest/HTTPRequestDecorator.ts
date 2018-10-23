@@ -7,7 +7,7 @@ export abstract class HTTPRequestDecorator implements HTTPRequest {
     this.request = request;
   }
 
-  public execute(): Promise<HTTPRequestResponse> {
+  public async execute(): Promise<HTTPRequestResponse> {
     return this.request.execute();
   }
 

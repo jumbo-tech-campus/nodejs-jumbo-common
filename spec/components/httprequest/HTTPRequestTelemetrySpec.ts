@@ -4,7 +4,6 @@ import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestE
 import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
 import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
 import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
-import {asyncIt} from '../../helpers/JasmineHelper';
 
 describe('A HTTPRequestTelemetry', () => {
   const request      = {} as HTTPRequest & HTTPRequestMeasurable;
@@ -15,12 +14,12 @@ describe('A HTTPRequestTelemetry', () => {
   loggerMock.error   = () => true;
 
   beforeEach(() => {
-    request.execute = () => Promise.resolve(responseMock);
+    request.execute = async () => Promise.resolve(responseMock);
   });
 
-  asyncIt('Should be able to debug a HTTPRequest', async () => {
+  it('Should be able to debug a HTTPRequest', async () => {
     spyOn(loggerMock, 'debug');
-    measurerMock.measure = () => Promise.resolve({} as any);
+    measurerMock.measure = async () => Promise.resolve({} as any);
 
     const requestLogger = new HTTPRequestTelemetry(loggerMock, request, measurerMock);
 
@@ -30,12 +29,10 @@ describe('A HTTPRequestTelemetry', () => {
     expect(loggerMock.debug).toHaveBeenCalledTimes(2);
   });
 
-  asyncIt('Should be able to log an error', async () => {
+  it('Should be able to log an error', async () => {
     spyOn(loggerMock, 'error');
 
-    measurerMock.measure = () => {
-      throw new HTTPRequestError('ETIMEDOUT');
-    };
+    measurerMock.measure = async () => Promise.reject(new HTTPRequestError('ETIMEDOUT'));
 
     const requestLogger = new HTTPRequestTelemetry(loggerMock, request, measurerMock);
     try {
