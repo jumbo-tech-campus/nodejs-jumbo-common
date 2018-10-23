@@ -19,9 +19,9 @@
     "license": "MIT",
     "dependencies": {},
     "devDependencies": {
-        "@types/boom": "^7.2.0",
+        "@types/boom": "^7.2.1",
         "@types/bunyan": "^1.8.5",
-        "@types/hapi": "^17.6.1",
+        "@types/hapi": "^17.6.2",
         "@types/jasmine": "^2.8.9",
         "@types/jsonwebtoken": "^7.2.8",
         "@types/mongoose": "^5.2.19",
