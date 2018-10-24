@@ -16,7 +16,7 @@
         },
         "array-type": {
             "options": [
-                "array-simple"
+                "array"
             ]
         },
         "arrow-parens": true,
