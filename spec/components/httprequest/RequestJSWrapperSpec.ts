@@ -32,10 +32,13 @@ describe('A RequestJSWrapper', () => {
 
     let response = await new RequestJSWrapper({
       ...options,
-      method: 'post',
-      json:   true,
-      body:   {
+      json:    true,
+      method:  'post',
+      body:    {
         thisIsJSON: true,
+      },
+      headers: {
+        'doesthisheader': 'removecontenttypeheader',
       },
     }).execute() as HTTPRequestResponse;
 
