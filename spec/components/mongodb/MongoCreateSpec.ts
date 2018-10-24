@@ -5,7 +5,7 @@ describe('A MongoCreate', () => {
   const modelMock  = {} as mongoose.Model<mongoose.Document> & any;
 
   const mongoCreate = new MongoCreate({
-    property: 'value'
+    property: 'value',
   } as any, modelMock);
 
   beforeEach(() => {

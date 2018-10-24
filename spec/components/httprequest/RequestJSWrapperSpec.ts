@@ -26,7 +26,7 @@ describe('A RequestJSWrapper', () => {
 
     let response = await new RequestJSWrapper({
       ...options,
-      json: true
+      json: true,
     }).execute() as HTTPRequestResponse;
 
     expect(response.body).toEqual({});
@@ -38,7 +38,7 @@ describe('A RequestJSWrapper', () => {
 
     let response = await new RequestJSWrapper({
       ...options,
-      json: true
+      json: true,
     }).execute() as HTTPRequestResponse;
 
     expect(response.body).toEqual({});
@@ -105,7 +105,7 @@ describe('A RequestJSWrapper', () => {
       statusCode: 200,
       body: '{}',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
       },
     });
   });

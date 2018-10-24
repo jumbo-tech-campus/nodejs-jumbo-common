@@ -7,9 +7,9 @@ import {Measurable} from '../statsd/Measurable';
 import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 
 export class HTTPRequestTelemetry extends HTTPRequestDecorator {
+  public request: HTTPRequest & Measurable<HTTPRequestResponse>;
   private logger: Logger;
   private readonly measurer: AsyncMeasurer;
-  public request: HTTPRequest & Measurable<HTTPRequestResponse>;
   private readonly defaultStatsDTags?: string[];
 
   public constructor(logger: Logger, request: HTTPRequestMeasurable, measurer: AsyncMeasurer, defaultStatsDTags?: string[]) {

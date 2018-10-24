@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export interface MongoDocumentQueryOptions {
   populate?: mongoose.ModelPopulateOptions | mongoose.ModelPopulateOptions[];
   projection?: any;
-  sort?: [string | 1 | -1][];
+  sort?: Array<[string | 1 | -1]>;
   select?: string;
 }
 

@@ -6,8 +6,8 @@ import {HTTPRequestTimedoutError} from './HTTPRequestTimedoutError';
 const baseRequest = request.defaults({
   gzip: true,
   pool: {
-    maxSockets: 10240
-  }
+    maxSockets: 10240,
+  },
 });
 
 export class RequestJSWrapper implements HTTPRequest {

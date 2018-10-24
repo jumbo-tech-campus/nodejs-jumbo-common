@@ -7,7 +7,7 @@ export class JWTWrapper {
     this.privateKey = privateKey;
   }
 
-  public signToken(payload: Object, options: jwt.SignOptions): string {
+  public signToken(payload: object, options: jwt.SignOptions): string {
     return jwt.sign(payload, this.privateKey, options);
   }
 
