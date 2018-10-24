@@ -22,15 +22,26 @@ describe('A RequestJSWrapper', () => {
   });
 
   asyncIt('Can return a valid HTTPResponse with JSON body', async () => {
-    nock(domain).get(nockUrl).reply(200, {}, {});
+    let contentTypeHeader: string | undefined;
+
+    nock(domain).post(nockUrl).reply(200, function (this: any) {
+      contentTypeHeader = this.req.headers['content-type'];
+
+      return {};
+    });
 
     let response = await new RequestJSWrapper({
       ...options,
-      json: true,
+      method: 'post',
+      json:   true,
+      body:   {
+        thisIsJSON: true,
+      },
     }).execute() as HTTPRequestResponse;
 
     expect(response.body).toEqual({});
     expect(response.headers).toEqual({'content-type': 'application/json'});
+    expect(contentTypeHeader).toEqual('application/json');
   });
 
   asyncIt('Can return a 4** valid HTTPResponse with JSON body', async () => {
@@ -98,13 +109,13 @@ describe('A RequestJSWrapper', () => {
 
     let result = await new RequestJSWrapper({
       baseUrl: domain,
-      url: '/' + url,
+      url:     '/' + url,
     }).execute();
 
     expect(result).toEqual({
       statusCode: 200,
-      body: '{}',
-      headers: {
+      body:       '{}',
+      headers:    {
         'content-type': 'application/json',
       },
     });
