@@ -21,10 +21,10 @@ describe('A RequestJSWrapper', () => {
     expect(response.headers).toEqual({'content-type': 'application/json'});
   });
 
-  asyncIt('Can return a valid HTTPResponse with JSON body', async () => {
+  asyncIt('Can return a valid HTTPResponse with JSON body when method is POST', async () => {
     let contentTypeHeader: string | undefined;
 
-    nock(domain).post(nockUrl).reply(200, function (this: any) {
+    nock(domain).post(nockUrl).reply(200, function (this: any): unknown {
       contentTypeHeader = this.req.headers['content-type'];
 
       return {};
@@ -33,7 +33,33 @@ describe('A RequestJSWrapper', () => {
     let response = await new RequestJSWrapper({
       ...options,
       json:    true,
-      method:  'post',
+      method:  'POST',
+      body:    {
+        thisIsJSON: true,
+      },
+      headers: {
+        'doesthisheader': 'removecontenttypeheader',
+      },
+    }).execute() as HTTPRequestResponse;
+
+    expect(response.body).toEqual({});
+    expect(response.headers).toEqual({'content-type': 'application/json'});
+    expect(contentTypeHeader).toEqual('application/json');
+  });
+
+  asyncIt('Can return a valid HTTPResponse with JSON body when method is PUT', async () => {
+    let contentTypeHeader: string | undefined;
+
+    nock(domain).put(nockUrl).reply(200, function (this: any): unknown {
+      contentTypeHeader = this.req.headers['content-type'];
+
+      return {};
+    });
+
+    let response = await new RequestJSWrapper({
+      ...options,
+      json:    true,
+      method:  'PUT',
       body:    {
         thisIsJSON: true,
       },

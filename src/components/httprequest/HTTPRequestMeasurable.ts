@@ -16,7 +16,7 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
   }
 
   public get tags(): string[] {
-    const options: any = this.request.options;
+    const options: Record<string, unknown> = JSON.parse(JSON.stringify(this.request.options));
 
     delete options.body;
 
