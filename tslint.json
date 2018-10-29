@@ -117,6 +117,7 @@
             "check-whitespace"
         ],
         "only-arrow-functions": true,
+        "prefer-template": true,
         "quotemark": [
             true,
             "single",
