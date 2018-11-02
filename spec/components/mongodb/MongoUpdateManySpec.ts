@@ -17,8 +17,4 @@ describe('A MongoUpdateMany', () => {
   it('Can update documents', async () => {
     await mongoUpdateMany.execute();
   });
-
-  it('Can return tags', async () => {
-    expect(mongoUpdateMany.tags).toEqual(['property:value']);
-  });
 });

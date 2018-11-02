@@ -6,10 +6,6 @@ describe('A MongoCount', () => {
 
   const mongoCount = new MongoCount({}, modelMock);
 
-  it('Should be able to return tags', () => {
-    expect(mongoCount.tags).toEqual([]);
-  });
-
   describe('When quering', () => {
     beforeEach(() => {
       modelMock.countDocuments = () => ({

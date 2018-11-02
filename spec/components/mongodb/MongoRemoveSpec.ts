@@ -15,8 +15,4 @@ describe('A MongoRemove', () => {
   it('Can remove a document', async () => {
     await mongoRemove.execute();
   });
-
-  it('Can return tags', async () => {
-    expect(mongoRemove.tags).toEqual([]);
-  });
 });

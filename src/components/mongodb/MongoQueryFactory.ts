@@ -6,13 +6,13 @@ import {MongoFind} from './MongoFind';
 import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
 import {MongoCreate} from './MongoCreate';
 import * as Logger from 'bunyan';
-import {Measurable} from '../statsd/Measurable';
 import {MongoUpdate} from './MongoUpdate';
 import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
 import {MongoRemove} from './MongoRemove';
 import {MongoFindOrCreate} from './MongoFindOrCreate';
 import {MongoUpdateMany} from './MongoUpdateMany';
 import {MongoCount} from './MongoCount';
+import {MongoMeasurable} from './MongoMeasurable';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -64,9 +64,9 @@ export class MongoQueryFactory<T extends mongoose.Document> {
       createQuery));
   }
 
-  private createTelemetry<T>(logger: Logger, query: MongoQuery<T> & Measurable<T>): MongoQuery<T> {
+  private createTelemetry<T>(logger: Logger, query: MongoQuery<T>): MongoQuery<T> {
     if (this.measurer) {
-      return new MongoQueryTelemetry(logger, this.measurer, query);
+      return new MongoQueryTelemetry(logger, this.measurer, new MongoMeasurable(query));
     }
 
     return query;

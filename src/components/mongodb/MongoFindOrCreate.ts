@@ -1,23 +1,15 @@
 import {MongoCreate} from './MongoCreate';
 import {MongoFindOne} from './MongoFindOne';
 import {MongoQuery} from './MongoQuery';
-import {Measurable} from '../statsd/Measurable';
 import mongoose from 'mongoose';
-import {objectToTags} from '../statsd/objectToTags';
 
-export class MongoFindOrCreate<T extends mongoose.Document> implements Measurable<T>, MongoQuery<T> {
-  public readonly measurePrefix: string;
+export class MongoFindOrCreate<T extends mongoose.Document> implements MongoQuery<T> {
   private readonly findOneQuery: MongoFindOne<T>;
   private readonly createQuery: MongoCreate<T>;
 
   public constructor(findOneQuery: MongoFindOne<T>, createQuery: MongoCreate<T>) {
     this.findOneQuery = findOneQuery;
-    this.createQuery = createQuery;
-    this.measurePrefix = 'mongodb.findorcreate.';
-  }
-
-  public get tags(): string[] {
-    return objectToTags(this.findOneQuery.options);
+    this.createQuery  = createQuery;
   }
 
   public get options(): object {
