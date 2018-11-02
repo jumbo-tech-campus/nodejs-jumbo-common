@@ -24,7 +24,7 @@
         "@types/bunyan": "^1.8.5",
         "@types/hapi": "^17.6.2",
         "@types/jasmine": "^2.8.9",
-        "@types/jsonwebtoken": "^7.2.8",
+        "@types/jsonwebtoken": "^8.3.0",
         "@types/mongoose": "^5.3.0",
         "@types/nock": "^9.3.0",
         "@types/node": "^8.10.37",
