@@ -9,8 +9,9 @@ describe('A RequestJSWrapper', () => {
   let url     = 'v2/test/url';
   let nockUrl = `/${url}`;
   let options = {
-    url: `${domain}/${url}`,
-  } as OptionsWithUrl;
+    url:     url,
+    baseUrl: domain,
+  } as OptionsWithUrl & {baseUrl: string};
 
   asyncIt('Can return a valid HTTPResponse', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});
