@@ -9,10 +9,6 @@ describe('A MongoFindOne', () => {
 
   const mongoFindOne = new MongoFindOne({}, modelMock, mongoDocumentQueryMock);
 
-  it('Should be able to return tags', () => {
-    expect(mongoFindOne.tags).toEqual([]);
-  });
-
   describe('When quering', () => {
     beforeEach(() => {
       modelMock.findOne = () => ({});

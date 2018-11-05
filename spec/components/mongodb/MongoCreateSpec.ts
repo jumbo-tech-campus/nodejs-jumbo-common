@@ -17,8 +17,4 @@ describe('A MongoCreate', () => {
 
     expect(result).toEqual({} as any);
   });
-
-  it('Generates the correct tags', () => {
-    expect(mongoCreate.tags).toEqual(['property:value']);
-  });
 });

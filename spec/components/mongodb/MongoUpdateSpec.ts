@@ -19,8 +19,4 @@ describe('A MongoUpdate', () => {
 
     expect(result).toEqual({} as any);
   });
-
-  it('Can return tags', async () => {
-    expect(mongoUpdate.tags).toEqual(['property:value']);
-  });
 });

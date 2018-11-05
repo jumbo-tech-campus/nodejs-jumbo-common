@@ -9,10 +9,6 @@ describe('A MongoFind', () => {
 
   const mongoFind = new MongoFind({}, modelMock, mongoDocumentQueryMock);
 
-  it('Should be able to return tags', () => {
-    expect(mongoFind.tags).toEqual([]);
-  });
-
   describe('When quering', () => {
     beforeEach(() => {
       modelMock.find                 = () => ({});

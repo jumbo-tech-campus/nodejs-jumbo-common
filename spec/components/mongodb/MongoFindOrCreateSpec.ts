@@ -34,8 +34,4 @@ describe('A MongoFindOrCreate', () => {
   it('Has the same options as mongoFindOne', () => {
     expect(mongoFindOrCreate.options).toEqual(mongoFindOneMock.options);
   });
-
-  it('Has the same options as mongoFindOne', () => {
-    expect(mongoFindOrCreate.tags).toEqual([]);
-  });
 });
