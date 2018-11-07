@@ -2,21 +2,9 @@ import * as hapi from 'hapi';
 import Boom from 'boom';
 import {StatsD} from 'hot-shots';
 
-declare module 'hapi' {
-  interface ApplicationState {
-    statsdClient: StatsD;
-  }
-}
-
 export interface HapiRequestMeasurerOptions {
   statsdClient: StatsD;
 }
-
-export const createStatsdClientLifecycleMethod = (options: HapiRequestMeasurerOptions): hapi.Lifecycle.Method => (request, h) => {
-  request.app.statsdClient = options.statsdClient;
-
-  return h.continue;
-};
 
 export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] => {
   let tags: string[] = [];
@@ -39,8 +27,8 @@ export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] =>
   return tags;
 };
 
-export const statsdTimingLifecycleMethod = (): hapi.Lifecycle.Method => (request, h) => {
-  request.app.statsdClient.timing(
+export const statsdTimingLifecycleMethod = (options: HapiRequestMeasurerOptions): hapi.Lifecycle.Method => (request, h) => {
+  options.statsdClient.timing(
     'request.duration',
     Date.now() - request.info.received,
     extractStatsDTagsFromRequest(request));
@@ -49,8 +37,7 @@ export const statsdTimingLifecycleMethod = (): hapi.Lifecycle.Method => (request
 };
 
 const lifecycleRegistration = (server: hapi.Server, options: HapiRequestMeasurerOptions) => {
-  server.ext('onRequest', createStatsdClientLifecycleMethod(options));
-  server.ext('onPreResponse', statsdTimingLifecycleMethod());
+  server.ext('onPreResponse', statsdTimingLifecycleMethod(options));
 };
 
 export const hapiRequestMeasurer: hapi.Plugin<HapiRequestMeasurerOptions> = {

@@ -4,7 +4,6 @@ import {statsDMock} from '../../helpers/mocks/statsDMock';
 import {
   hapiRequestMeasurer,
   HapiRequestMeasurerOptions,
-  createStatsdClientLifecycleMethod,
   extractStatsDTagsFromRequest,
   statsdTimingLifecycleMethod,
 } from '../../../src/components/hapi/hapiRequestMeasurer';
@@ -22,23 +21,12 @@ describe('A hapiRequestMeasurer', () => {
     requestMock.app = {};
     requestMock.method = 'GET';
     requestMock.path = '/v0/product-lists/social-lists';
-    requestMock.response = <hapi.ResponseObject>{statusCode: 200};
+    requestMock.response = {statusCode: 200} as hapi.ResponseObject;
     requestMock.info = {} as hapi.RequestInfo & any;
   });
 
   it('should register lifecycle methods', () => {
     hapiRequestMeasurer.register(serverMock, optionsMock);
-  });
-
-  describe('The statsdAppStateLifecycleMethod', () => {
-    const onRequestLifecycleMethod = createStatsdClientLifecycleMethod(optionsMock);
-
-    it('should decorate the app lifecycle with a statsdClient', () => {
-      const appStateDecorationResult = onRequestLifecycleMethod(requestMock, hMock);
-
-      expect(requestMock.app.statsdClient).toBeDefined();
-      expect(appStateDecorationResult).toEqual(hMock.continue);
-    });
   });
 
   describe('The extractStatsDTagsFromRequest helper', () => {
@@ -64,7 +52,7 @@ describe('A hapiRequestMeasurer', () => {
   });
 
   describe('The statsdTimingLifecycleMethod', () => {
-    const onPreResponseLifecycleMethod = statsdTimingLifecycleMethod();
+    const onPreResponseLifecycleMethod = statsdTimingLifecycleMethod(optionsMock);
     const error = new Boom();
 
     beforeEach(() => {
