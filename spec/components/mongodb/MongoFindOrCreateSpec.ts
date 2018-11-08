@@ -24,6 +24,7 @@ describe('A MongoFindOrCreate', () => {
   });
 
   it('Should be able to create a document', async () => {
+    // tslint:disable-next-line:no-null-keyword
     mongoFindOneMock.execute = () => Promise.resolve(null);
 
     const document = await mongoFindOrCreate.execute();

@@ -52,7 +52,9 @@
         "callable-types": true,
         "class-name": true,
         "comment-format": {
-            "options": ["check-space"]
+            "options": [
+                "check-space"
+            ]
         },
         "curly": true,
         "cyclomatic-complexity": false,
@@ -72,7 +74,9 @@
             "LF"
         ],
         "max-classes-per-file": {
-            "options": [1]
+            "options": [
+                1
+            ]
         },
         "max-line-length": [
             true,
@@ -102,6 +106,7 @@
         "no-inferrable-types": false,
         "no-internal-module": true,
         "no-namespace": true,
+        "no-null-keyword": true,
         "no-parameter-properties": false,
         "no-reference": true,
         "no-string-literal": true,

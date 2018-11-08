@@ -24,7 +24,7 @@ export class Retryer {
   public async execute(): Promise<void> {
     if (await this.shouldAttempt()) {
       const attempt = this.backo.attempts + 1;
-      this.statsD.increment(this.retryable.measurePrefix + 'retries', 1, this.retryable.tags.concat('retryAttempt:' + attempt));
+      this.statsD.increment(`${this.retryable.measurePrefix}retries`, 1, this.retryable.tags.concat(`retryAttempt:${attempt}`));
 
       await this.wait(this.backo.duration());
 
