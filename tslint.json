@@ -180,6 +180,7 @@
         "no-unnecessary-local-variable": true,
         "no-unnecessary-override": true,
         "no-unnecessary-semicolons": true,
-        "promise-must-complete": true
+        "promise-must-complete": true,
+        "no-angle-bracket-type-assertion": true
     }
 }
