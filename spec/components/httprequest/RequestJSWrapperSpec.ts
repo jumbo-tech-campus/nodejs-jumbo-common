@@ -7,7 +7,7 @@ import {HTTPRequestResponse} from '../../../src/components/httprequest/HTTPReque
 describe('A RequestJSWrapper', () => {
   let domain  = 'http://mobileapi.unit-test-jumbo.com';
   let url     = 'v2/test/url';
-  let nockUrl = '/' + url;
+  let nockUrl = `/${url}`;
   let options = {
     url: `${domain}/${url}`,
   } as OptionsWithUrl;
@@ -138,7 +138,7 @@ describe('A RequestJSWrapper', () => {
 
     let result = await new RequestJSWrapper({
       baseUrl: domain,
-      url:     '/' + url,
+      url:     `/${url}`,
     }).execute();
 
     expect(result).toEqual({

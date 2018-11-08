@@ -15,14 +15,14 @@ export class AsyncMeasurer {
       const result = await measureable.execute();
 
       this.statsD.timing(
-        measureable.measurePrefix + 'duration',
+        `${measureable.measurePrefix}duration`,
         Date.now() - before,
         defaultTags.concat(measureable.tags, 'result:success'));
 
       return result;
     } catch (error) {
       this.statsD.timing(
-        measureable.measurePrefix + 'duration',
+        `${measureable.measurePrefix}duration`,
         Date.now() - before,
         defaultTags.concat(measureable.tags, 'result:failed'));
 
