@@ -14,7 +14,7 @@ describe('A HTTPRequestTelemetryFactory', () => {
   it('Should be able to create a HTTPRequestTelemetry', () => {
     const factory = new HTTPRequestTelemetryFactory(httpRequestFactoryMock, {} as Logger, {} as AsyncMeasurer);
 
-    const request = factory.create({baseUrl: 'http://localhost', url: 'url'});
+    const request = factory.create({url: 'url'});
 
     expect(request instanceof HTTPRequestTelemetry).toEqual(true);
   });
