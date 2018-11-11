@@ -22,10 +22,6 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
-    this.logger.debug({
-      options: super.options,
-    }, 'Request options');
-
     let response: HTTPRequestResponse;
 
     try {
@@ -33,10 +29,6 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
     } catch (error) {
       return this.handleError(error);
     }
-
-    this.logger.debug({
-      response: response,
-    }, 'Request response');
 
     return response;
   }

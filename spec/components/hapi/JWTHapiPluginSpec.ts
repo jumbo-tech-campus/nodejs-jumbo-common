@@ -2,7 +2,7 @@ import * as hapi from 'hapi';
 import {sign} from 'jsonwebtoken';
 import {createJWTUnpacker} from '../../../src/components/hapi/JWTHapiPlugin';
 import {loggerMock} from '../../helpers/mocks/loggerMock';
-import {JWTWrapper} from '../../../src/components/jwt/JWTWrapper';
+import {JWTWrapper} from '../../../src/components/JWTWrapper';
 
 describe('A Hapi JumboTokenPlugin', () => {
   const jwtWrapperMock          = {} as JWTWrapper;
