@@ -1,5 +1,5 @@
 import request from 'request-promise-native';
-import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
+import {HTTPRequest, HTTPRequestOptions, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestError} from './HTTPRequestError';
 import {HTTPRequestTimedoutError} from './HTTPRequestTimedoutError';
 
@@ -11,9 +11,9 @@ const baseRequest = request.defaults({
 });
 
 export class RequestJSWrapper implements HTTPRequest {
-  public readonly options: request.Options;
+  public readonly options: HTTPRequestOptions;
 
-  public constructor(options: request.Options) {
+  public constructor(options: HTTPRequestOptions) {
     this.options = options;
   }
 

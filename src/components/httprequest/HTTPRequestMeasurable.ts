@@ -1,4 +1,3 @@
-import {objectToTags} from '../statsd/objectToTags';
 import {Measurable} from '../statsd/Measurable';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
@@ -16,15 +15,29 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
   }
 
   public get tags(): string[] {
-    const options: Record<string, unknown> = JSON.parse(JSON.stringify(this.request.options));
-
-    delete options.body;
+    const tags: string[] = [
+      `url:${this.request.options.url}`,
+      `method:${this.request.options.method}`,
+      `baseurl:${this.request.options.baseUrl}`,
+    ];
 
     if (this.response) {
-      options.statusCode = this.response.statusCode;
+      tags.push(`statuscode:${this.response.statusCode}`);
+
+      if (this.response.statusCode >= 200 && this.response.statusCode < 300) {
+        tags.push(`result:success`);
+      } else if (this.response.statusCode >= 400 && this.response.statusCode < 500) {
+        tags.push(`result:badrequest`);
+      } else if (this.response.statusCode >= 500) {
+        tags.push(`result:internal`);
+      } else {
+        tags.push(`result:unknown`);
+      }
+    } else {
+      tags.push(`result:failed`);
     }
 
-    return objectToTags(options);
+    return tags;
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
