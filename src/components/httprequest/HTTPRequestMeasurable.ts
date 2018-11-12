@@ -9,17 +9,19 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
 
   public constructor(request: HTTPRequest) {
     super(request);
-    this.request = request;
+    this.request       = request;
     this.measurePrefix = 'httprequest.';
-
   }
 
   public get tags(): string[] {
     const tags: string[] = [
       `url:${this.request.options.url}`,
-      `method:${this.request.options.method}`,
-      `baseurl:${this.request.options.baseUrl}`,
+      `method:${this.request.options.method || 'get'}`,
     ];
+
+    if (this.request.options.baseUrl) {
+      tags.push(`baseurl:${this.request.options.baseUrl}`);
+    }
 
     if (this.response) {
       tags.push(`statuscode:${this.response.statusCode}`);
