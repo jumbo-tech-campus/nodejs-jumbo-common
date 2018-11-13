@@ -1,8 +1,7 @@
 import nock from 'nock';
-import {OptionsWithUrl} from 'request';
 import {asyncIt} from '../../helpers/JasmineHelper';
 import {RequestJSWrapper} from '../../../src/components/httprequest/RequestJSWrapper';
-import {HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
+import {HTTPRequestOptions, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 
 describe('A RequestJSWrapper', () => {
   let domain  = 'http://mobileapi.unit-test-jumbo.com';
@@ -10,7 +9,7 @@ describe('A RequestJSWrapper', () => {
   let nockUrl = `/${url}`;
   let options = {
     url: `${domain}/${url}`,
-  } as OptionsWithUrl;
+  } as HTTPRequestOptions;
 
   asyncIt('Can return a valid HTTPResponse', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});

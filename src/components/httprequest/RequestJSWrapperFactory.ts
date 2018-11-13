@@ -1,10 +1,9 @@
-import {HTTPRequest} from './HTTPRequest';
+import {HTTPRequest, HTTPRequestOptions} from './HTTPRequest';
 import {RequestJSWrapper} from './RequestJSWrapper';
-import * as request from 'request';
 import {HTTPRequestFactory} from './HTTPRequestFactory';
 
 export class RequestJSWrapperFactory implements HTTPRequestFactory {
-  public create(options: request.Options): HTTPRequest {
+  public create(options: HTTPRequestOptions): HTTPRequest {
     return new RequestJSWrapper(options);
   }
 }
