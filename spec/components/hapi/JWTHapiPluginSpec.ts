@@ -15,9 +15,7 @@ describe('A Hapi JumboTokenPlugin', () => {
   const hMock                   = {} as hapi.ResponseToolkit & any;
 
   beforeEach(() => {
-    requestMock.app       = {
-      logger: loggerMock,
-    };
+    requestMock.app       = {};
     requestMock.headers   = {
       'x-jumbo-token': sign({
         CustomerID: 'customerID',
