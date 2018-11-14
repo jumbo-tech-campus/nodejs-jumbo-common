@@ -6,25 +6,57 @@ describe('A MongoMeasurable', () => {
     constructor: {
       name: 'MongoQuery',
     },
-    options: {},
+    options:     {},
   } as MongoQuery<unknown>;
 
   const mongoMeasurable = new MongoMeasurable(mongoQueryMock);
 
-  it('Can create tags for a query', () => {
-    expect(mongoMeasurable.tags).toContain('result:notexecuted');
-    expect(mongoMeasurable.tags).toContain('type:MongoQuery');
+  describe('When executing succesfully', () => {
+    let result: unknown;
+    let tags: string[];
+
+    beforeEach(async () => {
+      mongoQueryMock.execute = () => Promise.resolve({});
+
+      result = await mongoMeasurable.execute();
+      tags   = mongoMeasurable.tags;
+    });
+
+    it('Has correct tags', () => {
+      expect(tags).toContain('result:success');
+      expect(tags).toContain('type:MongoQuery');
+    });
+
+    it('Can return the query options', () => {
+      expect(mongoMeasurable.options).toBe(mongoQueryMock.options);
+    });
+
+    it('Can return the mongoQuery result', async () => {
+      expect(result).toEqual({});
+    });
   });
 
-  it('Can return the query options', () => {
-    expect(mongoMeasurable.options).toBe(mongoQueryMock.options);
-  });
+  describe('When executing unsuccesfully', () => {
+    let error: unknown;
+    const throwError = new Error();
+    let tags: string[];
 
-  it('Can return the mongoQuery result', async () => {
-    mongoQueryMock.execute = () => Promise.resolve({});
+    beforeEach(async () => {
+      mongoQueryMock.execute = () => Promise.reject(throwError);
 
-    const result = await mongoMeasurable.execute();
+      await mongoMeasurable.execute().catch((e) => {
+        error = e;
+      });
+      tags = mongoMeasurable.tags;
+    });
 
-    expect(result).toEqual({});
+    it('Has correct tags', () => {
+      expect(tags).toContain('result:failed');
+      expect(tags).toContain('type:MongoQuery');
+    });
+
+    it('Throws the correct error', () => {
+      expect(error).toBe(throwError);
+    });
   });
 });

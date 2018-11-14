@@ -3,7 +3,7 @@ import Boom from 'boom';
 import Logger from 'bunyan';
 import uuidv4 from 'uuid/v4';
 
-export const catchUnhandledError = (logger: Logger) => (lifecycleMethod: hapi.Lifecycle.Method): hapi.Lifecycle.Method => async (request, h) => {
+export const catchAndLogError = (logger: Logger) => (lifecycleMethod: hapi.Lifecycle.Method): hapi.Lifecycle.Method => async (request, h) => {
   try {
     return await lifecycleMethod(request, h);
   } catch (error) {
