@@ -1,12 +1,17 @@
 import hapi from 'hapi';
 import Boom from 'boom';
+import Logger from 'bunyan';
+import uuidv4 from 'uuid/v4';
 
-export const catchUnhandledError = (lifecycleMethod: hapi.Lifecycle.Method): hapi.Lifecycle.Method => async (request, h) => {
+export const catchUnhandledError = (logger: Logger) => (lifecycleMethod: hapi.Lifecycle.Method): hapi.Lifecycle.Method => async (request, h) => {
   try {
     return await lifecycleMethod(request, h);
   } catch (error) {
     if (!Boom.isBoom(error)) {
-      request.app.logger.error({
+      const tid = uuidv4();
+
+      logger.error({
+        tid:     tid,
         request: {
           path:    request.path,
           method:  request.method,
@@ -15,9 +20,10 @@ export const catchUnhandledError = (lifecycleMethod: hapi.Lifecycle.Method): hap
           payload: request.payload,
         },
         error:   error,
-      }, 'Unhandled error in route');
+      }, 'Error in route');
 
-      throw Boom.internal();
+      error = Boom.internal();
+      error.output.headers['transaction-id'] = tid;
     }
 
     throw error;
