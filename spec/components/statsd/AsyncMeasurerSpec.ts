@@ -35,7 +35,7 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock, 'result:success'));
+        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
     });
   });
 
@@ -65,7 +65,7 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock, 'result:failed'));
+        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
     });
   });
 });

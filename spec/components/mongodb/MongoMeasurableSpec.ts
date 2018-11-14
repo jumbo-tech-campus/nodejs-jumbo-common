@@ -12,7 +12,8 @@ describe('A MongoMeasurable', () => {
   const mongoMeasurable = new MongoMeasurable(mongoQueryMock);
 
   it('Can create tags for a query', () => {
-    expect(mongoMeasurable.tags).toEqual(['type:MongoQuery']);
+    expect(mongoMeasurable.tags).toContain('result:success');
+    expect(mongoMeasurable.tags).toContain('type:MongoQuery');
   });
 
   it('Can return the query options', () => {

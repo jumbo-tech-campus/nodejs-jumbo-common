@@ -1,12 +1,6 @@
-import {
-  BunyanHapiTIDLoggerOptions,
-  bunyanTIDLogger,
-  createTIDLoggerLifecycleMethod,
-  tidErrorHandler,
-} from '../../../src/components/hapi/bunyanTIDLogger';
-import * as Logger from 'bunyan';
+import {BunyanHapiTIDLoggerOptions, bunyanTIDLogger, tidErrorHandler} from '../../../src/components/hapi/bunyanTIDLogger';
 import * as hapi from 'hapi';
-import Boom from 'boom';
+import {loggerMock} from '../../helpers/mocks/loggerMock';
 
 describe('A bunyanTIDLogger', () => {
   const serverMock  = {} as hapi.Server;
@@ -14,7 +8,7 @@ describe('A bunyanTIDLogger', () => {
   const hMock       = {} as hapi.ResponseToolkit & any;
 
   beforeEach(() => {
-    serverMock.ext = () => void 0;
+    serverMock.ext  = () => void 0;
     requestMock.app = {};
     hMock.continue  = Symbol('continue');
   });
@@ -23,42 +17,13 @@ describe('A bunyanTIDLogger', () => {
     bunyanTIDLogger.register(serverMock, {} as BunyanHapiTIDLoggerOptions);
   });
 
-  describe('The tidLoggerLifecycleMethod', () => {
-    const loggerMock = {} as Logger;
-
-    beforeEach(() => {
-      loggerMock.child = () => loggerMock;
-    });
-
-    const tidLoggerLifecycleMethod = createTIDLoggerLifecycleMethod({
-      logger: loggerMock,
-    });
-
-    it('Adds a logger and tid to the request object', () => {
-      const result = tidLoggerLifecycleMethod(requestMock, hMock);
-
-      expect(requestMock.app.logger).toBeDefined();
-      expect(requestMock.app.tid).toBeDefined();
-      expect(result).toEqual(hMock.continue);
-    });
-  });
-
   describe('The tidErrorHandler', () => {
     beforeEach(() => {
       requestMock.app.tid = '12345-sads-234';
     });
 
-    it('Can add tid to response on error', () => {
-      requestMock.response = Boom.badRequest('Bad request');
-
-      const result = tidErrorHandler(requestMock, hMock);
-
-      expect(result).toEqual(hMock.continue);
-      expect(requestMock.response.output.headers['x-transaction-id']).toEqual('12345-sads-234');
-    });
-
     it('Can continues with valid response', () => {
-      const result = tidErrorHandler(requestMock, hMock);
+      const result = tidErrorHandler(loggerMock)(requestMock, hMock);
 
       expect(result).toEqual(hMock.continue);
     });

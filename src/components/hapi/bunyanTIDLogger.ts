@@ -5,7 +5,6 @@ import Boom from 'boom';
 
 declare module 'hapi' {
   interface ApplicationState {
-    tid: string;
     logger: Logger;
   }
 }
@@ -14,20 +13,26 @@ export interface BunyanHapiTIDLoggerOptions {
   logger: Logger;
 }
 
-export const createTIDLoggerLifecycleMethod = (options: BunyanHapiTIDLoggerOptions): hapi.Lifecycle.Method => (request, h) => {
-  request.app.tid    = uuidv4();
-  request.app.logger = options.logger.child({
-    transactionID: request.app.tid,
-  });
-
-  return h.continue;
-};
-
-export const tidErrorHandler: hapi.Lifecycle.Method = (request, h) => {
+export const tidErrorHandler: (logger: Logger) => hapi.Lifecycle.Method = (logger) => (request, h) => {
   const response = request.response;
 
-  if (response instanceof Boom) {
-    response.output.headers['x-transaction-id'] = request.app.tid;
+  if (response instanceof Error && Boom.isBoom(response) && response.isServer) {
+    const tid = uuidv4();
+
+    response.output.headers['x-transaction-id'] = tid;
+
+    logger.error({
+      tid:     tid,
+      request: {
+        path:    request.path,
+        method:  request.method,
+        headers: request.headers,
+        query:   request.query,
+        payload: request.payload,
+      },
+      error:   response,
+      boom:    response.isBoom,
+    }, 'Error in request');
   }
 
   return h.continue;
@@ -36,7 +41,6 @@ export const tidErrorHandler: hapi.Lifecycle.Method = (request, h) => {
 export const bunyanTIDLogger: hapi.Plugin<BunyanHapiTIDLoggerOptions> = {
   name:     'logging',
   register: (server, options) => {
-    server.ext('onRequest', createTIDLoggerLifecycleMethod(options));
-    server.ext('onPreResponse', tidErrorHandler);
+    server.ext('onPreResponse', tidErrorHandler(options.logger));
   },
 };
