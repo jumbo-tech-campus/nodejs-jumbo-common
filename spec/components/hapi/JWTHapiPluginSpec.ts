@@ -9,20 +9,21 @@ describe('A Hapi JumboTokenPlugin', () => {
   const unpackerLifecycleMethod = createJWTUnpacker({
     jwtHeader:  'x-jumbo-token',
     jwtWrapper: jwtWrapperMock,
+    logger:     loggerMock,
   });
   const requestMock             = {} as hapi.Request & any;
   const hMock                   = {} as hapi.ResponseToolkit & any;
 
   beforeEach(() => {
-    requestMock.app     = {
+    requestMock.app       = {
       logger: loggerMock,
     };
-    requestMock.headers = {
+    requestMock.headers   = {
       'x-jumbo-token': sign({
         CustomerID: 'customerID',
       }, 'supersecret'),
     };
-    hMock.continue      = Symbol('continue');
+    hMock.continue        = Symbol('continue');
     jwtWrapperMock.verify = () => ({
       CustomerID: 'customerID',
     });

@@ -16,8 +16,7 @@ export class HTTPRequestRetryer extends HTTPRequestDecorator {
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
-    const retryer = this.retryerFactory.create(this.retryableRequest);
-    await retryer.execute();
+    await this.retryerFactory.create(this.retryableRequest).execute();
 
     return super.execute();
   }
