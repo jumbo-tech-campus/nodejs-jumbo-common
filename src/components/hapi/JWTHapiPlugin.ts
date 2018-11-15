@@ -1,6 +1,7 @@
 import * as hapi from 'hapi';
 import Boom from 'boom';
 import {JWTWrapper} from '../jwt/JWTWrapper';
+import Logger from 'bunyan';
 
 declare module 'hapi' {
   interface ApplicationState {
@@ -13,6 +14,7 @@ declare module 'hapi' {
 interface JWTHapiPluginOptions {
   jwtHeader: string;
   jwtWrapper: JWTWrapper;
+  logger: Logger;
 }
 
 export const createJWTUnpacker = (options: JWTHapiPluginOptions): hapi.Lifecycle.Method => (request, h) => {
@@ -26,7 +28,7 @@ export const createJWTUnpacker = (options: JWTHapiPluginOptions): hapi.Lifecycle
     try {
       decodedObject = options.jwtWrapper.verify(jwtHeaderValue);
     } catch (error) {
-      request.app.logger.error({
+      options.logger.error({
         error: error,
       }, 'Error while decoding JWT');
 
