@@ -3,7 +3,8 @@
         ".ts"
     ],
     "reporter": [
-        "html"
+        "html",
+        "text-summary"
     ],
     "include": "dist/src"
 }
