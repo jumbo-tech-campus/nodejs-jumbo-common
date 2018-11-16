@@ -20,7 +20,7 @@ describe('An AsyncMeasurer', () => {
     measurableMock.execute = () => Promise.resolve(resultMock);
   });
 
-  describe('When measuring a measurable', async () => {
+  describe('When measuring a measurable', () => {
     let result: any;
 
     beforeEach(async () => {
@@ -39,7 +39,7 @@ describe('An AsyncMeasurer', () => {
     });
   });
 
-  describe('When the measurable throws an error', async () => {
+  describe('When the measurable throws an error', () => {
     let result: any;
     let error = Error('Error');
 

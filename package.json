@@ -9,16 +9,16 @@
         "tslint:fix": "tslint --fix -c tslint.json -t verbose 'spec/**/*.ts' 'src/**/*.ts'",
         "ts": "tsc",
         "ts:watch": "tsc -w",
-        "test": "istanbul cover jasmine",
+        "test": "nyc jasmine",
         "start": "node dist/src/index.js",
         "build": "npm run ts && npm run test",
         "prets": "npm run clean; npm run tslint",
-        "prets:watch": "npm run clean; npm run tslint:fix",
-        "posttest": "remap-istanbul -i ./coverage/coverage-final.json -o ./coverage/report -t html"
+        "prets:watch": "npm run clean; npm run tslint:fix"
     },
     "author": "",
     "license": "MIT",
-    "dependencies": {},
+    "dependencies": {
+    },
     "devDependencies": {
         "@types/boom": "^7.2.1",
         "@types/bunyan": "^1.8.5",
@@ -34,11 +34,10 @@
         "backo": "^1.1.0",
         "boom": "^7.2.2",
         "hot-shots": "^5.9.2",
-        "istanbul": "^0.4.5",
         "jasmine": "^3.3.0",
         "jsonwebtoken": "^8.4.0",
         "nock": "^10.0.2",
-        "remap-istanbul": "^0.12.0",
+        "nyc": "^13.1.0",
         "request": "^2.88.0",
         "request-promise-native": "^1.0.5",
         "rimraf": "^2.6.2",
