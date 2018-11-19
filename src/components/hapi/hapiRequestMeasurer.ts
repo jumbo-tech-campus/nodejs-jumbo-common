@@ -12,6 +12,7 @@ export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] =>
   const response = request.response;
 
   tags.push(`method:${request.method}`);
+  tags.push(`path:${request.route.path}`);
 
   if (apiVersion) {
     tags.push(`apiVersion:${apiVersion}`);
