@@ -17,8 +17,7 @@
     },
     "author": "",
     "license": "MIT",
-    "dependencies": {
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/boom": "^7.2.1",
         "@types/bunyan": "^1.8.5",
@@ -35,6 +34,7 @@
         "boom": "^7.2.2",
         "hot-shots": "^5.9.2",
         "jasmine": "^3.3.0",
+        "joi": "^14.0.6",
         "jsonwebtoken": "^8.4.0",
         "nock": "^10.0.2",
         "nyc": "^13.1.0",
