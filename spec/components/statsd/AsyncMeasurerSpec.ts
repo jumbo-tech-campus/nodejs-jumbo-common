@@ -5,10 +5,10 @@ import {StatsD} from 'hot-shots';
 describe('An AsyncMeasurer', () => {
   let tagsMock: string[] = ['test:test'];
   let measurableMock: Measurable<any>;
-  const statsDMock     = {} as StatsD;
-  statsDMock.timing    = () => void 0;
-  const resultMock     = {};
-  const defaultTags = ['default:tag', 'statsd:tag'];
+  const statsDMock       = {} as StatsD;
+  statsDMock.timing      = () => void 0;
+  const resultMock       = {};
+  const defaultTags      = ['default:tag', 'statsd:tag'];
 
   const asyncMeasurer = new AsyncMeasurer(statsDMock);
 
@@ -20,7 +20,7 @@ describe('An AsyncMeasurer', () => {
     measurableMock.execute = () => Promise.resolve(resultMock);
   });
 
-  describe('When measuring a measurable', () => {
+  describe('Measuring a measurable', () => {
     let result: any;
 
     beforeEach(async () => {
@@ -29,17 +29,36 @@ describe('An AsyncMeasurer', () => {
       result = await asyncMeasurer.measure(measurableMock, defaultTags);
     });
 
-    it('Has the correct result', () => {
+    it('Returns the measurable result', () => {
       expect(result).toEqual(resultMock);
     });
 
-    it('Timing has been called on statsd client', () => {
+    it('Measured the measurable', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
         jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
     });
   });
 
-  describe('When the measurable throws an error', () => {
+  describe('Measuring a measurable without default tags', () => {
+    let result: any;
+
+    beforeEach(async () => {
+      spyOn(statsDMock, 'timing');
+
+      result = await asyncMeasurer.measure(measurableMock);
+    });
+
+    it('Returns the measurable result', () => {
+      expect(result).toEqual(resultMock);
+    });
+
+    it('Measured the measurable', () => {
+      expect(statsDMock.timing).toHaveBeenCalledWith(
+        jasmine.any(String), jasmine.any(Number), tagsMock);
+    });
+  });
+
+  describe('Throwing an error', () => {
     let result: any;
     let error = Error('Error');
 
@@ -59,11 +78,11 @@ describe('An AsyncMeasurer', () => {
       fail();
     });
 
-    it('Has the correct result', () => {
+    it('Throws the correct error', () => {
       expect(result).toEqual(error);
     });
 
-    it('Timing has been called on statsd client', () => {
+    it('Measured the measurable', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
         jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
     });

@@ -43,6 +43,7 @@ export const createJWTUnpacker = (options: JWTHapiPluginOptions): hapi.Lifecycle
   return h.continue;
 };
 
+/* istanbul ignore next */
 export const jwtHapiPlugin: hapi.Plugin<JWTHapiPluginOptions> = {
   name:     'jwt-plugin',
   register: (server, options) => server.ext('onRequest', createJWTUnpacker(options)),

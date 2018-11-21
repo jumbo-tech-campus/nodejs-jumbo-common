@@ -1,6 +1,6 @@
 import * as hapi from 'hapi';
-import Boom from 'boom';
 import {StatsD} from 'hot-shots';
+import {statuscodeToResultTag} from '../statuscodeToResultTag';
 
 export interface HapiRequestMeasurerOptions {
   statsdClient: StatsD;
@@ -8,22 +8,31 @@ export interface HapiRequestMeasurerOptions {
 
 export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] => {
   let tags: string[] = [];
-  const apiVersion = request.path.split('/')[1];
-  const response = request.response;
+  const apiVersion   = request.path.split('/')[1];
+  const response     = request.response;
 
   tags.push(`method:${request.method}`);
   tags.push(`path:${request.route.path}`);
 
   if (apiVersion) {
-    tags.push(`apiVersion:${apiVersion}`);
+    tags.push(`apiversion:${apiVersion}`);
   }
 
-  if (response instanceof Boom) {
-    tags.push(`error:${(response as Boom).name}`);
-    tags.push(`statusCode:${(response as Boom).output.statusCode}`);
-  } else {
-    tags.push(`statusCode:${(response as hapi.ResponseObject).statusCode}`);
+  if (!response) {
+    return tags.concat('result:failed');
   }
+
+  let statusCode: number;
+
+  if (response instanceof Error) {
+    tags.push(`error:${response.name}`);
+    statusCode = response.output.statusCode;
+  } else {
+    statusCode = response.statusCode;
+  }
+
+  tags.push(`statuscode:${statusCode}`);
+  tags.push(`result:${statuscodeToResultTag(statusCode)}`);
 
   return tags;
 };
@@ -42,6 +51,6 @@ const lifecycleRegistration = (server: hapi.Server, options: HapiRequestMeasurer
 };
 
 export const hapiRequestMeasurer: hapi.Plugin<HapiRequestMeasurerOptions> = {
-  name: 'hapi-request-measurer',
+  name:     'hapi-request-measurer',
   register: lifecycleRegistration,
 };

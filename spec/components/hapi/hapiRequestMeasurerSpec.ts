@@ -35,8 +35,9 @@ describe('A hapiRequestMeasurer', () => {
       expect(tags).toEqual([
         'method:GET',
         'path:/products',
-        'apiVersion:v0',
-        'statusCode:200',
+        'apiversion:v0',
+        'statuscode:200',
+        'result:success',
       ]);
     });
 
@@ -47,7 +48,8 @@ describe('A hapiRequestMeasurer', () => {
       expect(tags).toEqual([
         'method:GET',
         'path:/products',
-        'statusCode:200',
+        'statuscode:200',
+        'result:success',
       ]);
     });
   });
@@ -58,30 +60,47 @@ describe('A hapiRequestMeasurer', () => {
 
     beforeEach(() => {
       requestMock.info.received = Date.now();
-      requestMock.app           = {statsdClient: statsDMock};
       error.name                = 'Foo';
     });
 
-    it('should time requests with correct tags', (done) => {
-      spyOn(requestMock.app.statsdClient, 'timing');
+    it('should time requests with correct tags', () => {
+      spyOn(statsDMock, 'timing');
+
       onPreResponseLifecycleMethod(requestMock, hMock);
-      expect((requestMock.app.statsdClient.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
+
+      expect((statsDMock.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
         jasmine.any(String),
         jasmine.any(Number),
-        ['method:GET', 'path:/products', 'apiVersion:v0', 'statusCode:200']]);
-      done();
+        ['method:GET', 'path:/products', 'apiversion:v0', 'statuscode:200', 'result:success']]);
     });
 
-    it('should add an errorname tag on error', (done) => {
+    it('should add an errorname tag on error', () => {
       requestMock.response = error;
+      spyOn(statsDMock, 'timing');
 
-      spyOn(requestMock.app.statsdClient, 'timing');
       onPreResponseLifecycleMethod(requestMock, hMock);
-      expect((requestMock.app.statsdClient.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
+
+      expect((statsDMock.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
         jasmine.any(String),
         jasmine.any(Number),
-        ['method:GET', 'path:/products', 'apiVersion:v0', 'error:Foo', 'statusCode:500']]);
-      done();
+        ['method:GET', 'path:/products', 'apiversion:v0', 'error:Foo', 'statuscode:500', 'result:internal']]);
+    });
+  });
+
+  describe('Executing without a response', () => {
+    beforeEach(() => {
+      spyOn(statsDMock, 'timing');
+      const onPreResponseLifecycleMethod = statsdTimingLifecycleMethod(optionsMock);
+      delete requestMock.response;
+      onPreResponseLifecycleMethod(requestMock, hMock);
+    });
+
+    it('Returns a failed tag', () => {
+      expect((statsDMock.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
+        jasmine.any(String),
+        jasmine.any(Number),
+        ['method:GET', 'path:/products', 'apiversion:v0', 'result:failed'],
+      ]);
     });
   });
 });

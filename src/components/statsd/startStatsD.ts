@@ -8,6 +8,7 @@ export const startStatsD = (logger: Logger, host: string, port: number, prefix: 
     prefix: prefix,
   }) as StatsD;
 
+  /* istanbul ignore next */
   client.socket.on('error', (error) => {
     logger.error({
       error: error,
