@@ -20,6 +20,7 @@ export interface HapiConfiguration {
 }
 
 export class HapiWrapper {
+  private readonly server: hapi.Server;
   private readonly logger: Logger;
   private readonly statsD: StatsD;
   private readonly config: HapiConfiguration;
@@ -28,10 +29,32 @@ export class HapiWrapper {
     this.logger = logger;
     this.statsD = statsD;
     this.config = config;
+    this.server = this.createServer();
   }
 
   public async start(): Promise<hapi.Server> {
-    const server = new hapi.Server({
+    await this.registerDefaultPlugins();
+
+    try {
+      await this.server.start();
+    } catch (error) {
+      this.logger.error({
+        error: error,
+      }, 'Error starting Hapi');
+
+      throw error;
+    }
+
+    this.logger.info({
+      host: this.config.server,
+      port: this.config.port,
+    }, 'Service started');
+
+    return this.server;
+  }
+
+  private createServer(): hapi.Server {
+    return new hapi.Server({
       address: this.config.server,
       port:    this.config.port,
       routes:  {
@@ -56,8 +79,10 @@ export class HapiWrapper {
         },
       },
     });
+  }
 
-    await server.register([
+  private async registerDefaultPlugins(): Promise<void> {
+    await this.server.register([
       {
         plugin:  hapiSwagger,
         options: {
@@ -79,23 +104,6 @@ export class HapiWrapper {
       },
     ]);
 
-    await server.register([inert, vision]);
-
-    try {
-      await server.start();
-    } catch (error) {
-      this.logger.error({
-        error: error,
-      }, 'Error starting Hapi');
-
-      throw error;
-    }
-
-    this.logger.info({
-      host: this.config.server,
-      port: this.config.port,
-    }, 'Service started');
-
-    return server;
+    await this.server.register([inert, vision]);
   }
 }
