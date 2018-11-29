@@ -3,10 +3,10 @@ import {MongoQuery} from './MongoQuery';
 
 export class MongoUpdate<T extends mongoose.Document> implements MongoQuery<T | null> {
   public readonly options: Partial<T>;
-  public readonly document: Partial<T>;
+  public readonly document: any;
   private readonly model: mongoose.Model<T>;
 
-  public constructor(options: Partial<T>, document: Partial<T>, model: mongoose.Model<T>) {
+  public constructor(options: Partial<T>, document: any, model: mongoose.Model<T>) {
     this.options       = options;
     this.document      = document;
     this.model         = model;
