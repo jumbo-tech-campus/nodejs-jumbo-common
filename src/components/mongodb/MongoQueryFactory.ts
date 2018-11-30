@@ -45,7 +45,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoUpdateMany(updateOptions, updateDocument, this.model));
   }
 
-  public createRemove(removeOptions: Partial<T>): MongoQuery<void> {
+  public createRemove(removeOptions: Partial<T>): MongoQuery<T | null> {
     return this.createTelemetry(new MongoRemove(removeOptions, this.model));
   }
 
