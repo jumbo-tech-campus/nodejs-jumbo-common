@@ -20,7 +20,7 @@ export interface JumboHapiConfiguration {
 }
 
 export class JumboHapiServer {
-  private readonly server: hapi.Server;
+  public readonly server: hapi.Server;
   private readonly logger: Logger;
   private readonly statsD: StatsD;
   private readonly config: JumboHapiConfiguration;
@@ -40,7 +40,7 @@ export class JumboHapiServer {
     this.server = this.createServer();
   }
 
-  public async start(): Promise<hapi.Server> {
+  public async start(): Promise<void> {
     await this.registerHapiPlugins();
 
     try {
@@ -57,8 +57,6 @@ export class JumboHapiServer {
       host: this.config.server,
       port: this.config.port,
     }, 'Service started');
-
-    return this.server;
   }
 
   private createServer(): hapi.Server {
