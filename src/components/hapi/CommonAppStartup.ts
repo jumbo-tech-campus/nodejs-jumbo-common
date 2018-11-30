@@ -19,7 +19,7 @@ export interface HapiConfiguration {
   appVersion: string;
 }
 
-export class HapiWrapper {
+export class CommonAppStartup {
   private readonly server: hapi.Server;
   private readonly logger: Logger;
   private readonly statsD: StatsD;
@@ -29,6 +29,9 @@ export class HapiWrapper {
     this.logger = logger;
     this.statsD = statsD;
     this.config = config;
+
+    this.listenToUnhandledExceptions();
+
     this.server = this.createServer();
   }
 
@@ -105,5 +108,15 @@ export class HapiWrapper {
     ]);
 
     await this.server.register([inert, vision]);
+  }
+
+  private listenToUnhandledExceptions(): void {
+    process.on('unhandledRejection', (reason: Error, p: any) => {
+      throw reason;
+    });
+
+    process.on('uncaughtException', (err: any): void => {
+      this.logger.error({error: err}, 'Unhandled Exception');
+    });
   }
 }
