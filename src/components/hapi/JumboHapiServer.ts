@@ -9,7 +9,7 @@ import {hapiRequestMeasurer} from './hapiRequestMeasurer';
 
 const hapiSwagger = require('hapi-swagger');
 
-export interface HapiConfiguration {
+export interface JumboHapiConfiguration {
   fqdn: string;
   server: string;
   port: string;
@@ -19,16 +19,21 @@ export interface HapiConfiguration {
   appVersion: string;
 }
 
-export class CommonAppStartup {
+export class JumboHapiServer {
   private readonly server: hapi.Server;
   private readonly logger: Logger;
   private readonly statsD: StatsD;
-  private readonly config: HapiConfiguration;
+  private readonly config: JumboHapiConfiguration;
+  private readonly plugins: hapi.ServerRegisterPluginObject<unknown>[];
 
-  public constructor(logger: Logger, statsD: StatsD, config: HapiConfiguration) {
-    this.logger = logger;
-    this.statsD = statsD;
-    this.config = config;
+  public constructor(logger: Logger,
+                     statsD: StatsD,
+                     config: JumboHapiConfiguration,
+                     plugins: hapi.ServerRegisterPluginObject<unknown>[] = []) {
+    this.logger  = logger;
+    this.statsD  = statsD;
+    this.config  = config;
+    this.plugins = plugins;
 
     this.listenToUnhandledExceptions();
 
@@ -36,7 +41,7 @@ export class CommonAppStartup {
   }
 
   public async start(): Promise<hapi.Server> {
-    await this.registerDefaultPlugins();
+    await this.registerHapiPlugins();
 
     try {
       await this.server.start();
@@ -84,7 +89,7 @@ export class CommonAppStartup {
     });
   }
 
-  private async registerDefaultPlugins(): Promise<void> {
+  private async registerHapiPlugins(): Promise<void> {
     await this.server.register([
       {
         plugin:  hapiSwagger,
@@ -108,10 +113,14 @@ export class CommonAppStartup {
     ]);
 
     await this.server.register([inert, vision]);
+
+    if (this.plugins.length > 0) {
+      await this.server.register(this.plugins);
+    }
   }
 
   private listenToUnhandledExceptions(): void {
-    process.on('unhandledRejection', (reason: Error, p: any) => {
+    process.on('unhandledRejection', (reason, p) => {
       throw reason;
     });
 
