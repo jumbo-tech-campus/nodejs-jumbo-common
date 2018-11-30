@@ -37,7 +37,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoCreate(createOptions, this.model));
   }
 
-  public createUpdate(updateOptions: Partial<T>, updateDocument: Partial<T>): MongoQuery<T | null> {
+  public createUpdate(updateOptions: Partial<T>, updateDocument: any): MongoQuery<T | null> {
     return this.createTelemetry(new MongoUpdate(updateOptions, updateDocument, this.model));
   }
 
