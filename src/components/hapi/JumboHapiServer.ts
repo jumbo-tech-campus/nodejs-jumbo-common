@@ -24,12 +24,12 @@ export class JumboHapiServer {
   private readonly logger: Logger;
   private readonly statsD: StatsD;
   private readonly config: JumboHapiConfiguration;
-  private readonly plugins: hapi.ServerRegisterPluginObject<unknown>[];
+  private readonly plugins: hapi.ServerRegisterPluginObject<any>[];
 
   public constructor(logger: Logger,
                      statsD: StatsD,
                      config: JumboHapiConfiguration,
-                     plugins: hapi.ServerRegisterPluginObject<unknown>[] = []) {
+                     plugins: hapi.ServerRegisterPluginObject<any>[] = []) {
     this.logger  = logger;
     this.statsD  = statsD;
     this.config  = config;
