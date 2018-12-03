@@ -12,7 +12,21 @@ describe('A MongoRemove', () => {
     });
   });
 
-  it('Can remove a document', async () => {
-    await mongoRemove.execute();
+  describe('Document does not exist', () => {
+    it('Returns undefined', async () => {
+      expect(await mongoRemove.execute()).toBeUndefined();
+    });
+  });
+
+  describe('Document exists', () => {
+    beforeEach(() => {
+      modelMock.findOneAndRemove = () => ({
+        exec: () => Promise.resolve({}),
+      });
+    });
+
+    it('Returns document', async () => {
+      expect(await mongoRemove.execute()).toEqual({} as mongoose.Document);
+    });
   });
 });
