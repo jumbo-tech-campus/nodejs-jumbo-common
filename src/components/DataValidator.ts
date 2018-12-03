@@ -10,7 +10,7 @@ export class DataValidator<T = any> {
     this.logger = logger;
   }
 
-  public validate(data: unknown): data is T {
+  public validate(data: unknown): T {
     const result = this.schema.validate(data);
     if (result.error) {
       this.logger.error({
@@ -21,6 +21,6 @@ export class DataValidator<T = any> {
       throw result.error;
     }
 
-    return true;
+    return data as T;
   }
 }
