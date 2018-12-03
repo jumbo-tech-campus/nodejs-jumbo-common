@@ -125,7 +125,7 @@ export class JumboHapiServer {
     process.on('uncaughtException', (err) => {
       this.logger.error({error: err}, 'Unhandled Exception');
 
-      setTimeout(() => process.exit(), 50);
+      setTimeout(() => process.exit(1), 50);
     });
   }
 }
