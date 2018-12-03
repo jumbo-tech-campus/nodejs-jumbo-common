@@ -10,16 +10,17 @@ export class DataValidator {
     this.logger = logger;
   }
 
-  public async validate(data: unknown): Promise<void> {
-    try {
-      await joi.validate(data, this.schema);
-    } catch (error) {
+  public validate<T = any>(data: unknown): data is T {
+    const result = this.schema.validate(data);
+    if (result.error) {
       this.logger.error({
         data:  data,
-        error: error,
+        error: result.error,
       }, 'Data Validation Error');
 
-      throw error;
+      throw result.error;
     }
+
+    return true;
   }
 }

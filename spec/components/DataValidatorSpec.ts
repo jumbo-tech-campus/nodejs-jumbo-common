@@ -7,16 +7,14 @@ describe('A DataValidator', () => {
   const dataValidator = new DataValidator(loggerMock, joiSchema);
 
   it('Can validate data', async () => {
-    await dataValidator.validate('valid string').catch(() => {
-      fail('Should not throw an error');
-    });
+    dataValidator.validate('valid string');
   });
 
   it('Can fail a validation', async () => {
     let error: Error;
 
     try {
-      await dataValidator.validate({});
+      dataValidator.validate({});
     } catch (e) {
       error = e;
     }
