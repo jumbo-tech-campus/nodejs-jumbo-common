@@ -6,11 +6,11 @@ describe('A DataValidator', () => {
   const joiSchema = joi.string().required();
   const dataValidator = new DataValidator(loggerMock, joiSchema);
 
-  it('Can validate data', async () => {
+  it('Can validate data', () => {
     dataValidator.validate('valid string');
   });
 
-  it('Can fail a validation', async () => {
+  it('Can fail a validation', () => {
     let error: Error;
 
     try {
