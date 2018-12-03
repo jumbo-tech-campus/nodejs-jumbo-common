@@ -4,7 +4,7 @@ import {loggerMock} from '../helpers/mocks/loggerMock';
 
 describe('A DataValidator', () => {
   const joiSchema = joi.string().required();
-  const dataValidator = new DataValidator(loggerMock, joiSchema);
+  const dataValidator = new DataValidator<string>(loggerMock, joiSchema);
 
   it('Can validate data', () => {
     expect(dataValidator.validate('valid string')).toEqual(true);
