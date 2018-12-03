@@ -29,7 +29,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoFind(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
-  public createFindOne(findOptions: Partial<T>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T | null> {
+  public createFindOne(findOptions: Partial<T>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T | undefined> {
     return this.createTelemetry(new MongoFindOne(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
@@ -37,7 +37,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoCreate(createOptions, this.model));
   }
 
-  public createUpdate(updateOptions: Partial<T>, updateDocument: any): MongoQuery<T | null> {
+  public createUpdate(updateOptions: Partial<T>, updateDocument: any): MongoQuery<T | undefined> {
     return this.createTelemetry(new MongoUpdate(updateOptions, updateDocument, this.model));
   }
 

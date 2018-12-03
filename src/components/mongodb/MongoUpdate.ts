@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import {MongoQuery} from './MongoQuery';
 
-export class MongoUpdate<T extends mongoose.Document> implements MongoQuery<T | null> {
+export class MongoUpdate<T extends mongoose.Document> implements MongoQuery<T | undefined> {
   public readonly options: Partial<T>;
   public readonly document: any;
   private readonly model: mongoose.Model<T>;
@@ -12,7 +12,12 @@ export class MongoUpdate<T extends mongoose.Document> implements MongoQuery<T | 
     this.model         = model;
   }
 
-  public execute(): Promise<T | null> {
-    return this.model.findOneAndUpdate(this.options, this.document).exec();
+  public async execute(): Promise<T | undefined> {
+    const document = await this.model.findOneAndUpdate(this.options, this.document).exec();
+    if (!document) {
+      return;
+    }
+
+    return document;
   }
 }
