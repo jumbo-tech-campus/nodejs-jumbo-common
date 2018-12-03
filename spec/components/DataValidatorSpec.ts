@@ -7,7 +7,7 @@ describe('A DataValidator', () => {
   const dataValidator = new DataValidator(loggerMock, joiSchema);
 
   it('Can validate data', () => {
-    dataValidator.validate('valid string');
+    expect(dataValidator.validate('valid string')).toEqual(true);
   });
 
   it('Can fail a validation', () => {
