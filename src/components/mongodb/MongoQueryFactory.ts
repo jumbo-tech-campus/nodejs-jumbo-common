@@ -13,6 +13,7 @@ import {MongoFindOrCreate} from './MongoFindOrCreate';
 import {MongoUpdateMany} from './MongoUpdateMany';
 import {MongoCount} from './MongoCount';
 import {MongoMeasurable} from './MongoMeasurable';
+import {MongoRemoveMany} from './MongoRemoveMultiple';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly logger: Logger;
@@ -47,6 +48,10 @@ export class MongoQueryFactory<T extends mongoose.Document> {
 
   public createRemove(removeOptions: Partial<T>): MongoQuery<void> {
     return this.createTelemetry(new MongoRemove(removeOptions, this.model));
+  }
+
+  public createRemoveMany(removeOptions: any): MongoQuery<void> {
+    return this.createTelemetry(new MongoRemoveMany(removeOptions, this.model));
   }
 
   public createCount(options: Partial<T>): MongoQuery<number> {
