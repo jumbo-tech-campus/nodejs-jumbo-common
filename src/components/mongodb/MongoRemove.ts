@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import {MongoQuery} from './MongoQuery';
 
-export class MongoRemove<T extends mongoose.Document> implements MongoQuery<void> {
+export class MongoRemove<T extends mongoose.Document> implements MongoQuery<T | undefined> {
   public readonly options: Partial<T>;
   private readonly model: mongoose.Model<T>;
 
@@ -10,7 +10,12 @@ export class MongoRemove<T extends mongoose.Document> implements MongoQuery<void
     this.model         = model;
   }
 
-  public async execute(): Promise<void> {
-    await this.model.findOneAndRemove(this.options).exec();
+  public async execute(): Promise<T | undefined> {
+    const document = await this.model.findOneAndRemove(this.options).exec();
+    if (!document) {
+      return;
+    }
+
+    return document;
   }
 }
