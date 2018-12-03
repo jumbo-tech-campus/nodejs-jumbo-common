@@ -49,7 +49,7 @@ describe('A MongoQueryFactory', () => {
     expect(mongoRemove instanceof MongoQueryTelemetry).toEqual(true);
   });
 
-  it('Should be able to create MongoRemove', () => {
+  it('Should be able to create MongoRemoveMany', () => {
     const mongoRemoveMany = mongoQueryFactory.createRemoveMany({});
 
     expect(mongoRemoveMany instanceof MongoQueryTelemetry).toEqual(true);
