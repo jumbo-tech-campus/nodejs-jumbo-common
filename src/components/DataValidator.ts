@@ -1,7 +1,7 @@
 import joi from 'joi';
 import * as Logger from 'bunyan';
 
-export class DataValidator {
+export class DataValidator<T = any> {
   private readonly logger: Logger;
   private readonly schema: joi.Schema;
 
@@ -10,7 +10,7 @@ export class DataValidator {
     this.logger = logger;
   }
 
-  public validate<T = any>(data: unknown): data is T {
+  public validate(data: unknown): data is T {
     const result = this.schema.validate(data);
     if (result.error) {
       this.logger.error({
