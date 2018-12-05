@@ -35,8 +35,6 @@ export class JumboHapiServer {
     this.config  = config;
     this.plugins = plugins;
 
-    this.listenToUnhandledExceptions();
-
     this.server = this.createServer();
   }
 
@@ -115,17 +113,5 @@ export class JumboHapiServer {
     if (this.plugins.length > 0) {
       await this.server.register(this.plugins);
     }
-  }
-
-  private listenToUnhandledExceptions(): void {
-    process.on('unhandledRejection', (reason, p) => {
-      throw reason;
-    });
-
-    process.on('uncaughtException', (err) => {
-      this.logger.error({error: err}, 'Unhandled Exception');
-
-      setTimeout(() => process.exit(1), 50);
-    });
   }
 }
