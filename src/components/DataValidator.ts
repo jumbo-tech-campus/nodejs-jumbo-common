@@ -21,7 +21,7 @@ export class DataValidator<T = any> {
         error: result.error,
       }, 'Data Validation Error');
 
-      this.statsD.increment('data_validation');
+      this.statsD.increment('data_validation_error');
 
       throw result.error;
     }
