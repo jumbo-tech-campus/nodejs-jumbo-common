@@ -1,10 +1,13 @@
 import joi from 'joi';
 import {DataValidator} from '../../src/components/DataValidator';
 import {loggerMock} from '../helpers/mocks/loggerMock';
+import {StatsD} from 'hot-shots';
 
 describe('A DataValidator', () => {
-  const joiSchema = joi.string().required();
-  const dataValidator = new DataValidator<string>(loggerMock, joiSchema);
+  const statsDMock    = {} as StatsD;
+  statsDMock.increment = () => undefined;
+  const joiSchema     = joi.string().required();
+  const dataValidator = new DataValidator<string>(loggerMock, statsDMock, joiSchema);
 
   it('Can validate data', () => {
     expect(dataValidator.validate('valid string')).toEqual('valid string');
