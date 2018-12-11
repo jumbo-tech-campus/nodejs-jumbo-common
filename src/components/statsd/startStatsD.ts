@@ -7,6 +7,7 @@ export const startStatsD = (logger: Logger, host: string, port: number, prefix: 
     port:       port,
     prefix:     prefix,
     globalTags: globalTags,
+    cacheDns:   true,
   }) as StatsD;
 
   client.socket.on('error', (error) => {
