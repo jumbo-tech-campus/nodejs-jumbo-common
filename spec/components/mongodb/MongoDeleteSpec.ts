@@ -1,13 +1,13 @@
-import {MongoRemove} from '../../../src/components/mongodb/MongoRemove';
+import {MongoDelete} from '../../../src/components/mongodb/MongoDelete';
 import * as mongoose from 'mongoose';
 
-describe('A MongoRemove', () => {
+describe('A MongoDelete', () => {
   const modelMock = {} as mongoose.Model<mongoose.Document> & any;
 
-  const mongoRemove = new MongoRemove({}, modelMock);
+  const mongoRemove = new MongoDelete({}, modelMock);
 
   beforeEach(() => {
-    modelMock.findOneAndRemove = () => ({
+    modelMock.findOneAndDelete = () => ({
       exec: () => Promise.resolve(void 0),
     });
   });
@@ -20,7 +20,7 @@ describe('A MongoRemove', () => {
 
   describe('Document exists', () => {
     beforeEach(() => {
-      modelMock.findOneAndRemove = () => ({
+      modelMock.findOneAndDelete = () => ({
         exec: () => Promise.resolve({}),
       });
     });

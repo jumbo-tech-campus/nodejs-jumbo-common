@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import {MongoQuery} from './MongoQuery';
 
-export class MongoRemoveMany<T extends mongoose.Document> implements MongoQuery<void> {
+export class MongoDeleteMany<T extends mongoose.Document> implements MongoQuery<void> {
   public readonly options: any;
   private readonly model: mongoose.Model<T>;
 

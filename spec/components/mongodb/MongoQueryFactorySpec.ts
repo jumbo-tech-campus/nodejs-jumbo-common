@@ -43,14 +43,14 @@ describe('A MongoQueryFactory', () => {
     expect(mongoUpdateMany instanceof MongoQueryTelemetry).toEqual(true);
   });
 
-  it('Should be able to create MongoRemove', () => {
-    const mongoRemove = mongoQueryFactory.createRemove({});
+  it('Should be able to create MongoDelete', () => {
+    const mongoRemove = mongoQueryFactory.createDelete({});
 
     expect(mongoRemove instanceof MongoQueryTelemetry).toEqual(true);
   });
 
-  it('Should be able to create MongoRemoveMany', () => {
-    const mongoRemoveMany = mongoQueryFactory.createRemoveMany({});
+  it('Should be able to create MongoDeleteMany', () => {
+    const mongoRemoveMany = mongoQueryFactory.createDeleteMany({});
 
     expect(mongoRemoveMany instanceof MongoQueryTelemetry).toEqual(true);
   });
