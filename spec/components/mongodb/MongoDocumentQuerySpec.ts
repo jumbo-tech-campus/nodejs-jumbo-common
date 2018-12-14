@@ -1,5 +1,5 @@
 import {MongoDocumentQuery} from '../../../src/components/mongodb/MongoDocumentQuery';
-import {DocumentQuery} from 'mongoose';
+import {DocumentQuery, mongo} from 'mongoose';
 
 describe('A MongoDocumentQuery', () => {
   const mongoDocumentMock = {} as DocumentQuery<any, any>;
@@ -10,6 +10,8 @@ describe('A MongoDocumentQuery', () => {
     mongoDocumentMock.sort     = () => mongoDocumentMock;
     mongoDocumentMock.select   = () => mongoDocumentMock;
     mongoDocumentMock.exec     = () => Promise.resolve(validResult);
+    mongoDocumentMock.limit    = () => mongoDocumentMock;
+    mongoDocumentMock.skip     = () => mongoDocumentMock;
   });
 
   it('Can execute a DocumentQuery without any options', async () => {
@@ -27,6 +29,8 @@ describe('A MongoDocumentQuery', () => {
       },
       sort:     [],
       select:   'something',
+      count:    5,
+      offset:   5,
     });
 
     const result = await mongoDocumentQuery.execute(mongoDocumentMock);
