@@ -8,12 +8,12 @@ import {MongoCreate} from './MongoCreate';
 import * as Logger from 'bunyan';
 import {MongoUpdate} from './MongoUpdate';
 import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
-import {MongoRemove} from './MongoRemove';
+import {MongoDelete} from './MongoDelete';
 import {MongoFindOrCreate} from './MongoFindOrCreate';
 import {MongoUpdateMany} from './MongoUpdateMany';
 import {MongoCount} from './MongoCount';
 import {MongoMeasurable} from './MongoMeasurable';
-import {MongoRemoveMany} from './MongoRemoveMultiple';
+import {MongoDeleteMany} from './MongoRemoveMultiple';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly logger: Logger;
@@ -46,12 +46,12 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoUpdateMany(updateOptions, updateDocument, this.model));
   }
 
-  public createRemove(removeOptions: Partial<T>): MongoQuery<T | undefined> {
-    return this.createTelemetry(new MongoRemove(removeOptions, this.model));
+  public createDelete(removeOptions: Partial<T>): MongoQuery<T | undefined> {
+    return this.createTelemetry(new MongoDelete(removeOptions, this.model));
   }
 
-  public createRemoveMany(removeOptions: any): MongoQuery<void> {
-    return this.createTelemetry(new MongoRemoveMany(removeOptions, this.model));
+  public createDeleteMany(removeOptions: any): MongoQuery<void> {
+    return this.createTelemetry(new MongoDeleteMany(removeOptions, this.model));
   }
 
   public createCount(options: Partial<T>): MongoQuery<number> {

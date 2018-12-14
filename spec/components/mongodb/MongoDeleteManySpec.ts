@@ -1,10 +1,10 @@
 import * as mongoose from 'mongoose';
-import {MongoRemoveMany} from '../../../src/components/mongodb/MongoRemoveMultiple';
+import {MongoDeleteMany} from '../../../src/components/mongodb/MongoRemoveMultiple';
 
-describe('A MongoRemoveMany', () => {
+describe('A MongoDeleteMany', () => {
   const modelMock = {} as mongoose.Model<mongoose.Document> & any;
 
-  const mongoRemoveMany = new MongoRemoveMany({}, modelMock);
+  const mongoDeleteMany = new MongoDeleteMany({}, modelMock);
 
   beforeEach(() => {
     modelMock.deleteMany = () => ({
@@ -13,6 +13,6 @@ describe('A MongoRemoveMany', () => {
   });
 
   it('Can remove documents', async () => {
-    await mongoRemoveMany.execute();
+    await mongoDeleteMany.execute();
   });
 });
