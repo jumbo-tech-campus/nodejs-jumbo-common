@@ -1,5 +1,5 @@
 import {MongoDocumentQuery} from '../../../src/components/mongodb/MongoDocumentQuery';
-import {DocumentQuery, mongo} from 'mongoose';
+import {DocumentQuery} from 'mongoose';
 
 describe('A MongoDocumentQuery', () => {
   const mongoDocumentMock = {} as DocumentQuery<any, any>;

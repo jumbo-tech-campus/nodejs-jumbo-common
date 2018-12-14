@@ -17,7 +17,6 @@ describe('A PaginationController', () => {
       const response = await paginationController.get();
       expect(Object.keys(response.body!)).toContain('pagingData');
       expect(Object.keys(response.body!)).toContain('data');
-
     });
   });
 
