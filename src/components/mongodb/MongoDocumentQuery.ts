@@ -5,6 +5,8 @@ export interface MongoDocumentQueryOptions {
   projection?: any;
   sort?: [string | 1 | -1][];
   select?: string;
+  count?: number;
+  offset?: number;
 }
 
 export class MongoDocumentQuery {
@@ -25,6 +27,14 @@ export class MongoDocumentQuery {
 
     if (this.queryOptions.select) {
       query = query.select(this.queryOptions.select);
+    }
+
+    if (this.queryOptions.count) {
+      query = query.limit(this.queryOptions.count);
+    }
+
+    if (this.queryOptions.offset) {
+      query = query.skip(this.queryOptions.offset);
     }
 
     return query.exec();
