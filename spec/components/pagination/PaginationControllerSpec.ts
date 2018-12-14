@@ -15,7 +15,9 @@ describe('A PaginationController', () => {
 
     it('Returns response with pagination', async () => {
       const response = await paginationController.get();
-      expect(Object.keys(response.body!)).toEqual(['pagingData', 'data']);
+      expect(Object.keys(response.body!)).toContain('pagingData');
+      expect(Object.keys(response.body!)).toContain('data');
+
     });
   });
 
