@@ -1,6 +1,6 @@
 import {MongoQueryFactory} from '../../../src/components/mongodb/MongoQueryFactory';
 import * as mongoose from 'mongoose';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
+import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
 import * as Logger from 'bunyan';
 import {MongoCreate} from '../../../src/components/mongodb/MongoCreate';

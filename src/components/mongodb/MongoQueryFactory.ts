@@ -3,7 +3,7 @@ import {MongoQuery} from './MongoQuery';
 import {MongoFindOne} from './MongoFindOne';
 import {MongoQueryTelemetry} from './MongoQueryTelemetry';
 import {MongoFind} from './MongoFind';
-import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
+import {AsyncMeasurer} from '../telemetry/AsyncMeasurer';
 import {MongoCreate} from './MongoCreate';
 import * as Logger from 'bunyan';
 import {MongoUpdate} from './MongoUpdate';

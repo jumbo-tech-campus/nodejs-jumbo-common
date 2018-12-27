@@ -2,7 +2,7 @@ import {Retryable} from '../../../src/components/retryer/Retryable';
 import {RetryerFactory} from '../../../src/components/retryer/RetryerFactory';
 import {Retryer} from '../../../src/components/retryer/Retryer';
 import {StatsD} from 'hot-shots';
-import {Measurable} from '../../../src/components/statsd/Measurable';
+import {Measurable} from '../../../src/components/telemetry/Measurable';
 
 describe('A RetryerFactory', () => {
   const retryableMock = {} as Retryable & Measurable<any>;

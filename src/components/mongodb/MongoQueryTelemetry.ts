@@ -1,6 +1,6 @@
 import {MongoQuery} from './MongoQuery';
-import {Measurable} from '../statsd/Measurable';
-import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
+import {Measurable} from '../telemetry/Measurable';
+import {AsyncMeasurer} from '../telemetry/AsyncMeasurer';
 import * as Logger from 'bunyan';
 
 export class MongoQueryTelemetry<T> implements MongoQuery<T> {

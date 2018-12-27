@@ -1,4 +1,4 @@
-import {Measurable} from '../statsd/Measurable';
+import {Measurable} from '../telemetry/Measurable';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 
@@ -11,6 +11,10 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
     super(request);
     this.request       = request;
     this.measurePrefix = 'httprequest.';
+  }
+
+  public get name(): string {
+    return this.request.constructor.name;
   }
 
   public get tags(): string[] {

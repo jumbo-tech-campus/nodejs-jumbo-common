@@ -1,5 +1,5 @@
 import {MongoQuery} from './MongoQuery';
-import {Measurable} from '../statsd/Measurable';
+import {Measurable} from '../telemetry/Measurable';
 
 export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
   public readonly measurePrefix: string = 'mongodb.';
@@ -8,6 +8,10 @@ export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
 
   public constructor(mongoQuery: MongoQuery<T>) {
     this.mongoQuery = mongoQuery;
+  }
+
+  public get name(): string {
+    return this.mongoQuery.constructor.name;
   }
 
   public get options(): object {

@@ -1,5 +1,5 @@
-import {Measurable} from '../../../src/components/statsd/Measurable';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
+import {Measurable} from '../../../src/components/telemetry/Measurable';
+import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 import {StatsD} from 'hot-shots';
 
 describe('An AsyncMeasurer', () => {
