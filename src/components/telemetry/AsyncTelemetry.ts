@@ -9,12 +9,12 @@ export class AsyncTelemetry<T> {
   private readonly defaultStatsDTags?: string[];
 
   public constructor(logger: Logger,
-                     query: Measurable<T>,
+                     measurable: Measurable<T>,
                      measurer: AsyncMeasurer,
                      defaultStatsDTags?: string[]) {
     this.logger            = logger;
     this.measurer          = measurer;
-    this.measurable        = query;
+    this.measurable        = measurable;
     this.defaultStatsDTags = defaultStatsDTags;
   }
 
