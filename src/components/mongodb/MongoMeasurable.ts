@@ -15,7 +15,7 @@ export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
   }
 
   public get options(): object {
-    return this.mongoQuery.options;
+    return {};
   }
 
   public get tags(): string[] {

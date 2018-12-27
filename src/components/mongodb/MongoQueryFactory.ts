@@ -14,6 +14,7 @@ import {MongoUpdateMany} from './MongoUpdateMany';
 import {MongoCount} from './MongoCount';
 import {MongoMeasurable} from './MongoMeasurable';
 import {MongoDeleteMany} from './MongoRemoveMultiple';
+import {AsyncTelemetry} from '../telemetry/AsyncTelemetry';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly logger: Logger;
@@ -73,7 +74,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
 
   private createTelemetry<T>(query: MongoQuery<T>): MongoQuery<T> {
     if (this.measurer) {
-      return new MongoQueryTelemetry(this.logger, this.measurer, new MongoMeasurable(query));
+      return new MongoQueryTelemetry(new AsyncTelemetry(this.logger, new MongoMeasurable(query), this.measurer));
     }
 
     return query;
