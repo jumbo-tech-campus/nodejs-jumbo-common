@@ -20,6 +20,6 @@ export class HTTPRequestTelemetryFactory implements HTTPRequestFactory {
   public create(options: HTTPRequestOptions): HTTPRequest {
     let request: HTTPRequest = this.httpRequestFactory.create(options);
 
-    return new HTTPRequestTelemetry(new HTTPRequestMeasurable(request), new AsyncTelemetry(this.logger, new HTTPRequestMeasurable(request), this.measurer));
+    return new HTTPRequestTelemetry(new HTTPRequestMeasurable(request), new AsyncTelemetry(this.logger, this.measurer));
   }
 }

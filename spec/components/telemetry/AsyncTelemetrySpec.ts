@@ -20,9 +20,9 @@ describe('A HTTPRequestTelemetry', () => {
     spyOn(loggerMock, 'debug');
     measurerMock.measure = () => Promise.resolve({} as any);
 
-    const asyncTelemetry = new AsyncTelemetry(loggerMock, measureableMock, measurerMock);
+    const asyncTelemetry = new AsyncTelemetry(loggerMock, measurerMock);
 
-    const response = await asyncTelemetry.execute();
+    const response = await asyncTelemetry.execute(measureableMock);
 
     expect(response).toEqual(responseMock);
   });
@@ -34,9 +34,9 @@ describe('A HTTPRequestTelemetry', () => {
       throw new Error('ETIMEDOUT');
     };
 
-    const requestLogger = new AsyncTelemetry(loggerMock, measureableMock, measurerMock);
+    const requestLogger = new AsyncTelemetry(loggerMock, measurerMock);
     try {
-      await requestLogger.execute();
+      await requestLogger.execute(measureableMock);
     } catch (error) {
       expect(loggerMock.error).toHaveBeenCalledTimes(1);
 

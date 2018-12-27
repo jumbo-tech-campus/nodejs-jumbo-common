@@ -74,7 +74,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
 
   private createTelemetry<T>(query: MongoQuery<T>): MongoQuery<T> {
     if (this.measurer) {
-      return new MongoQueryTelemetry(new AsyncTelemetry(this.logger, new MongoMeasurable(query), this.measurer));
+      return new MongoQueryTelemetry(new AsyncTelemetry(this.logger, this.measurer), new MongoMeasurable(query));
     }
 
     return query;

@@ -7,7 +7,7 @@ export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
   private result: 'success' | 'failed' | 'notexecuted' = 'notexecuted';
 
   public constructor(mongoQuery: MongoQuery<T>) {
-    this.mongoQuery    = mongoQuery;
+    this.mongoQuery = mongoQuery;
   }
 
   public get name(): string {
@@ -15,13 +15,13 @@ export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
   }
 
   public get options(): object {
-    return {};
+    return this.mongoQuery.options;
   }
 
   public get tags(): string[] {
     return [
       `result:${this.result}`,
-      `type:${this.mongoQuery.constructor.name}`,
+      `type:${this.name}`,
     ];
   }
 
