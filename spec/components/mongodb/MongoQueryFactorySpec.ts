@@ -1,15 +1,12 @@
 import {MongoQueryFactory} from '../../../src/components/mongodb/MongoQueryFactory';
 import * as mongoose from 'mongoose';
-import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
-import * as Logger from 'bunyan';
-import {MongoCreate} from '../../../src/components/mongodb/MongoCreate';
+import {AsyncTelemetry} from '../../../src/components/telemetry/AsyncTelemetry';
 
 describe('A MongoQueryFactory', () => {
-  const loggerMock        = {} as Logger;
-  const modelMock         = {} as mongoose.Model<mongoose.Document> & any;
-  const asyncMeasurerMock = {} as AsyncMeasurer;
-  const mongoQueryFactory = new MongoQueryFactory(loggerMock, modelMock, asyncMeasurerMock);
+  const modelMock          = {} as mongoose.Model<mongoose.Document> & any;
+  const asyncTelemetryMock = {} as AsyncTelemetry;
+  const mongoQueryFactory  = new MongoQueryFactory(modelMock, asyncTelemetryMock);
 
   it('Should be able to create MongoFind', () => {
     const mongoFind = mongoQueryFactory.createFind({});
@@ -21,14 +18,6 @@ describe('A MongoQueryFactory', () => {
     const mongoFindOne = mongoQueryFactory.createFindOne({});
 
     expect(mongoFindOne instanceof MongoQueryTelemetry).toEqual(true);
-  });
-
-  it('Should be able to create MongoCreate without measurer', () => {
-    const mongoQueryFactory = new MongoQueryFactory(loggerMock, modelMock);
-
-    const mongoCreate = mongoQueryFactory.createCreate({});
-
-    expect(mongoCreate instanceof MongoCreate).toEqual(true);
   });
 
   it('Should be able to create MongoUpdate', () => {
@@ -62,7 +51,7 @@ describe('A MongoQueryFactory', () => {
   });
 
   it('Should be able to create MongoCount', () => {
-    const mongoCount  = mongoQueryFactory.createCount({});
+    const mongoCount = mongoQueryFactory.createCount({});
 
     expect(mongoCount instanceof MongoQueryTelemetry).toEqual(true);
   });

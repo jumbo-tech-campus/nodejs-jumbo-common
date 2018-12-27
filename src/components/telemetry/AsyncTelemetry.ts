@@ -2,7 +2,7 @@ import * as Logger from 'bunyan';
 import {Measurable} from './Measurable';
 import {AsyncMeasurer} from './AsyncMeasurer';
 
-export class AsyncTelemetry<T> {
+export class AsyncTelemetry {
   private readonly logger: Logger;
   private readonly measurer: AsyncMeasurer;
 
@@ -12,8 +12,8 @@ export class AsyncTelemetry<T> {
     this.measurer          = measurer;
   }
 
-  public async execute(measurable: Measurable<T>,
-                       defaultStatsDTags?: string[]): Promise<T> {
+  public async execute<T>(measurable: Measurable<T>,
+                          defaultStatsDTags?: string[]): Promise<T> {
     try {
       return await this.measurer.measure(measurable, defaultStatsDTags);
     } catch (error) {

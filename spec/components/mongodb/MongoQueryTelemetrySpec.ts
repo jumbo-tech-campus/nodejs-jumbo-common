@@ -4,7 +4,7 @@ import {MongoQuery} from '../../../src/components/mongodb/MongoQuery';
 import {Measurable} from '../../../src/components/telemetry/Measurable';
 
 describe('A MongoQueryTelemetry', () => {
-  const asyncTelemetry  = {} as AsyncTelemetry<any>;
+  const asyncTelemetry  = {} as AsyncTelemetry;
   const queryMock = {} as MongoQuery<any> & Measurable<any>;
   const mockResult: any = {};
 

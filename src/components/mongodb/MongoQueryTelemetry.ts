@@ -3,10 +3,10 @@ import {AsyncTelemetry} from '../telemetry/AsyncTelemetry';
 import {Measurable} from '../telemetry/Measurable';
 
 export class MongoQueryTelemetry<T> implements MongoQuery<T> {
-  private readonly asyncTelemetry: AsyncTelemetry<T>;
+  private readonly asyncTelemetry: AsyncTelemetry;
   private readonly query: MongoQuery<T> & Measurable<T>;
 
-  public constructor(asyncTelemetry: AsyncTelemetry<T>, query: MongoQuery<T> & Measurable<T>) {
+  public constructor(asyncTelemetry: AsyncTelemetry, query: MongoQuery<T> & Measurable<T>) {
     this.asyncTelemetry = asyncTelemetry;
     this.query = query;
   }

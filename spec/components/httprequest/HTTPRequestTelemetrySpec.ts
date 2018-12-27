@@ -8,7 +8,7 @@ describe('A HTTPRequestTelemetry', () => {
   const request      = {} as HTTPRequest & HTTPRequestMeasurable;
   const responseMock = {} as HTTPRequestResponse;
 
-  const asyncTelemetry = {} as AsyncTelemetry<any>;
+  const asyncTelemetry = {} as AsyncTelemetry;
 
   beforeEach(() => {
     request.execute = () => Promise.resolve(responseMock);

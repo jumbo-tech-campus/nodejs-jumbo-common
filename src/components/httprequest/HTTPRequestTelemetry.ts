@@ -6,10 +6,10 @@ import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 export class HTTPRequestTelemetry extends HTTPRequestDecorator {
   public readonly request: HTTPRequestMeasurable;
 
-  private readonly asyncTelemetry: AsyncTelemetry<HTTPRequestResponse>;
+  private readonly asyncTelemetry: AsyncTelemetry;
 
   public constructor(request: HTTPRequestMeasurable,
-                     asyncTelemetry: AsyncTelemetry<HTTPRequestResponse>) {
+                     asyncTelemetry: AsyncTelemetry) {
     super(request);
 
     this.asyncTelemetry = asyncTelemetry;
