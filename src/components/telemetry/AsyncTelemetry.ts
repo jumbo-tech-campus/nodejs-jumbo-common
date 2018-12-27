@@ -26,7 +26,7 @@ export class AsyncTelemetry<T> {
         objectName: this.measurable.name,
         options:    this.measurable.options,
         error:      error,
-      }, 'Error on async action');
+      }, `Error while doing ${this.measurable.type}`);
 
       throw error;
     }

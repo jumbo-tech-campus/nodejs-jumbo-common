@@ -8,26 +8,26 @@ export class AsyncMeasurer {
     this.statsD = statsD;
   }
 
-  public async measure<T>(measureable: Measurable<T>, defaultTags: string[] = []): Promise<T> {
+  public async measure<T>(measurable: Measurable<T>, defaultTags: string[] = []): Promise<T> {
     const before = Date.now();
 
     let result: T;
 
     try {
-      result = await measureable.execute();
+      result = await measurable.execute();
     } catch (error) {
       this.statsD.timing(
-        `${measureable.measurePrefix}duration`,
+        `${measurable.type.toLowerCase()}.duration`,
         Date.now() - before,
-        defaultTags.concat(measureable.tags));
+        defaultTags.concat(measurable.tags));
 
       throw error;
     }
 
     this.statsD.timing(
-      `${measureable.measurePrefix}duration`,
+      `${measurable.type.toLowerCase()}.duration`,
       Date.now() - before,
-      defaultTags.concat(measureable.tags));
+      defaultTags.concat(measurable.tags));
 
     return result;
   }

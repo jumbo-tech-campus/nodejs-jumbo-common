@@ -3,14 +3,13 @@ import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 
 export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measurable<HTTPRequestResponse> {
-  public measurePrefix: string;
   public request: HTTPRequest;
+  public readonly type: string = 'HTTPRequest';
   private response?: HTTPRequestResponse;
 
   public constructor(request: HTTPRequest) {
     super(request);
-    this.request       = request;
-    this.measurePrefix = 'httprequest.';
+    this.request = request;
   }
 
   public get name(): string {
