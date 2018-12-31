@@ -2,7 +2,7 @@ import {HTTPRequestFactory} from './HTTPRequestFactory';
 import * as Logger from 'bunyan';
 import {HTTPRequest, HTTPRequestOptions} from './HTTPRequest';
 import {HTTPRequestTelemetry} from './HTTPRequestTelemetry';
-import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
+import {AsyncMeasurer} from '../telemetry/AsyncMeasurer';
 import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 
 export class HTTPRequestTelemetryFactory implements HTTPRequestFactory {

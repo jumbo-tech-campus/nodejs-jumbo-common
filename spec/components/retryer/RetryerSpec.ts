@@ -2,7 +2,7 @@ import {asyncIt} from '../../helpers/JasmineHelper';
 import {Retryable} from '../../../src/components/retryer/Retryable';
 import {Retryer} from '../../../src/components/retryer/Retryer';
 import {StatsD} from 'hot-shots';
-import {Measurable} from '../../../src/components/statsd/Measurable';
+import {Measurable} from '../../../src/components/telemetry/Measurable';
 
 describe('A Retryer', () => {
   let tries: number;
