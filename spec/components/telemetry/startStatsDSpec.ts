@@ -1,4 +1,4 @@
-import {startStatsD} from '../../../src/components/statsd/startStatsD';
+import {startStatsD} from '../../../src/components/telemetry/startStatsD';
 import * as Logger from 'bunyan';
 import {StatsD} from 'hot-shots';
 

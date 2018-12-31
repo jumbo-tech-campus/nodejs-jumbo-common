@@ -1,5 +1,5 @@
 import {MongoQuery} from './MongoQuery';
-import {Measurable} from '../statsd/Measurable';
+import {Measurable} from '../telemetry/Measurable';
 
 export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
   public readonly measurePrefix: string = 'mongodb.';

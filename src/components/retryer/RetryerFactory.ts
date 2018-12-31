@@ -1,7 +1,7 @@
 import {Retryer} from './Retryer';
 import {Retryable} from './Retryable';
 import {StatsD} from 'hot-shots';
-import {Measurable} from '../statsd/Measurable';
+import {Measurable} from '../telemetry/Measurable';
 
 export class RetryerFactory {
   private readonly statsD: StatsD;
