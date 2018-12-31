@@ -1,16 +1,15 @@
 import {Retryable} from './Retryable';
 import {StatsD} from 'hot-shots';
-import {Measurable} from '../telemetry/Measurable';
 
 const backo = require('backo');
 
 export class Retryer {
   private readonly statsD: StatsD;
-  private readonly retryable: Retryable & Measurable<any>;
+  private readonly retryable: Retryable;
   private readonly backo: any;
   private readonly maxAttempts: number;
 
-  public constructor(statsD: StatsD, retryable: Retryable & Measurable<any>, maxAttempts: number, minInterval: number, maxInterval: number, jitter: number) {
+  public constructor(statsD: StatsD, retryable: Retryable, maxAttempts: number, minInterval: number, maxInterval: number, jitter: number) {
     this.statsD      = statsD;
     this.retryable   = retryable;
     this.backo       = new backo({
@@ -24,7 +23,7 @@ export class Retryer {
   public async execute(): Promise<void> {
     if (await this.shouldAttempt()) {
       const attempt = this.backo.attempts + 1;
-      this.statsD.increment(`${this.retryable.type.toLowerCase()}.retries`, 1, this.retryable.tags.concat(`retryAttempt:${attempt}`));
+      this.statsD.increment(`retry`, 1, this.retryable.tags.concat(`retryAttempt:${attempt}`));
 
       await this.wait(this.backo.duration());
 
