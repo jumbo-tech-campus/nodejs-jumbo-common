@@ -3,9 +3,7 @@ import {MongoQuery} from './MongoQuery';
 import {MongoFindOne} from './MongoFindOne';
 import {MongoQueryTelemetry} from './MongoQueryTelemetry';
 import {MongoFind} from './MongoFind';
-import {AsyncMeasurer} from '../telemetry/AsyncMeasurer';
 import {MongoCreate} from './MongoCreate';
-import * as Logger from 'bunyan';
 import {MongoUpdate} from './MongoUpdate';
 import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
 import {MongoDelete} from './MongoDelete';
@@ -14,16 +12,15 @@ import {MongoUpdateMany} from './MongoUpdateMany';
 import {MongoCount} from './MongoCount';
 import {MongoMeasurable} from './MongoMeasurable';
 import {MongoDeleteMany} from './MongoRemoveMultiple';
+import {AsyncTelemetry} from '../telemetry/AsyncTelemetry';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
-  private readonly logger: Logger;
   private readonly model: mongoose.Model<T>;
-  private readonly measurer?: AsyncMeasurer;
+  private readonly telemetry: AsyncTelemetry;
 
-  public constructor(logger: Logger, model: mongoose.Model<T>, measurer?: AsyncMeasurer) {
-    this.logger   = logger;
-    this.model    = model;
-    this.measurer = measurer;
+  public constructor(model: mongoose.Model<T>, telemetry: AsyncTelemetry) {
+    this.model     = model;
+    this.telemetry = telemetry;
   }
 
   public createFind(findOptions: Partial<T>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T[]> {
@@ -72,10 +69,6 @@ export class MongoQueryFactory<T extends mongoose.Document> {
   }
 
   private createTelemetry<T>(query: MongoQuery<T>): MongoQuery<T> {
-    if (this.measurer) {
-      return new MongoQueryTelemetry(this.logger, this.measurer, new MongoMeasurable(query));
-    }
-
-    return query;
+    return new MongoQueryTelemetry(this.telemetry, new MongoMeasurable(query));
   }
 }

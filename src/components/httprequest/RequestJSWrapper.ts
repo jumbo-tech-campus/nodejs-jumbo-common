@@ -1,7 +1,5 @@
 import request from 'request-promise-native';
 import {HTTPRequest, HTTPRequestOptions, HTTPRequestResponse} from './HTTPRequest';
-import {HTTPRequestError} from './HTTPRequestError';
-import {HTTPRequestTimedoutError} from './HTTPRequestTimedoutError';
 
 const baseRequest = request.defaults({
   gzip: true,
@@ -18,21 +16,12 @@ export class RequestJSWrapper implements HTTPRequest {
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
-    let response: request.FullResponse;
-    try {
-      response = await baseRequest({
-        proxy:                   false,
-        ...this.options,
-        resolveWithFullResponse: true,
-        simple:                  false,
-      });
-    } catch (requestError) {
-      if (requestError.error.message === 'ETIMEDOUT') {
-        throw new HTTPRequestTimedoutError('Request timed out');
-      }
-
-      throw new HTTPRequestError(requestError.error.message);
-    }
+    const response = await baseRequest({
+      proxy:                   false,
+      ...this.options,
+      resolveWithFullResponse: true,
+      simple:                  false,
+    }).promise();
 
     return {
       statusCode: response.statusCode,

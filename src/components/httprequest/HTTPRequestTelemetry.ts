@@ -1,44 +1,25 @@
-import * as Logger from 'bunyan';
-import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
+import {HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
-import {HTTPRequestError} from './HTTPRequestError';
-import {AsyncMeasurer} from '../telemetry/AsyncMeasurer';
-import {Measurable} from '../telemetry/Measurable';
+import {AsyncTelemetry} from '../telemetry/AsyncTelemetry';
 import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 
 export class HTTPRequestTelemetry extends HTTPRequestDecorator {
-  public request: HTTPRequest & Measurable<HTTPRequestResponse>;
-  private logger: Logger;
-  private readonly measurer: AsyncMeasurer;
-  private readonly defaultStatsDTags?: string[];
+  public readonly request: HTTPRequestMeasurable;
 
-  public constructor(logger: Logger, request: HTTPRequestMeasurable, measurer: AsyncMeasurer, defaultStatsDTags?: string[]) {
+  private readonly asyncTelemetry: AsyncTelemetry;
+  private readonly defaultTags?: string[];
+
+  public constructor(request: HTTPRequestMeasurable,
+                     asyncTelemetry: AsyncTelemetry,
+                     defaultTags?: string[]) {
     super(request);
 
-    this.logger            = logger;
-    this.measurer          = measurer;
-    this.request           = request;
-    this.defaultStatsDTags = defaultStatsDTags;
+    this.request        = request;
+    this.asyncTelemetry = asyncTelemetry;
+    this.defaultTags    = defaultTags;
   }
 
-  public async execute(): Promise<HTTPRequestResponse> {
-    let response: HTTPRequestResponse;
-
-    try {
-      response = await this.measurer.measure(this.request, this.defaultStatsDTags);
-    } catch (error) {
-      return this.handleError(error);
-    }
-
-    return response;
-  }
-
-  private handleError(error: HTTPRequestError): never {
-    this.logger.error({
-      options: super.options,
-      error:   error.toLogger(),
-    }, 'Request error');
-
-    throw error;
+  public execute(): Promise<HTTPRequestResponse> {
+    return this.asyncTelemetry.execute(this.request, this.defaultTags);
   }
 }
