@@ -64,6 +64,26 @@ describe('A RetryableHTTPRequest', () => {
     fail();
   });
 
+  it('Retries a Connection Refused', async () => {
+    httpRequestMock.execute = () => {
+      throw new Error('Error: connect ECONNREFUSED 127.0.0.1:12345');
+    };
+
+    const attempt = await retryableRequest.attempt();
+
+    expect(attempt).toEqual(true);
+
+    try {
+      await retryableRequest.execute();
+    } catch (error) {
+      expect(error.message).toEqual('Error: connect ECONNREFUSED 127.0.0.1:12345');
+
+      return;
+    }
+
+    fail();
+  });
+
   it('Doesn\'t retry a TimedOut', async () => {
     httpRequestMock.execute = () => {
       throw new Error('Error: ETIMEDOUT');
