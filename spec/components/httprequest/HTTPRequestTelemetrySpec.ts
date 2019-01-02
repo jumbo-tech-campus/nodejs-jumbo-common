@@ -3,7 +3,7 @@ import * as Logger from 'bunyan';
 import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
 import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestError';
 import {asyncIt} from '../../helpers/JasmineHelper';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
+import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
 
 describe('A HTTPRequestTelemetry', () => {

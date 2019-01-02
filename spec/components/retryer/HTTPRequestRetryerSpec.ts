@@ -4,7 +4,7 @@ import {Retryable} from '../../../src/components/retryer/Retryable';
 import {Retryer} from '../../../src/components/retryer/Retryer';
 import {asyncIt} from '../../helpers/JasmineHelper';
 import {HTTPRequestRetryer} from '../../../src/components/retryer/HTTPRequestRetryer';
-import {Measurable} from '../../../src/components/statsd/Measurable';
+import {Measurable} from '../../../src/components/telemetry/Measurable';
 
 describe('An HTTPRequestRetryer', () => {
   const retryerFactoryMock = {} as RetryerFactory;

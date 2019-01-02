@@ -1,6 +1,6 @@
 import * as request from 'request';
 
-export type HTTPRequestOptions = request.Options;
+export type HTTPRequestOptions = request.OptionsWithUrl & { url: string };
 
 export interface HTTPRequestResponse {
   headers: { [headerName: string]: string | string[] | undefined };

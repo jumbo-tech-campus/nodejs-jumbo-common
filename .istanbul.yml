@@ -1,8 +1,0 @@
----
-instrumentation:
-  root: dist/src
-  include-all-sources: true
-reporting:
-  dir: ./coverage
-  reports:
-    - json

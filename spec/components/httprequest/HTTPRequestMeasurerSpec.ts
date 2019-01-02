@@ -1,26 +1,154 @@
 import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
-import {HTTPRequest} from '../../../src/components/httprequest/HTTPRequest';
+import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 
 describe('A HTTPRequestMeasurable', () => {
-  let request: HTTPRequestMeasurable;
-  beforeEach(() => {
-    const httpRequestMock = {options: {}} as HTTPRequest;
-    request           = new HTTPRequestMeasurable(httpRequestMock);
+  let httpRequestMock: HTTPRequest;
+  let tags: string[];
+  let response: HTTPRequestResponse;
 
-    httpRequestMock.execute = () => Promise.resolve({
+  beforeEach(() => {
+    httpRequestMock = {
+      options: {
+        url: '/v2/products',
+      },
+    } as HTTPRequest;
+  });
+
+  describe('With 200 response', () => {
+    const mockResponse = {
       statusCode: 200,
       headers:    {},
       body:       {},
+    };
+
+    beforeEach(async () => {
+      const request           = new HTTPRequestMeasurable(httpRequestMock);
+      httpRequestMock.execute = () => Promise.resolve(mockResponse);
+
+      response = await request.execute();
+
+      tags = request.tags;
+    });
+
+    it('Has correct tags', () => {
+      expect(tags).toContain('statuscode:200');
+      expect(tags).toContain('url:/v2/products');
+      expect(tags).toContain('method:get');
+      expect(tags).toContain('result:success');
+    });
+
+    it('Returns the same response', () => {
+      expect(response).toBe(mockResponse);
     });
   });
 
-  it('Should be able to return tags with statusCode', async () => {
-    await request.execute();
+  describe('With a 400 response', () => {
+    const mockResponse = {
+      statusCode: 400,
+      headers:    {},
+      body:       {},
+    };
 
-    expect(request.tags).toEqual(['statusCode:200']);
+    beforeEach(async () => {
+      const request           = new HTTPRequestMeasurable(httpRequestMock);
+      httpRequestMock.execute = () => Promise.resolve(mockResponse);
+
+      response = await request.execute();
+
+      tags = request.tags;
+    });
+
+    it('Has correct tags', () => {
+      expect(tags).toContain('result:badrequest');
+    });
   });
 
-  it('Should be able to return tags without statusCode', async () => {
-    expect(request.tags).toEqual([]);
+  describe('With a 500 response', () => {
+    const mockResponse = {
+      statusCode: 500,
+      headers:    {},
+      body:       {},
+    };
+
+    beforeEach(async () => {
+      const request           = new HTTPRequestMeasurable(httpRequestMock);
+      httpRequestMock.execute = () => Promise.resolve(mockResponse);
+
+      response = await request.execute();
+
+      tags = request.tags;
+    });
+
+    it('Has correct tags', () => {
+      expect(tags).toContain('result:internal');
+    });
+  });
+
+  describe('With a unknown response', () => {
+    const mockResponse = {
+      statusCode: 300,
+      headers:    {},
+      body:       {},
+    };
+
+    beforeEach(async () => {
+      const request           = new HTTPRequestMeasurable(httpRequestMock);
+      httpRequestMock.execute = () => Promise.resolve(mockResponse);
+
+      response = await request.execute();
+
+      tags = request.tags;
+    });
+
+    it('Has correct tags', () => {
+      expect(tags).toContain('result:unknown');
+    });
+  });
+
+  describe('When an error is thrown', () => {
+    let error: unknown;
+    const throwError = new Error();
+
+    beforeEach(async () => {
+      const request           = new HTTPRequestMeasurable(httpRequestMock);
+      httpRequestMock.execute = () => Promise.reject(throwError);
+
+      await request.execute().catch((e) => {
+        error = e;
+      });
+
+      tags = request.tags;
+    });
+
+    it('Has correct tags', () => {
+      expect(tags).toContain('result:failed');
+    });
+
+    it('Error to be thrown', () => {
+      expect(error).toBe(throwError);
+    });
+  });
+
+  describe('With a baseURL', () => {
+    const mockResponse = {
+      statusCode: 200,
+      headers:    {},
+      body:       {},
+    };
+
+    beforeEach(async () => {
+      httpRequestMock.options.baseUrl = 'http://baseurl';
+
+      const request           = new HTTPRequestMeasurable(httpRequestMock);
+      httpRequestMock.execute = () => Promise.resolve(mockResponse);
+
+      response = await request.execute();
+
+      tags = request.tags;
+    });
+
+    it('Has correct tags', () => {
+      expect(tags).toContain('baseurl:http://baseurl');
+    });
   });
 });

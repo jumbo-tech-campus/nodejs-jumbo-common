@@ -1,8 +1,8 @@
 import {MongoQueryTelemetry} from '../../../src/components/mongodb/MongoQueryTelemetry';
 import {MongoQuery} from '../../../src/components/mongodb/MongoQuery';
 import * as mongoose from 'mongoose';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
-import {Measurable} from '../../../src/components/statsd/Measurable';
+import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
+import {Measurable} from '../../../src/components/telemetry/Measurable';
 import * as Logger from 'bunyan';
 
 describe('A MongoQueryTelemetry', () => {

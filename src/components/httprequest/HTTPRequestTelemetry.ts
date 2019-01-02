@@ -2,8 +2,8 @@ import * as Logger from 'bunyan';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 import {HTTPRequestError} from './HTTPRequestError';
-import {AsyncMeasurer} from '../statsd/AsyncMeasurer';
-import {Measurable} from '../statsd/Measurable';
+import {AsyncMeasurer} from '../telemetry/AsyncMeasurer';
+import {Measurable} from '../telemetry/Measurable';
 import {HTTPRequestMeasurable} from './HTTPRequestMeasurable';
 
 export class HTTPRequestTelemetry extends HTTPRequestDecorator {

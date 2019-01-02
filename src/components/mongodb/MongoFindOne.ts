@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import {MongoQuery} from './MongoQuery';
 import {MongoDocumentQuery} from './MongoDocumentQuery';
 
-export class MongoFindOne<T extends mongoose.Document> implements MongoQuery<T | null> {
+export class MongoFindOne<T extends mongoose.Document> implements MongoQuery<T | undefined> {
   public readonly options: Partial<T>;
   private readonly model: mongoose.Model<T>;
   private readonly documentQuery: MongoDocumentQuery;
@@ -13,7 +13,12 @@ export class MongoFindOne<T extends mongoose.Document> implements MongoQuery<T |
     this.documentQuery = documentQuery;
   }
 
-  public execute(): Promise<T | null> {
-    return this.documentQuery.execute(this.model.findOne(this.options));
+  public async execute(): Promise<T | undefined> {
+    const document = await this.documentQuery.execute(this.model.findOne(this.options));
+    if (!document) {
+      return;
+    }
+
+    return document;
   }
 }

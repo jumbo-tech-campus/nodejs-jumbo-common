@@ -11,22 +11,24 @@ export class AsyncMeasurer {
   public async measure<T>(measureable: Measurable<T>, defaultTags: string[] = []): Promise<T> {
     const before = Date.now();
 
+    let result: T;
+
     try {
-      const result = await measureable.execute();
-
-      this.statsD.timing(
-        `${measureable.measurePrefix}duration`,
-        Date.now() - before,
-        defaultTags.concat(measureable.tags, 'result:success'));
-
-      return result;
+      result = await measureable.execute();
     } catch (error) {
       this.statsD.timing(
         `${measureable.measurePrefix}duration`,
         Date.now() - before,
-        defaultTags.concat(measureable.tags, 'result:failed'));
+        defaultTags.concat(measureable.tags));
 
       throw error;
     }
+
+    this.statsD.timing(
+      `${measureable.measurePrefix}duration`,
+      Date.now() - before,
+      defaultTags.concat(measureable.tags));
+
+    return result;
   }
 }

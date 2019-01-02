@@ -1,5 +1,5 @@
-import {Measurable} from '../../../src/components/statsd/Measurable';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
+import {Measurable} from '../../../src/components/telemetry/Measurable';
+import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 import {StatsD} from 'hot-shots';
 
 describe('An AsyncMeasurer', () => {
@@ -20,7 +20,7 @@ describe('An AsyncMeasurer', () => {
     measurableMock.execute = () => Promise.resolve(resultMock);
   });
 
-  describe('When measuring a measurable', async () => {
+  describe('When measuring a measurable', () => {
     let result: any;
 
     beforeEach(async () => {
@@ -35,11 +35,11 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock, 'result:success'));
+        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
     });
   });
 
-  describe('When the measurable throws an error', async () => {
+  describe('When the measurable throws an error', () => {
     let result: any;
     let error = Error('Error');
 
@@ -65,7 +65,7 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock, 'result:failed'));
+        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
     });
   });
 });

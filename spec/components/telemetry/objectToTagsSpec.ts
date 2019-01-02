@@ -1,4 +1,4 @@
-import {objectToTags} from '../../../src/components/statsd/objectToTags';
+import {objectToTags} from '../../../src/components/telemetry/objectToTags';
 
 describe('An objectToTags', () => {
   it('Should convert an object to statsd tags', () => {

@@ -2,7 +2,7 @@ import {HTTPRequestTelemetryFactory} from '../../../src/components/httprequest/H
 import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequestTelemetry';
 import * as Logger from 'bunyan';
 import {HTTPRequest} from '../../../src/components/httprequest/HTTPRequest';
-import {AsyncMeasurer} from '../../../src/components/statsd/AsyncMeasurer';
+import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 
 describe('A HTTPRequestTelemetryFactory', () => {
   const httpRequestFactoryMock = {} as HTTPRequestTelemetryFactory;

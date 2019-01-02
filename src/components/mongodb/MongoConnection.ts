@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import mongoose from 'mongoose';
 import * as Logger from 'bunyan';
 

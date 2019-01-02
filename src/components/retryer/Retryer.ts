@@ -1,6 +1,6 @@
 import {Retryable} from './Retryable';
 import {StatsD} from 'hot-shots';
-import {Measurable} from '../statsd/Measurable';
+import {Measurable} from '../telemetry/Measurable';
 
 const backo = require('backo');
 
@@ -10,8 +10,8 @@ export class Retryer {
   private readonly backo: any;
   private readonly maxAttempts: number;
 
-  public constructor(logger: StatsD, retryable: Retryable & Measurable<any>, maxAttempts: number, minInterval: number, maxInterval: number, jitter: number) {
-    this.statsD      = logger;
+  public constructor(statsD: StatsD, retryable: Retryable & Measurable<any>, maxAttempts: number, minInterval: number, maxInterval: number, jitter: number) {
+    this.statsD      = statsD;
     this.retryable   = retryable;
     this.backo       = new backo({
       min:    minInterval,

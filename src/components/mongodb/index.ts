@@ -9,6 +9,6 @@ export * from './MongoMeasurable';
 export * from './MongoQuery';
 export * from './MongoQueryFactory';
 export * from './MongoQueryTelemetry';
-export * from './MongoRemove';
+export * from './MongoDelete';
 export * from './MongoUpdate';
 export * from './MongoUpdateMany';

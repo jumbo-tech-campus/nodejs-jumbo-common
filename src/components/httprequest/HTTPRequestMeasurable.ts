@@ -1,5 +1,4 @@
-import {objectToTags} from '../statsd/objectToTags';
-import {Measurable} from '../statsd/Measurable';
+import {Measurable} from '../telemetry/Measurable';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 
@@ -10,21 +9,37 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
 
   public constructor(request: HTTPRequest) {
     super(request);
-    this.request = request;
+    this.request       = request;
     this.measurePrefix = 'httprequest.';
-
   }
 
   public get tags(): string[] {
-    const options: Record<string, unknown> = JSON.parse(JSON.stringify(this.request.options));
+    const tags: string[] = [
+      `url:${this.request.options.url}`,
+      `method:${this.request.options.method || 'get'}`,
+    ];
 
-    delete options.body;
-
-    if (this.response) {
-      options.statusCode = this.response.statusCode;
+    if (this.request.options.baseUrl) {
+      tags.push(`baseurl:${this.request.options.baseUrl}`);
     }
 
-    return objectToTags(options);
+    if (this.response) {
+      tags.push(`statuscode:${this.response.statusCode}`);
+
+      if (this.response.statusCode >= 200 && this.response.statusCode < 300) {
+        tags.push(`result:success`);
+      } else if (this.response.statusCode >= 400 && this.response.statusCode < 500) {
+        tags.push(`result:badrequest`);
+      } else if (this.response.statusCode >= 500) {
+        tags.push(`result:internal`);
+      } else {
+        tags.push(`result:unknown`);
+      }
+    } else {
+      tags.push(`result:failed`);
+    }
+
+    return tags;
   }
 
   public async execute(): Promise<HTTPRequestResponse> {

@@ -2,7 +2,7 @@ import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
 import {RetryerFactory} from './RetryerFactory';
 import {Retryable} from './Retryable';
 import {HTTPRequest, HTTPRequestResponse} from '../httprequest/HTTPRequest';
-import {Measurable} from '../statsd/Measurable';
+import {Measurable} from '../telemetry/Measurable';
 
 export class HTTPRequestRetryer extends HTTPRequestDecorator {
   private readonly retryerFactory: RetryerFactory;
@@ -16,8 +16,7 @@ export class HTTPRequestRetryer extends HTTPRequestDecorator {
   }
 
   public async execute(): Promise<HTTPRequestResponse> {
-    const retryer = this.retryerFactory.create(this.retryableRequest);
-    await retryer.execute();
+    await this.retryerFactory.create(this.retryableRequest).execute();
 
     return super.execute();
   }
