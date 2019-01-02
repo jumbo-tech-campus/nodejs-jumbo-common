@@ -1,7 +1,6 @@
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
 import {Retryable} from '../retryer/Retryable';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
-import {HTTPRequestError} from './HTTPRequestError';
 import {objectToTags} from '../telemetry/objectToTags';
 
 export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retryable {
@@ -48,7 +47,7 @@ export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retrya
 
   public async execute(): Promise<HTTPRequestResponse> {
     if (!this.requestResult) {
-      throw new HTTPRequestError('No attempt has been made for retryable request');
+      throw new Error('No attempt has been made for retryable request');
     }
 
     if (this.requestResult instanceof Error) {
@@ -64,7 +63,7 @@ export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retrya
 
   private isRetryable(requestResult: HTTPRequestResponse | Error): boolean {
     if (requestResult instanceof Error) {
-      return requestResult.message !== 'ESOCKETTIMEDOUT';
+      return requestResult.message !== 'Error: ESOCKETTIMEDOUT';
     } else {
       return requestResult.statusCode >= 500;
     }

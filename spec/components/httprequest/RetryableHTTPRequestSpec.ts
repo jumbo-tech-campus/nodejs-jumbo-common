@@ -1,6 +1,5 @@
 import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 import {RetryableHTTPRequest} from '../../../src/components/httprequest/RetryableHTTPRequest';
-import {HTTPRequestError} from '../../../src/components/httprequest/HTTPRequestError';
 
 describe('A RetryableHTTPRequest', () => {
   let requestResult: HTTPRequestResponse;
@@ -10,7 +9,7 @@ describe('A RetryableHTTPRequest', () => {
     },
   } as HTTPRequest;
 
-  let retryableRequest = new RetryableHTTPRequest(httpRequestMock);
+  let retryableRequest: RetryableHTTPRequest;
 
   beforeEach(() => {
     requestResult           = {
@@ -19,6 +18,7 @@ describe('A RetryableHTTPRequest', () => {
       body:       {},
     };
     httpRequestMock.execute = () => Promise.resolve(requestResult);
+    retryableRequest        = new RetryableHTTPRequest(httpRequestMock);
   });
 
   it('Should be able to succeed an attempt', async () => {
@@ -45,7 +45,7 @@ describe('A RetryableHTTPRequest', () => {
 
   it('Should not retry a SocketTimedOut', async () => {
     httpRequestMock.execute = () => {
-      throw new Error('ESOCKETTIMEDOUT');
+      throw new Error('Error: ESOCKETTIMEDOUT');
     };
 
     const attempt = await retryableRequest.attempt();
@@ -55,7 +55,7 @@ describe('A RetryableHTTPRequest', () => {
     try {
       await retryableRequest.execute();
     } catch (error) {
-      expect(error.message).toEqual('ESOCKETTIMEDOUT');
+      expect(error.message).toEqual('Error: ESOCKETTIMEDOUT');
 
       return;
     }
@@ -65,7 +65,7 @@ describe('A RetryableHTTPRequest', () => {
 
   it('Should retry a TimedOut', async () => {
     httpRequestMock.execute = () => {
-      throw new HTTPRequestError('ETIMEDOUT');
+      throw new Error('Error: ETIMEDOUT');
     };
 
     const attempt = await retryableRequest.attempt();
@@ -75,7 +75,7 @@ describe('A RetryableHTTPRequest', () => {
     try {
       await retryableRequest.execute();
     } catch (error) {
-      expect(error.message).toEqual('ETIMEDOUT');
+      expect(error.message).toEqual('Error: ETIMEDOUT');
 
       return;
     }
@@ -103,7 +103,7 @@ describe('A RetryableHTTPRequest', () => {
     expect(logOptions).toEqual(httpRequestMock.options);
   });
 
-  it('Should be able to create tags without removing options', () => {
+  it('Should be able to create tags without removing option parameters', () => {
     const tags = retryableRequest.tags;
 
     expect(tags).toEqual(['result:noattempt']);
