@@ -2,12 +2,16 @@ import {MongoQuery} from './MongoQuery';
 import {Measurable} from '../telemetry/Measurable';
 
 export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
-  public readonly measurePrefix: string = 'mongodb.';
+  public readonly type: string                         = 'MongoQuery';
   private readonly mongoQuery: MongoQuery<T>;
-  private result: 'success' | 'failed' | 'notexecuted'  = 'notexecuted';
+  private result: 'success' | 'failed' | 'notexecuted' = 'notexecuted';
 
   public constructor(mongoQuery: MongoQuery<T>) {
     this.mongoQuery = mongoQuery;
+  }
+
+  public get name(): string {
+    return this.mongoQuery.constructor.name;
   }
 
   public get options(): object {
@@ -17,7 +21,7 @@ export class MongoMeasurable<T> implements MongoQuery<T>, Measurable<T> {
   public get tags(): string[] {
     return [
       `result:${this.result}`,
-      `type:${this.mongoQuery.constructor.name}`,
+      `type:${this.name}`,
     ];
   }
 

@@ -15,6 +15,7 @@ describe('An AsyncMeasurer', () => {
   beforeEach(() => {
     measurableMock = {
       tags: ['test:test'],
+      type: 'Measurable',
     } as Measurable<any>;
 
     measurableMock.execute = () => Promise.resolve(resultMock);
@@ -35,7 +36,7 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
+        'measurable.duration', jasmine.any(Number), defaultTags.concat(tagsMock));
     });
   });
 
@@ -65,7 +66,7 @@ describe('An AsyncMeasurer', () => {
 
     it('Timing has been called on statsd client', () => {
       expect(statsDMock.timing).toHaveBeenCalledWith(
-        jasmine.any(String), jasmine.any(Number), defaultTags.concat(tagsMock));
+        'measurable.duration', jasmine.any(Number), defaultTags.concat(tagsMock));
     });
   });
 });

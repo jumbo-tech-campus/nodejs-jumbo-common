@@ -6,7 +6,6 @@ describe('A MongoMeasurable', () => {
     constructor: {
       name: 'MongoQuery',
     },
-    options:     {},
   } as MongoQuery<unknown>;
 
   const mongoMeasurable = new MongoMeasurable(mongoQueryMock);
@@ -25,10 +24,6 @@ describe('A MongoMeasurable', () => {
     it('Has correct tags', () => {
       expect(tags).toContain('result:success');
       expect(tags).toContain('type:MongoQuery');
-    });
-
-    it('Can return the query options', () => {
-      expect(mongoMeasurable.options).toBe(mongoQueryMock.options);
     });
 
     it('Can return the mongoQuery result', async () => {
