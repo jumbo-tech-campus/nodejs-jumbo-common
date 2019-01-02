@@ -20,7 +20,6 @@ export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retrya
 
       if (this.requestResult instanceof Error) {
         tags.result = 'failed';
-        tags.error  = this.requestResult.name;
       } else {
         tags.result     = 'success';
         tags.statusCode = `${this.requestResult.statusCode}`;

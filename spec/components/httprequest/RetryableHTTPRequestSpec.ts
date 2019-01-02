@@ -21,15 +21,16 @@ describe('A RetryableHTTPRequest', () => {
     retryableRequest        = new RetryableHTTPRequest(httpRequestMock);
   });
 
-  it('Should be able to succeed an attempt', async () => {
+  it('Succeeds an attempt', async () => {
     const attempt = await retryableRequest.attempt();
     const result  = await retryableRequest.execute();
 
     expect(attempt).toEqual(true);
     expect(result).toEqual(requestResult);
+    expect(retryableRequest.tags).toEqual(['retryRequest:no', 'result:success', 'statusCode:200']);
   });
 
-  it('Should retry a statuscode 5**', async () => {
+  it('Retries a statuscode 5**', async () => {
     requestResult = {
       statusCode: 500,
       headers:    {},
@@ -43,7 +44,7 @@ describe('A RetryableHTTPRequest', () => {
     expect(result).toEqual(requestResult);
   });
 
-  it('Should not retry a SocketTimedOut', async () => {
+  it('Retries a SocketTimedOut', async () => {
     httpRequestMock.execute = () => {
       throw new Error('Error: ESOCKETTIMEDOUT');
     };
@@ -63,7 +64,7 @@ describe('A RetryableHTTPRequest', () => {
     fail();
   });
 
-  it('Should retry a TimedOut', async () => {
+  it('Doesn\'t retry a TimedOut', async () => {
     httpRequestMock.execute = () => {
       throw new Error('Error: ETIMEDOUT');
     };
@@ -76,6 +77,7 @@ describe('A RetryableHTTPRequest', () => {
       await retryableRequest.execute();
     } catch (error) {
       expect(error.message).toEqual('Error: ETIMEDOUT');
+      expect(retryableRequest.tags).toEqual(['retryRequest:yes', 'result:failed']);
 
       return;
     }
