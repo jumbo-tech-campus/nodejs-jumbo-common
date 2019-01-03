@@ -12,19 +12,21 @@ export class Retryer {
 
   public constructor(statsD: StatsD,
                      retryable: Retryable,
-                     maxAttempts: number,
-                     minInterval: number,
-                     maxInterval: number,
-                     jitter: number,
+                     retryConfig: {
+                       maxAttempts: number;
+                       minInterval: number;
+                       maxInterval: number;
+                       jitter: number;
+                     },
                      defaultTags: string[] = []) {
     this.statsD      = statsD;
     this.retryable   = retryable;
     this.backo       = new backo({
-      min:    minInterval,
-      max:    maxInterval,
-      jitter: jitter,
+      min:    retryConfig.minInterval,
+      max:    retryConfig.maxInterval,
+      jitter: retryConfig.jitter,
     });
-    this.maxAttempts = maxAttempts - 1;
+    this.maxAttempts = retryConfig.maxAttempts - 1;
     this.defaultTags = defaultTags;
   }
 

@@ -30,7 +30,12 @@ describe('A Retryer', () => {
 
     retryableMock.attempt = () => Promise.resolve(true);
 
-    const retryer = new Retryer(statsDMock, retryableMock, 2, 1, 1, 1, ['service:intershop']);
+    const retryer = new Retryer(statsDMock, retryableMock, {
+      maxAttempts: 2,
+      minInterval: 1,
+      maxInterval: 1,
+      jitter:      1,
+    }, ['service:intershop']);
 
     await retryer.execute();
 
@@ -41,7 +46,12 @@ describe('A Retryer', () => {
     spyOn(statsDMock, 'increment');
     spyOn(retryableMock, 'attempt').and.callThrough();
 
-    const retryer = new Retryer(statsDMock, retryableMock, 5, 1, 1, 1, ['service:intershop']);
+    const retryer = new Retryer(statsDMock, retryableMock, {
+      maxAttempts: 5,
+      minInterval: 1,
+      maxInterval: 1,
+      jitter:      1,
+    }, ['service:intershop']);
 
     await retryer.execute();
 
@@ -62,7 +72,12 @@ describe('A Retryer', () => {
     spyOn(statsDMock, 'increment');
     spyOn(retryableMock, 'attempt').and.callThrough();
 
-    const retryer = new Retryer(statsDMock, retryableMock, 5, 1, 1, 1);
+    const retryer = new Retryer(statsDMock, retryableMock, {
+      maxAttempts: 5,
+      minInterval: 1,
+      maxInterval: 1,
+      jitter:      1,
+    });
 
     await retryer.execute();
 
