@@ -20,6 +20,11 @@ export class RetryerFactory {
   }
 
   public create(retryable: Retryable): Retryer {
-    return new Retryer(this.statsD, retryable, this.maxAttempts + 1, this.minInterval, this.maxInterval, this.jitter, this.defaultTags);
+    return new Retryer(this.statsD, retryable, {
+      maxAttempts: this.maxAttempts + 1,
+      minInterval: this.minInterval,
+      maxInterval: this.maxInterval,
+      jitter:      this.jitter,
+    }, this.defaultTags);
   }
 }
