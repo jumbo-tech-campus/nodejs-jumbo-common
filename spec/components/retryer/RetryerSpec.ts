@@ -30,7 +30,12 @@ describe('A Retryer', () => {
 
     retryableMock.attempt = () => Promise.resolve(true);
 
-    const retryer = new Retryer(statsDMock, retryableMock, 2, 1, 1, 1);
+    const retryer = new Retryer(statsDMock, retryableMock, {
+      maxAttempts: 2,
+      minInterval: 1,
+      maxInterval: 1,
+      jitter:      1,
+    }, ['service:intershop']);
 
     await retryer.execute();
 
@@ -41,15 +46,20 @@ describe('A Retryer', () => {
     spyOn(statsDMock, 'increment');
     spyOn(retryableMock, 'attempt').and.callThrough();
 
-    const retryer = new Retryer(statsDMock, retryableMock, 5, 1, 1, 1);
+    const retryer = new Retryer(statsDMock, retryableMock, {
+      maxAttempts: 5,
+      minInterval: 1,
+      maxInterval: 1,
+      jitter:      1,
+    }, ['service:intershop']);
 
     await retryer.execute();
 
     expect(retryableMock.attempt).toHaveBeenCalledTimes(3);
     expect(tries).toEqual(3);
     expect(statsDMock.increment).toHaveBeenCalledTimes(2);
-    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(0)).toEqual(['retryable.retries', jasmine.any(Number), ['tags:one', 'retryAttempt:1']]);
-    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(1)).toEqual(['retryable.retries', jasmine.any(Number), ['tags:one', 'retryAttempt:2']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(0)).toEqual(['retry', jasmine.any(Number), ['tags:one', 'retryAttempt:1', 'service:intershop']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(1)).toEqual(['retry', jasmine.any(Number), ['tags:one', 'retryAttempt:2', 'service:intershop']]);
     expect((statsDMock.increment as jasmine.Spy).calls.argsFor(2)).toEqual([]);
   });
 
@@ -62,18 +72,23 @@ describe('A Retryer', () => {
     spyOn(statsDMock, 'increment');
     spyOn(retryableMock, 'attempt').and.callThrough();
 
-    const retryer = new Retryer(statsDMock, retryableMock, 5, 1, 1, 1);
+    const retryer = new Retryer(statsDMock, retryableMock, {
+      maxAttempts: 5,
+      minInterval: 1,
+      maxInterval: 1,
+      jitter:      1,
+    });
 
     await retryer.execute();
 
     expect(retryableMock.attempt).toHaveBeenCalledTimes(5);
     expect(tries).toEqual(5);
     expect(statsDMock.increment).toHaveBeenCalledTimes(5);
-    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(0)).toEqual(['retryable.retries', jasmine.any(Number), ['tags:one', 'retryAttempt:1']]);
-    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(1)).toEqual(['retryable.retries', jasmine.any(Number), ['tags:one', 'retryAttempt:2']]);
-    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(2)).toEqual(['retryable.retries', jasmine.any(Number), ['tags:one', 'retryAttempt:3']]);
-    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(3)).toEqual(['retryable.retries', jasmine.any(Number), ['tags:one', 'retryAttempt:4']]);
-    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(4)).toEqual(['retryable.retries', jasmine.any(Number), ['tags:one', 'retryAttempt:5']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(0)).toEqual(['retry', jasmine.any(Number), ['tags:one', 'retryAttempt:1']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(1)).toEqual(['retry', jasmine.any(Number), ['tags:one', 'retryAttempt:2']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(2)).toEqual(['retry', jasmine.any(Number), ['tags:one', 'retryAttempt:3']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(3)).toEqual(['retry', jasmine.any(Number), ['tags:one', 'retryAttempt:4']]);
+    expect((statsDMock.increment as jasmine.Spy).calls.argsFor(4)).toEqual(['retry', jasmine.any(Number), ['tags:one', 'retryAttempt:5']]);
     expect((statsDMock.increment as jasmine.Spy).calls.argsFor(5)).toEqual([]);
   });
 });

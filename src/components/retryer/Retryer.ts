@@ -1,30 +1,39 @@
 import {Retryable} from './Retryable';
 import {StatsD} from 'hot-shots';
-import {Measurable} from '../telemetry/Measurable';
 
 const backo = require('backo');
 
 export class Retryer {
   private readonly statsD: StatsD;
-  private readonly retryable: Retryable & Measurable<any>;
+  private readonly retryable: Retryable;
   private readonly backo: any;
   private readonly maxAttempts: number;
+  private readonly defaultTags: string[];
 
-  public constructor(statsD: StatsD, retryable: Retryable & Measurable<any>, maxAttempts: number, minInterval: number, maxInterval: number, jitter: number) {
+  public constructor(statsD: StatsD,
+                     retryable: Retryable,
+                     retryConfig: {
+                       maxAttempts: number;
+                       minInterval: number;
+                       maxInterval: number;
+                       jitter: number;
+                     },
+                     defaultTags: string[] = []) {
     this.statsD      = statsD;
     this.retryable   = retryable;
     this.backo       = new backo({
-      min:    minInterval,
-      max:    maxInterval,
-      jitter: jitter,
+      min:    retryConfig.minInterval,
+      max:    retryConfig.maxInterval,
+      jitter: retryConfig.jitter,
     });
-    this.maxAttempts = maxAttempts - 1;
+    this.maxAttempts = retryConfig.maxAttempts - 1;
+    this.defaultTags = defaultTags;
   }
 
   public async execute(): Promise<void> {
     if (await this.shouldAttempt()) {
       const attempt = this.backo.attempts + 1;
-      this.statsD.increment(`${this.retryable.type.toLowerCase()}.retries`, 1, this.retryable.tags.concat(`retryAttempt:${attempt}`));
+      this.statsD.increment(`retry`, 1, this.retryable.tags.concat(`retryAttempt:${attempt}`, ...this.defaultTags));
 
       await this.wait(this.backo.duration());
 
