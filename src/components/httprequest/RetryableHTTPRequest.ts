@@ -5,6 +5,7 @@ import {objectToTags} from '../telemetry/objectToTags';
 
 export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retryable {
   private requestResult?: HTTPRequestResponse | Error;
+  private result: 'noattempt' | 'failed' | 'success' = 'noattempt';
 
   public constructor(request: HTTPRequest) {
     super(request);
@@ -15,17 +16,16 @@ export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retrya
 
     delete tags.body;
 
-    if (this.requestResult) {
-      tags.retryRequest = this.isRetryable(this.requestResult) ? 'yes' : 'no';
+    tags.result = this.result;
 
-      if (this.requestResult instanceof Error) {
-        tags.result = 'failed';
-      } else {
-        tags.result     = 'success';
-        tags.statusCode = `${this.requestResult.statusCode}`;
-      }
-    } else {
-      tags.result = 'noattempt';
+    if (!this.requestResult) {
+      return objectToTags(tags);
+    }
+
+    tags.retryRequest = this.isRetryable(this.requestResult) ? 'yes' : 'no';
+
+    if (!(this.requestResult instanceof Error)) {
+      tags.statusCode = `${this.requestResult.statusCode}`;
     }
 
     return objectToTags(tags);
@@ -35,8 +35,12 @@ export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retrya
     let requestResult: HTTPRequestResponse | Error;
     try {
       requestResult = await this.request.execute();
+
+      this.result = 'success';
     } catch (error) {
       requestResult = error;
+
+      this.result = 'failed';
     }
 
     this.requestResult = requestResult;

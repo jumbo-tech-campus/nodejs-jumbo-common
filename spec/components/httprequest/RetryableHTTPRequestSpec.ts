@@ -27,7 +27,7 @@ describe('A RetryableHTTPRequest', () => {
 
     expect(attempt).toEqual(true);
     expect(result).toEqual(requestResult);
-    expect(retryableRequest.tags).toEqual(['retryRequest:no', 'result:success', 'statusCode:200']);
+    expect(retryableRequest.tags).toEqual(['result:success', 'retryRequest:no', 'statusCode:200']);
   });
 
   it('Retries a statuscode 5**', async () => {
@@ -97,7 +97,7 @@ describe('A RetryableHTTPRequest', () => {
       await retryableRequest.execute();
     } catch (error) {
       expect(error.message).toEqual('Error: ETIMEDOUT');
-      expect(retryableRequest.tags).toEqual(['retryRequest:yes', 'result:failed']);
+      expect(retryableRequest.tags).toEqual(['result:failed', 'retryRequest:yes']);
 
       return;
     }
