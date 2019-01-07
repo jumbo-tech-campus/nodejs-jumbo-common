@@ -62,8 +62,10 @@ export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retrya
 
   private isRetryable(requestResult: HTTPRequestResponse | Error): boolean {
     if (requestResult instanceof Error) {
-      return requestResult.message !== 'Error: ESOCKETTIMEDOUT' &&
-        !requestResult.message.startsWith('Error: connect ECONNREFUSED');
+      const isNotSocketTimedOut = requestResult.message !== 'Error: ESOCKETTIMEDOUT';
+      const isNotConnectionRefused = !requestResult.message.startsWith('Error: connect ECONNREFUSED');
+
+      return isNotSocketTimedOut && isNotConnectionRefused;
     } else {
       return requestResult.statusCode >= 500;
     }
