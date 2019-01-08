@@ -1,6 +1,6 @@
 import * as hapi from 'hapi';
 import Boom from 'boom';
-import {JWTWrapper} from '../jwt/JWTWrapper';
+import {JWTWrapper} from '../JWTWrapper';
 import Logger from 'bunyan';
 
 declare module 'hapi' {

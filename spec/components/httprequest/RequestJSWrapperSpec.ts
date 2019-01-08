@@ -132,6 +132,21 @@ describe('A RequestJSWrapper', () => {
     fail();
   });
 
+  asyncIt('Can return an ECONNREFUSED error', async () => {
+    try {
+      await new RequestJSWrapper({
+        url: 'http://localhost:12345',
+      }).execute();
+    } catch (error) {
+      expect(error.name).toEqual('RequestError');
+      expect(error.message).toEqual('Error: connect ECONNREFUSED 127.0.0.1:12345');
+
+      return;
+    }
+
+    fail();
+  });
+
   asyncIt('Can use a baseURL', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});
 

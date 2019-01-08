@@ -1,4 +1,4 @@
-import {JWTWrapper} from '../../../src/components/jwt/JWTWrapper';
+import {JWTWrapper} from '../../src/components/JWTWrapper';
 
 describe('A JWTWrapper ', () => {
   let jwtWrapperMock = new JWTWrapper('secretkey');
