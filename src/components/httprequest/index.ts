@@ -1,6 +1,5 @@
 export * from './HTTPRequest';
 export * from './HTTPRequestDecorator';
-export * from './HTTPRequestError';
 export * from './HTTPRequestFactory';
 export * from './HTTPRequestMeasurable';
 export * from './HTTPRequestTelemetry';
@@ -9,3 +8,4 @@ export * from './HTTPRequestTimedoutError';
 export * from './HTTPResponse';
 export * from './RequestJSWrapper';
 export * from './RequestJSWrapperFactory';
+export * from './RetryableHTTPRequest';
