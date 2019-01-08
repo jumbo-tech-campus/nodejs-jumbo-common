@@ -8,4 +8,3 @@ export * from './HTTPRequestTimedoutError';
 export * from './HTTPResponse';
 export * from './RequestJSWrapper';
 export * from './RequestJSWrapperFactory';
-export * from './RetryableHTTPRequest';
