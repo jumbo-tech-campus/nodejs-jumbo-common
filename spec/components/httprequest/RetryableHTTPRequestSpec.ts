@@ -1,5 +1,5 @@
 import {HTTPRequest, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
-import {RetryableHTTPRequest} from '../../../src/components/retryer/RetryableHTTPRequest';
+import {RetryableHTTPRequest} from '../../../src/components/httprequest/RetryableHTTPRequest';
 
 describe('A RetryableHTTPRequest', () => {
   let requestResult: HTTPRequestResponse;
