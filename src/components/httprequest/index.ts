@@ -1,6 +1,5 @@
 export * from './HTTPRequest';
 export * from './HTTPRequestDecorator';
-export * from './HTTPRequestError';
 export * from './HTTPRequestFactory';
 export * from './HTTPRequestMeasurable';
 export * from './HTTPRequestTelemetry';
