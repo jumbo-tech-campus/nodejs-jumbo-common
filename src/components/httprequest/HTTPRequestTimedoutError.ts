@@ -1,4 +1,4 @@
-import {APIError} from '../APIError';
+import {APIError} from '../helpers/APIError';
 
 export class HTTPRequestTimedoutError extends APIError {
   public constructor(message: string) {
