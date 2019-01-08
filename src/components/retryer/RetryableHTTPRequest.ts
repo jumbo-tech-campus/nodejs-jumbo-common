@@ -1,7 +1,7 @@
-import {HTTPRequestDecorator} from '../httprequest';
 import {Retryable} from './Retryable';
-import {HTTPRequest, HTTPRequestResponse} from '../httprequest';
-import {objectToTags} from '../telemetry';
+import {HTTPRequestDecorator} from '../httprequest/HTTPRequestDecorator';
+import {HTTPRequest, HTTPRequestResponse} from '../httprequest/HTTPRequest';
+import {objectToTags} from '../telemetry/objectToTags';
 
 export class RetryableHTTPRequest extends HTTPRequestDecorator implements Retryable {
   private requestResult?: HTTPRequestResponse | Error;
