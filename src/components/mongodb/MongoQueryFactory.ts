@@ -31,7 +31,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoFindOne(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
-  public createCreate(createOptions: Record<string, any>): MongoQuery<T> {
+  public createCreate(createOptions: Record<string, any> | Record<string, any>[]): MongoQuery<T> {
     return this.createTelemetry(new MongoCreate(createOptions, this.model));
   }
 
