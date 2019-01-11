@@ -13,6 +13,7 @@ import {MongoCount} from './MongoCount';
 import {MongoMeasurable} from './MongoMeasurable';
 import {MongoDeleteMany} from './MongoRemoveMultiple';
 import {AsyncTelemetry} from '../telemetry/AsyncTelemetry';
+import {MongoCreateMany} from './MongoCreateMany';
 
 export class MongoQueryFactory<T extends mongoose.Document> {
   private readonly model: mongoose.Model<T>;
@@ -31,8 +32,12 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoFindOne(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
-  public createCreate(createOptions: Record<string, any> | Record<string, any>[]): MongoQuery<T> {
+  public createCreate(createOptions: Record<string, any>): MongoQuery<T> {
     return this.createTelemetry(new MongoCreate(createOptions, this.model));
+  }
+
+  public createCreateMany(createOptions: Record<string, any>[]): MongoQuery<T[]> {
+    return this.createTelemetry(new MongoCreateMany(createOptions, this.model));
   }
 
   public createUpdate(updateOptions: Record<string, any>, updateDocument: any): MongoQuery<T | undefined> {
