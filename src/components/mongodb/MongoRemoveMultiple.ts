@@ -2,10 +2,10 @@ import * as mongoose from 'mongoose';
 import {MongoQuery} from './MongoQuery';
 
 export class MongoDeleteMany<T extends mongoose.Document> implements MongoQuery<void> {
-  public readonly options: any;
+  public readonly options: Record<string, any>;
   private readonly model: mongoose.Model<T>;
 
-  public constructor(options: any, model: mongoose.Model<T>) {
+  public constructor(options: Record<string, any>, model: mongoose.Model<T>) {
     this.options = options;
     this.model   = model;
   }
