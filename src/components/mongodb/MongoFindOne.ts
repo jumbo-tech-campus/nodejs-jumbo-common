@@ -3,11 +3,11 @@ import {MongoQuery} from './MongoQuery';
 import {MongoDocumentQuery} from './MongoDocumentQuery';
 
 export class MongoFindOne<T extends mongoose.Document> implements MongoQuery<T | undefined> {
-  public readonly options: Partial<T>;
+  public readonly options: Record<string, any>;
   private readonly model: mongoose.Model<T>;
   private readonly documentQuery: MongoDocumentQuery;
 
-  public constructor(options: Partial<T>, model: mongoose.Model<T>, documentQuery: MongoDocumentQuery) {
+  public constructor(options: Record<string, any>, model: mongoose.Model<T>, documentQuery: MongoDocumentQuery) {
     this.options       = options;
     this.model         = model;
     this.documentQuery = documentQuery;
