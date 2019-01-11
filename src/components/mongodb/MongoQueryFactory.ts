@@ -23,27 +23,27 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     this.telemetry = telemetry;
   }
 
-  public createFind(findOptions: Partial<T>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T[]> {
+  public createFind(findOptions: Record<string, any>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T[]> {
     return this.createTelemetry(new MongoFind(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
-  public createFindOne(findOptions: Partial<T>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T | undefined> {
+  public createFindOne(findOptions: Record<string, any>, mongoQueryOptions?: MongoDocumentQueryOptions): MongoQuery<T | undefined> {
     return this.createTelemetry(new MongoFindOne(findOptions, this.model, new MongoDocumentQuery(mongoQueryOptions)));
   }
 
-  public createCreate(createOptions: Partial<T>): MongoQuery<T> {
+  public createCreate(createOptions: Record<string, any>): MongoQuery<T> {
     return this.createTelemetry(new MongoCreate(createOptions, this.model));
   }
 
-  public createUpdate(updateOptions: Partial<T>, updateDocument: any): MongoQuery<T | undefined> {
+  public createUpdate(updateOptions: Record<string, any>, updateDocument: any): MongoQuery<T | undefined> {
     return this.createTelemetry(new MongoUpdate(updateOptions, updateDocument, this.model));
   }
 
-  public createUpdateMany(updateOptions: Partial<T>, updateDocument: Partial<T>): MongoQuery<void> {
+  public createUpdateMany(updateOptions: Record<string, any>, updateDocument: Record<string, any>): MongoQuery<void> {
     return this.createTelemetry(new MongoUpdateMany(updateOptions, updateDocument, this.model));
   }
 
-  public createDelete(removeOptions: Partial<T>): MongoQuery<T | undefined> {
+  public createDelete(removeOptions: Record<string, any>): MongoQuery<T | undefined> {
     return this.createTelemetry(new MongoDelete(removeOptions, this.model));
   }
 
@@ -51,11 +51,11 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoDeleteMany(removeOptions, this.model));
   }
 
-  public createCount(options: Partial<T>): MongoQuery<number> {
+  public createCount(options: Record<string, any>): MongoQuery<number> {
     return this.createTelemetry(new MongoCount(options, this.model));
   }
 
-  public createFindOrCreate(findOptions: Partial<T>, createOptions?: Partial<T>): MongoQuery<T> {
+  public createFindOrCreate(findOptions: Record<string, any>, createOptions?: Record<string, any>): MongoQuery<T> {
     let createQuery: MongoCreate<T>;
     if (createOptions) {
       createQuery = new MongoCreate(createOptions, this.model);
