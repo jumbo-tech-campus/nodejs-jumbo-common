@@ -7,7 +7,7 @@ import {MongoCreate} from './MongoCreate';
 import {MongoUpdate} from './MongoUpdate';
 import {MongoDocumentQuery, MongoDocumentQueryOptions} from './MongoDocumentQuery';
 import {MongoDelete} from './MongoDelete';
-import {MongoFindOrCreate} from './MongoFindOrCreate';
+import {MongoFindOrCreate, MongoFindOrCreateResult} from './MongoFindOrCreate';
 import {MongoUpdateMany} from './MongoUpdateMany';
 import {MongoCount} from './MongoCount';
 import {MongoMeasurable} from './MongoMeasurable';
@@ -60,7 +60,7 @@ export class MongoQueryFactory<T extends mongoose.Document> {
     return this.createTelemetry(new MongoCount(options, this.model));
   }
 
-  public createFindOrCreate(findOptions: Record<string, any>, createOptions?: Record<string, any>): MongoQuery<T> {
+  public createFindOrCreate(findOptions: Record<string, any>, createOptions?: Record<string, any>): MongoQuery<MongoFindOrCreateResult<T>> {
     let createQuery: MongoCreate<T>;
     if (createOptions) {
       createQuery = new MongoCreate(createOptions, this.model);
