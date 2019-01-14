@@ -3,7 +3,12 @@ import {MongoFindOne} from './MongoFindOne';
 import {MongoQuery} from './MongoQuery';
 import mongoose from 'mongoose';
 
-export class MongoFindOrCreate<T extends mongoose.Document> implements MongoQuery<T> {
+export interface MongoFindOrCreateResult<T> {
+  created: boolean;
+  document: T;
+}
+
+export class MongoFindOrCreate<T extends mongoose.Document> implements MongoQuery<MongoFindOrCreateResult<T>> {
   private readonly findOneQuery: MongoFindOne<T>;
   private readonly createQuery: MongoCreate<T>;
 
@@ -16,12 +21,18 @@ export class MongoFindOrCreate<T extends mongoose.Document> implements MongoQuer
     return this.findOneQuery.options;
   }
 
-  public async execute(): Promise<T> {
+  public async execute(): Promise<MongoFindOrCreateResult<T>> {
     let document = await this.findOneQuery.execute();
     if (!document) {
-      document = await this.createQuery.execute();
+      return {
+        created:  true,
+        document: await this.createQuery.execute(),
+      };
     }
 
-    return document;
+    return {
+      created:  false,
+      document: document,
+    };
   }
 }

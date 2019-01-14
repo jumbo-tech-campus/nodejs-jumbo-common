@@ -20,7 +20,10 @@ describe('A MongoFindOrCreate', () => {
   it('Should be able to find a document', async () => {
     const document = await mongoFindOrCreate.execute();
 
-    expect(document).toEqual(documentMock);
+    expect(document).toEqual({
+      created:  false,
+      document: documentMock,
+    });
   });
 
   it('Should be able to create a document', async () => {
@@ -29,7 +32,10 @@ describe('A MongoFindOrCreate', () => {
 
     const document = await mongoFindOrCreate.execute();
 
-    expect(document).toEqual(documentMock);
+    expect(document).toEqual({
+      created:  true,
+      document: documentMock,
+    });
   });
 
   it('Has the same options as mongoFindOne', () => {
