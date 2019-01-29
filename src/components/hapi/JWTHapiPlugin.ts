@@ -32,7 +32,7 @@ export const createJWTUnpacker = (options: JWTHapiPluginOptions): hapi.Lifecycle
         error: error,
       }, 'Error while decoding JWT');
 
-      throw Boom.unauthorized(`Invalid JWT Token for header ${options.jwtHeader}`);
+      throw Boom.unauthorized(`Invalid Authentication Tokens`);
     }
 
     if (typeof decodedObject === 'object' && decodedObject.CustomerID) {
