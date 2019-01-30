@@ -186,6 +186,12 @@
         "no-unnecessary-override": true,
         "no-unnecessary-semicolons": true,
         "promise-must-complete": true,
-        "no-angle-bracket-type-assertion": true
+        "no-angle-bracket-type-assertion": true,
+        "prefer-const": [
+            true,
+            {
+                "destructuring": "any"
+            }
+        ]
     }
 }
