@@ -9,9 +9,9 @@ interface RedisConfig {
 }
 
 export class RedisClient {
-  private logger: Logger;
-  private config: RedisConfig;
-  private _client: IORedis.Redis;
+  private readonly logger: Logger;
+  private readonly config: RedisConfig;
+  private readonly _client: IORedis.Redis;
 
   public constructor(logger: Logger, redisConfig: RedisConfig) {
     this.logger  = logger;
