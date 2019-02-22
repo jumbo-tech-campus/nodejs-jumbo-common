@@ -26,7 +26,7 @@ export class RedisClient {
   }
 
   public get connected(): boolean {
-    return this.client.status === 'connect';
+    return this.client.status === 'ready';
   }
 
   private createRedisClient(): IORedis.Redis {
