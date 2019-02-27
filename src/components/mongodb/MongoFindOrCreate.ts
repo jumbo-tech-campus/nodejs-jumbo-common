@@ -22,7 +22,7 @@ export class MongoFindOrCreate<T extends mongoose.Document> implements MongoQuer
   }
 
   public async execute(): Promise<MongoFindOrCreateResult<T>> {
-    let document = await this.findOneQuery.execute();
+    const document = await this.findOneQuery.execute();
     if (!document) {
       return {
         created:  true,

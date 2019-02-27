@@ -3,7 +3,7 @@ import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 import {StatsD} from 'hot-shots';
 
 describe('An AsyncMeasurer', () => {
-  let tagsMock: string[] = ['test:test'];
+  const tagsMock: string[] = ['test:test'];
   let measurableMock: Measurable<any>;
   const statsDMock     = {} as StatsD;
   statsDMock.timing    = () => void 0;
@@ -42,7 +42,7 @@ describe('An AsyncMeasurer', () => {
 
   describe('When the measurable throws an error', () => {
     let result: any;
-    let error = Error('Error');
+    const error = Error('Error');
 
     beforeEach(async () => {
       spyOn(statsDMock, 'timing');

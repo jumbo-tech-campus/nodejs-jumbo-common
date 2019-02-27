@@ -2,7 +2,7 @@ import {HTTPResponse} from '../../../src/components/httprequest/HTTPResponse';
 import {Pageable, PaginationController} from '../../../src/components/pagination/PaginationController';
 
 describe('A PaginationController', () => {
-  let pageableMock           = {} as Pageable;
+  const pageableMock           = {} as Pageable;
   const paginationController = new PaginationController(pageableMock);
   let httpResponse: HTTPResponse;
 
