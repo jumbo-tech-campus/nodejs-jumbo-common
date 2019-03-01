@@ -62,7 +62,7 @@ describe('A Hapi JumboTokenPlugin', () => {
     try {
       unpackerLifecycleMethod(requestMock, hMock);
     } catch (error) {
-      expect(error.message).toEqual('Invalid JWT Token for header x-jumbo-token');
+      expect(error.message).toEqual('Invalid Authentication Tokens');
 
       return;
     }

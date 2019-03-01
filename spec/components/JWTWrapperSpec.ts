@@ -1,7 +1,7 @@
 import {JWTWrapper} from '../../src/components/JWTWrapper';
 
 describe('A JWTWrapper ', () => {
-  let jwtWrapperMock = new JWTWrapper('secretkey');
+  const jwtWrapperMock = new JWTWrapper('secretkey');
 
   it('Should be able to sign a token', () => {
     const token = jwtWrapperMock.signToken({}, {});
@@ -10,7 +10,7 @@ describe('A JWTWrapper ', () => {
   });
 
   it('Should throw error if no key provided', () => {
-    let jwtWrapperMock = new JWTWrapper('');
+    const jwtWrapperMock = new JWTWrapper('');
 
     try {
       jwtWrapperMock.signToken({}, {});

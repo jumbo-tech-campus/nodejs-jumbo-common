@@ -4,17 +4,17 @@ import {RequestJSWrapper} from '../../../src/components/httprequest/RequestJSWra
 import {HTTPRequestOptions, HTTPRequestResponse} from '../../../src/components/httprequest/HTTPRequest';
 
 describe('A RequestJSWrapper', () => {
-  let domain  = 'http://mobileapi.unit-test-jumbo.com';
-  let url     = 'v2/test/url';
-  let nockUrl = `/${url}`;
-  let options = {
+  const domain  = 'http://mobileapi.unit-test-jumbo.com';
+  const url     = 'v2/test/url';
+  const nockUrl = `/${url}`;
+  const options = {
     url: `${domain}/${url}`,
   } as HTTPRequestOptions;
 
   asyncIt('Can return a valid HTTPResponse', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});
 
-    let response = await new RequestJSWrapper(options).execute() as HTTPRequestResponse;
+    const response = await new RequestJSWrapper(options).execute() as HTTPRequestResponse;
 
     expect(response.body).toEqual('{}');
     expect(response.headers).toEqual({'content-type': 'application/json'});
@@ -29,7 +29,7 @@ describe('A RequestJSWrapper', () => {
       return {};
     });
 
-    let response = await new RequestJSWrapper({
+    const response = await new RequestJSWrapper({
       ...options,
       json:    true,
       method:  'POST',
@@ -55,7 +55,7 @@ describe('A RequestJSWrapper', () => {
       return {};
     });
 
-    let response = await new RequestJSWrapper({
+    const response = await new RequestJSWrapper({
       ...options,
       json:    true,
       method:  'PUT',
@@ -75,7 +75,7 @@ describe('A RequestJSWrapper', () => {
   asyncIt('Can return a 4** valid HTTPResponse with JSON body', async () => {
     nock(domain).get(nockUrl).reply(400, {}, {});
 
-    let response = await new RequestJSWrapper({
+    const response = await new RequestJSWrapper({
       ...options,
       json: true,
     }).execute() as HTTPRequestResponse;
@@ -150,7 +150,7 @@ describe('A RequestJSWrapper', () => {
   asyncIt('Can use a baseURL', async () => {
     nock(domain).get(nockUrl).reply(200, {}, {});
 
-    let result = await new RequestJSWrapper({
+    const result = await new RequestJSWrapper({
       baseUrl: domain,
       url:     `/${url}`,
     }).execute();

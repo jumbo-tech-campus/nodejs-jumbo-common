@@ -13,6 +13,14 @@ describe('A DataValidator', () => {
     expect(dataValidator.validate('valid string')).toEqual('valid string');
   });
 
+  it('Parses a date', () => {
+    const dataValidator = new DataValidator<Date>(loggerMock, statsDMock, joi.date().iso());
+
+    const validationResult = dataValidator.validate('2999-01-01T00:00:00');
+
+    expect(validationResult).toEqual(new Date('2999-01-01T00:00:00'));
+  });
+
   it('Can fail a validation', () => {
     let error: Error;
 

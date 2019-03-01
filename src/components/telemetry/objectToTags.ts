@@ -1,7 +1,7 @@
 export const objectToTags = (options: Record<string, any>): string[] => {
-  let tags: string[] = [];
+  const tags: string[] = [];
 
-  for (let key of Object.keys(options)) {
+  for (const key of Object.keys(options)) {
     const value = options[key];
 
     if (typeof value === 'string' && !!value) {

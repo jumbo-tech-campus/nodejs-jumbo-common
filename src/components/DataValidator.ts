@@ -14,18 +14,18 @@ export class DataValidator<T = any> {
   }
 
   public validate(data: unknown): T {
-    const result = this.schema.validate(data);
-    if (result.error) {
+    const {error, value} = joi.validate(data, this.schema);
+    if (error) {
       this.logger.error({
         data:  data,
-        error: result.error,
+        error: error,
       }, 'Data Validation Error');
 
       this.statsD.increment('data_validation_error');
 
-      throw result.error;
+      throw error;
     }
 
-    return data as T;
+    return value as T;
   }
 }

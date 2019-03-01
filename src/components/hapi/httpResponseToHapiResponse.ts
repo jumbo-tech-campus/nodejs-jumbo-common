@@ -5,7 +5,7 @@ export const httpResponseToHapiResponse = (response: HTTPResponse, h: hapi.Respo
   let responseObject = h.response(response.body).code(response.statusCode);
 
   if (response.headers) {
-    for (let header of Object.keys(response.headers)) {
+    for (const header of Object.keys(response.headers)) {
       responseObject = responseObject.header(header, response.headers[header]);
     }
   }

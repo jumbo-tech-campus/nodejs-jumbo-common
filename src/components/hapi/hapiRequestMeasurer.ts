@@ -7,7 +7,7 @@ export interface HapiRequestMeasurerOptions {
 }
 
 export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] => {
-  let tags: string[] = [];
+  const tags: string[] = [];
   const apiVersion = request.path.split('/')[1];
   const response = request.response;
 

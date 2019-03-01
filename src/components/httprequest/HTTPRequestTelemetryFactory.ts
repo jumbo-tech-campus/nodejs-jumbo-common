@@ -14,7 +14,7 @@ export class HTTPRequestTelemetryFactory implements HTTPRequestFactory {
   }
 
   public create(options: HTTPRequestOptions): HTTPRequest {
-    let request: HTTPRequest = this.httpRequestFactory.create(options);
+    const request: HTTPRequest = this.httpRequestFactory.create(options);
 
     return new HTTPRequestTelemetry(new HTTPRequestMeasurable(request), this.telemetry);
   }
