@@ -1,6 +1,4 @@
-import * as Logger from 'bunyan';
 import {CacheQueryFactory} from './CacheQueryFactory';
-import {AsyncMeasurer} from '../telemetry/AsyncMeasurer';
 import {RedisClient} from './RedisClient';
 import {CacheInsertOptions} from './CacheInsertOptions';
 import {CacheQuery} from './CacheQuery';
@@ -9,17 +7,16 @@ import {RedisGetMultiple} from './RedisGetMultiple';
 import {RedisInsert} from './RedisInsert';
 import {CacheQueryTelemetry} from './CacheQueryTelemetry';
 import {MeasurableCacheQuery} from './MeasurableCacheQuery';
+import {AsyncTelemetry} from '../telemetry/AsyncTelemetry';
 
 export class RedisQueryFactory implements CacheQueryFactory {
   private readonly redis: RedisClient;
-  private readonly logger: Logger;
-  private readonly measurer: AsyncMeasurer;
+  private readonly asyncTelemetry: AsyncTelemetry;
   private readonly defaultStatsDTags?: string[];
 
-  public constructor(redis: RedisClient, logger: Logger, measurer: AsyncMeasurer, defaultStatsDTags?: string[]) {
+  public constructor(redis: RedisClient, asyncTelemetry: AsyncTelemetry, defaultStatsDTags?: string[]) {
     this.redis             = redis;
-    this.logger            = logger;
-    this.measurer          = measurer;
+    this.asyncTelemetry    = asyncTelemetry;
     this.defaultStatsDTags = defaultStatsDTags;
   }
 
@@ -36,6 +33,6 @@ export class RedisQueryFactory implements CacheQueryFactory {
   }
 
   private createMeasuredQuery<T>(query: CacheQuery<T>): CacheQuery<T> {
-    return new CacheQueryTelemetry(this.logger, new MeasurableCacheQuery(query), this.measurer, this.defaultStatsDTags);
+    return new CacheQueryTelemetry(new MeasurableCacheQuery(query), this.asyncTelemetry, this.defaultStatsDTags);
   }
 }

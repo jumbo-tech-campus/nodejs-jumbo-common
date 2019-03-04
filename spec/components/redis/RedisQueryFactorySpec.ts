@@ -1,14 +1,13 @@
 import {RedisClient} from '../../../src/components/redis/RedisClient';
-import {AsyncMeasurer} from '../../../src/components/telemetry/AsyncMeasurer';
 import {RedisQueryFactory} from '../../../src/components/redis/RedisQueryFactory';
-import {loggerMock} from '../../helpers/mocks/loggerMock';
 import {CacheQueryTelemetry} from '../../../src/components/redis/CacheQueryTelemetry';
+import {AsyncTelemetry} from '../../../src/components/telemetry/AsyncTelemetry';
 
 describe('A CacheQueryFactory', () => {
-  const couchbaseMock = {} as RedisClient;
-  const measurer      = {} as AsyncMeasurer;
+  const couchbaseMock      = {} as RedisClient;
+  const asyncTelemetryMock = {} as AsyncTelemetry;
 
-  const queryFactory = new RedisQueryFactory(couchbaseMock, loggerMock, measurer);
+  const queryFactory = new RedisQueryFactory(couchbaseMock, asyncTelemetryMock);
 
   it('Can return a Get query instance', () => {
     expect(queryFactory.createGet('id') instanceof CacheQueryTelemetry).toEqual(true);
