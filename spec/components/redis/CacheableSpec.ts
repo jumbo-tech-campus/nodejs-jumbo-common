@@ -1,10 +1,10 @@
-import {GetOrInsertCacheData} from '../../../src/components/redis/Cacheable';
+import {RedisGetOrInsertCacheData} from '../../../src/components/redis/Cacheable';
 import {RedisQueryFactory} from '../../../src/components/redis/RedisQueryFactory';
 import {CacheQuery} from '../../../src/components/redis/CacheQuery';
 
-describe('A GetOrInsertCacheData', () => {
+describe('A RedisGetOrInsertCacheData', () => {
   const redisQueryFactoryMock = {} as RedisQueryFactory;
-  const cacheable = new GetOrInsertCacheData(redisQueryFactoryMock, 3600);
+  const cacheable = new RedisGetOrInsertCacheData(redisQueryFactoryMock, 3600);
   const cacheQueryMock = {} as CacheQuery<any>;
 
   describe('Succesfully executes', () => {
