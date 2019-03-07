@@ -9,11 +9,11 @@ export class Cacheable {
     this.ttl               = ttl;
   }
 
-  public async execute<T>(key: string, cacheable: () => Promise<T>): Promise<T> {
+  public async execute<T>(key: string, getDataToCache: () => Promise<T>): Promise<T> {
     let cachedValue: T = await this.redisQueryFactory.createGet(key).execute();
 
     if (!cachedValue) {
-      cachedValue = await cacheable();
+      cachedValue = await getDataToCache();
 
       this.redisQueryFactory.createInsert(key, cachedValue, {expiry: this.ttl}).execute();
     }
