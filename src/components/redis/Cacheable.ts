@@ -1,4 +1,4 @@
-export interface CacheableRequest<T> {
+export interface Cacheable<T> {
   cacheKey: string;
   execute: () => Promise<T>;
 }

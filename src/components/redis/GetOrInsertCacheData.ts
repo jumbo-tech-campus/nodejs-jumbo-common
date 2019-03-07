@@ -1,5 +1,5 @@
 import {CacheQueryFactory} from './CacheQueryFactory';
-import {CacheableRequest} from './CacheableRequest';
+import {Cacheable} from './Cacheable';
 
 export class GetOrInsertCacheData {
   private cacheQueryFactory: CacheQueryFactory;
@@ -10,7 +10,7 @@ export class GetOrInsertCacheData {
     this.ttl               = ttl;
   }
 
-  public async execute<T>(cacheableRequest: CacheableRequest<T>): Promise<T> {
+  public async execute<T>(cacheableRequest: Cacheable<T>): Promise<T> {
     let cachedValue: T = await this.cacheQueryFactory.createGet(cacheableRequest.cacheKey).execute();
 
     if (!cachedValue) {
