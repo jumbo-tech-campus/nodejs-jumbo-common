@@ -1,4 +1,4 @@
-import {RedisGetOrInsertCacheData} from '../../../src/components/redis/Cacheable';
+import {RedisGetOrInsertCacheData} from '../../../src/components/redis/RedisGetOrInsertCacheData';
 import {RedisQueryFactory} from '../../../src/components/redis/RedisQueryFactory';
 import {CacheQuery} from '../../../src/components/redis/CacheQuery';
 
