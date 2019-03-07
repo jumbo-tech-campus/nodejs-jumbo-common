@@ -15,7 +15,9 @@ export class GetOrInsertCacheData {
     if (!cachedValue) {
       cachedValue = await getDataToCache();
 
-      this.cacheQueryFactory.createInsert(key, cachedValue, {expiry: this.ttl}).execute();
+      this.cacheQueryFactory.createInsert(key, cachedValue, {expiry: this.ttl})
+        .execute()
+        .catch((error) => ({}));
     }
 
     return cachedValue;
