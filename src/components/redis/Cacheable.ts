@@ -1,6 +1,6 @@
 import {RedisQueryFactory} from './RedisQueryFactory';
 
-export class Cacheable {
+export class GetOrInsertCacheData {
   private redisQueryFactory: RedisQueryFactory;
   private ttl: number;
 
