@@ -10,13 +10,13 @@ export class GetOrInsertCacheData {
     this.ttl               = ttl;
   }
 
-  public async execute<T>(key: string, cacheableRequest: CacheableRequest<T>): Promise<T> {
-    let cachedValue: T = await this.cacheQueryFactory.createGet(key).execute();
+  public async execute<T>(cacheableRequest: CacheableRequest<T>): Promise<T> {
+    let cachedValue: T = await this.cacheQueryFactory.createGet(cacheableRequest.cacheKey).execute();
 
     if (!cachedValue) {
       cachedValue = await cacheableRequest.execute();
 
-      this.cacheQueryFactory.createInsert(key, cachedValue, {expiry: this.ttl})
+      this.cacheQueryFactory.createInsert(cacheableRequest.cacheKey, cachedValue, {expiry: this.ttl})
         .execute()
         .catch((error) => ({}));
     }
