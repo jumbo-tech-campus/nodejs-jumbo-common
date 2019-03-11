@@ -1,6 +1,7 @@
 import {Measurable} from '../telemetry/Measurable';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
+import {statusCodeToTag} from '../hapi/hapiRequestMeasurer';
 
 export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measurable<HTTPRequestResponse> {
   public request: HTTPRequest;
@@ -28,16 +29,7 @@ export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measu
 
     if (this.response) {
       tags.push(`statuscode:${this.response.statusCode}`);
-
-      if (this.response.statusCode >= 200 && this.response.statusCode < 300) {
-        tags.push(`result:success`);
-      } else if (this.response.statusCode >= 400 && this.response.statusCode < 500) {
-        tags.push(`result:badrequest`);
-      } else if (this.response.statusCode >= 500) {
-        tags.push(`result:internal`);
-      } else {
-        tags.push(`result:unknown`);
-      }
+      tags.push(`result:${statusCodeToTag(this.response.statusCode)}`);
     } else {
       tags.push(`result:failed`);
     }
