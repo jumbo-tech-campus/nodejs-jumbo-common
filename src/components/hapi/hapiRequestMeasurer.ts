@@ -7,14 +7,16 @@ export interface HapiRequestMeasurerOptions {
 }
 
 export const statusCodeToTag = (statusCode: number): string => {
-  if (statusCode >= 200 && statusCode < 300) {
-    return 'Success';
+  if (statusCode >= 100 && statusCode < 200) {
+    return 'information_response';
+  } else if (statusCode >= 200 && statusCode < 300) {
+    return 'success';
   } else if (statusCode >= 300 && statusCode < 400) {
-    return 'Redirection';
+    return 'redirection';
   } else if (statusCode >= 400 && statusCode < 500) {
-    return 'Client Error';
+    return 'client_error';
   } else {
-    return 'Server Error';
+    return 'server_error';
   }
 };
 
