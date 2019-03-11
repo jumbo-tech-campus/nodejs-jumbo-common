@@ -37,6 +37,7 @@ describe('A hapiRequestMeasurer', () => {
         'path:/products',
         'apiVersion:v0',
         'statusCode:200',
+        'result:Success',
       ]);
     });
 
@@ -48,6 +49,7 @@ describe('A hapiRequestMeasurer', () => {
         'method:GET',
         'path:/products',
         'statusCode:200',
+        'result:Success',
       ]);
     });
   });
@@ -68,7 +70,7 @@ describe('A hapiRequestMeasurer', () => {
       expect((requestMock.app.statsdClient.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
         jasmine.any(String),
         jasmine.any(Number),
-        ['method:GET', 'path:/products', 'apiVersion:v0', 'statusCode:200']]);
+        ['method:GET', 'path:/products', 'apiVersion:v0', 'statusCode:200', 'result:Success']]);
       done();
     });
 
@@ -80,7 +82,7 @@ describe('A hapiRequestMeasurer', () => {
       expect((requestMock.app.statsdClient.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
         jasmine.any(String),
         jasmine.any(Number),
-        ['method:GET', 'path:/products', 'apiVersion:v0', 'error:Foo', 'statusCode:500']]);
+        ['method:GET', 'path:/products', 'apiVersion:v0', 'error:Foo', 'statusCode:500', 'result:Server Error']]);
       done();
     });
   });

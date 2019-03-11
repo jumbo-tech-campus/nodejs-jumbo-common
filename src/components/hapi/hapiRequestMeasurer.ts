@@ -6,10 +6,22 @@ export interface HapiRequestMeasurerOptions {
   statsdClient: StatsD;
 }
 
+export const statusCodeToTag = (statusCode: number): string => {
+  if (statusCode >= 200 && statusCode < 300) {
+    return 'Success';
+  } else if (statusCode >= 300 && statusCode < 400) {
+    return 'Redirection';
+  } else if (statusCode >= 400 && statusCode < 500) {
+    return 'Client Error';
+  } else {
+    return 'Server Error';
+  }
+};
+
 export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] => {
   const tags: string[] = [];
-  const apiVersion = request.path.split('/')[1];
-  const response = request.response;
+  const apiVersion     = request.path.split('/')[1];
+  const response       = request.response;
 
   tags.push(`method:${request.method}`);
   tags.push(`path:${request.route.path}`);
@@ -18,12 +30,17 @@ export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] =>
     tags.push(`apiVersion:${apiVersion}`);
   }
 
+  let statusCode: number | undefined;
+
   if (response instanceof Boom) {
-    tags.push(`error:${(response as Boom).name}`);
-    tags.push(`statusCode:${(response as Boom).output.statusCode}`);
+    tags.push(`error:${response.name}`);
+    statusCode = response.output.statusCode;
   } else {
-    tags.push(`statusCode:${(response as hapi.ResponseObject).statusCode}`);
+    statusCode = (response as hapi.ResponseObject).statusCode;
   }
+
+  tags.push(`statusCode:${statusCode}`);
+  tags.push(`result:${statusCodeToTag(statusCode)}`);
 
   return tags;
 };
@@ -42,6 +59,6 @@ const lifecycleRegistration = (server: hapi.Server, options: HapiRequestMeasurer
 };
 
 export const hapiRequestMeasurer: hapi.Plugin<HapiRequestMeasurerOptions> = {
-  name: 'hapi-request-measurer',
+  name:     'hapi-request-measurer',
   register: lifecycleRegistration,
 };
