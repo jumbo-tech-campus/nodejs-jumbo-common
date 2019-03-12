@@ -59,7 +59,7 @@ describe('A HTTPRequestMeasurable', () => {
     });
 
     it('Has correct tags', () => {
-      expect(tags).toContain('result:badrequest');
+      expect(tags).toContain('result:client_error');
     });
   });
 
@@ -80,7 +80,7 @@ describe('A HTTPRequestMeasurable', () => {
     });
 
     it('Has correct tags', () => {
-      expect(tags).toContain('result:internal');
+      expect(tags).toContain('result:server_error');
     });
   });
 
@@ -101,7 +101,7 @@ describe('A HTTPRequestMeasurable', () => {
     });
 
     it('Has correct tags', () => {
-      expect(tags).toContain('result:unknown');
+      expect(tags).toContain('result:redirection');
     });
   });
 
