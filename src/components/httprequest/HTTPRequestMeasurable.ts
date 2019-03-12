@@ -1,7 +1,7 @@
 import {Measurable} from '../telemetry/Measurable';
 import {HTTPRequest, HTTPRequestResponse} from './HTTPRequest';
 import {HTTPRequestDecorator} from './HTTPRequestDecorator';
-import {statusCodeToTag} from '../hapi/hapiRequestMeasurer';
+import {statusCodeToTag} from './statusCodeToTag';
 
 export class HTTPRequestMeasurable extends HTTPRequestDecorator implements Measurable<HTTPRequestResponse> {
   public request: HTTPRequest;
