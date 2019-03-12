@@ -2,7 +2,7 @@ import {CacheQuery} from './CacheQuery';
 import {Measurable} from '../telemetry/Measurable';
 
 export class MeasurableCacheQuery<T> implements CacheQuery<T>, Measurable<T> {
-  public readonly type: string                         = 'CacheQuery';
+  public readonly type: string                                    = 'CacheQuery';
   private result: 'success' | 'failed' | 'notexecuted' | 'nodata' = 'notexecuted';
   private readonly query: CacheQuery<T>;
 
