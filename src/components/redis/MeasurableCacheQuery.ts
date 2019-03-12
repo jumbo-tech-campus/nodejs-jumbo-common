@@ -2,8 +2,8 @@ import {CacheQuery} from './CacheQuery';
 import {Measurable} from '../telemetry/Measurable';
 
 export class MeasurableCacheQuery<T> implements CacheQuery<T>, Measurable<T> {
-  public readonly type: string                         = 'CacheQuery';
-  private result: 'success' | 'failed' | 'notexecuted' = 'notexecuted';
+  public readonly type: string                                    = 'CacheQuery';
+  private result: 'success' | 'failed' | 'notexecuted' | 'nodata' = 'notexecuted';
   private readonly query: CacheQuery<T>;
 
   public constructor(query: CacheQuery<T>) {
@@ -30,6 +30,10 @@ export class MeasurableCacheQuery<T> implements CacheQuery<T>, Measurable<T> {
       const result = await this.query.execute();
 
       this.result = 'success';
+
+      if (!result) {
+        this.result = 'nodata';
+      }
 
       return result;
     } catch (error) {

@@ -11,7 +11,8 @@ export class GetOrInsertCacheData {
   }
 
   public async execute<T>(cacheableRequest: Cacheable<T>): Promise<T> {
-    let cachedValue: T = await this.cacheQueryFactory.createGet(cacheableRequest.cacheKey).execute();
+    let cachedValue: T = await this.cacheQueryFactory.createGet(cacheableRequest.cacheKey).execute()
+      .catch((error) => ({}));
 
     if (!cachedValue) {
       cachedValue = await cacheableRequest.execute();
