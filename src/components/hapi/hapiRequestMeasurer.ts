@@ -34,17 +34,15 @@ export const extractStatsDTagsFromRequest = (request: hapi.Request): string[] =>
   return tags;
 };
 
-export const statsdTimingLifecycleMethod = (options: HapiRequestMeasurerOptions): hapi.Lifecycle.Method => (request, h) => {
+export const statsdTimingLifecycleMethod = (options: HapiRequestMeasurerOptions): hapi.ResponseEventHandler => (request) => {
   options.statsdClient.timing(
     'request.duration',
     Date.now() - request.info.received,
     extractStatsDTagsFromRequest(request));
-
-  return h.continue;
 };
 
 const lifecycleRegistration = (server: hapi.Server, options: HapiRequestMeasurerOptions) => {
-  server.ext('onPreResponse', statsdTimingLifecycleMethod(options));
+  server.events.on('response', statsdTimingLifecycleMethod(options));
 };
 
 export const hapiRequestMeasurer: hapi.Plugin<HapiRequestMeasurerOptions> = {

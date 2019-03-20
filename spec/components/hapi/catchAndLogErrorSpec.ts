@@ -84,9 +84,5 @@ describe('A catchAndLogError', () => {
     it('Expect error to be logged', () => {
       expect(loggerMock.error).toHaveBeenCalled();
     });
-
-    it('Has a transaction ID', () => {
-      expect(Object.keys(error.output.headers)).toContain('x-request-id');
-    });
   });
 });
