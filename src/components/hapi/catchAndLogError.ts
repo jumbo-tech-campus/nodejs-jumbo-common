@@ -27,10 +27,6 @@ export const catchAndLogError = (logger: Logger) => (lifecycleMethod: hapi.Lifec
       error = Boom.internal();
     }
 
-    if (request.app.requestID) {
-      error.output.headers['x-request-id'] = request.app.requestID;
-    }
-
     throw error;
   }
 };
