@@ -10,7 +10,7 @@ export const catchAndLogError = (logger: Logger) => (lifecycleMethod: hapi.Lifec
     if (!Boom.isBoom(error)) {
       const tid = uuidv4();
 
-      logger.error({
+      const logObject: Record<string, unknown> = {
         tid:     tid,
         request: {
           path:    request.path,
@@ -20,10 +20,16 @@ export const catchAndLogError = (logger: Logger) => (lifecycleMethod: hapi.Lifec
           payload: request.payload,
         },
         error:   error,
-      }, 'Error in route');
+      };
 
       error = Boom.internal();
-      error.output.headers['transaction-id'] = tid;
+
+      if (request.app.requestID) {
+        logObject.request_id = request.app.requestID;
+        error.output.headers['x-request-id'] = tid;
+      }
+
+      logger.error(logObject, 'Error in route');
     }
 
     throw error;
