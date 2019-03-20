@@ -6,22 +6,10 @@ export const catchAndLogError = (logger: Logger) => (lifecycleMethod: hapi.Lifec
   try {
     return await lifecycleMethod(request, h);
   } catch (error) {
-    const logObject: Record<string, unknown> = {
-      request: {
-        path:    request.path,
-        method:  request.method,
-        headers: request.headers,
-        query:   request.query,
-        payload: request.payload,
-      },
+    logger.error({
+      ...request.app.requestLogInfo,
       error:   error,
-    };
-
-    if (request.app.requestID) {
-      logObject.request_id = request.app.requestID;
-    }
-
-    logger.error(logObject, 'Error in route');
+    }, 'Error in route');
 
     if (!Boom.isBoom(error)) {
       error = Boom.internal();

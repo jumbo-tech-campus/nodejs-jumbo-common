@@ -11,11 +11,13 @@ export const requestLogInfoPlugin: hapi.Plugin<{}> = {
   register: (server: hapi.Server, options: {}) => {
     server.ext('onRequest', (request, h) => {
       request.app.requestLogInfo = {
-        path:    request.path,
-        method:  request.method,
-        headers: request.headers,
-        query:   request.query,
-        payload: request.payload,
+        request: {
+          path:    request.path,
+          method:  request.method,
+          headers: request.headers,
+          query:   request.query,
+          payload: request.payload,
+        },
       };
 
       if (request.app.requestID) {
