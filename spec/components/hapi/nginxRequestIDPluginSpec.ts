@@ -1,11 +1,10 @@
 import * as hapi from 'hapi';
-import {Writeable} from '../../../components/Writeable';
 import {onRequestNginxRequestIDLifecycleMethod, onResponseNginxRequestIDLifecycleMethod} from '../../../src/components/hapi/nginxRequestIDPlugin';
 import Boom from 'boom';
 
 describe('A onRequestNginxRequestIDLifecycleMethod', () => {
   let requestMock: hapi.Request & any;
-  let hMock: Writeable<hapi.ResponseToolkit>;
+  let hMock: hapi.ResponseToolkit & any;
 
   beforeEach(() => {
     requestMock                 = {} as hapi.Request;
@@ -15,7 +14,7 @@ describe('A onRequestNginxRequestIDLifecycleMethod', () => {
     requestMock.app             = {};
     requestMock.app.requestInfo = {};
 
-    hMock          = {} as Writeable<hapi.ResponseToolkit>;
+    hMock          = {} as hapi.ResponseToolkit & any;
     hMock.continue = Symbol('continue');
   });
 
@@ -32,7 +31,7 @@ describe('A onRequestNginxRequestIDLifecycleMethod', () => {
 
 describe('A onResponseNginxRequestIDLifecycleMethod', () => {
   let requestMock: hapi.Request & any;
-  let hMock: Writeable<hapi.ResponseToolkit>;
+  let hMock: hapi.ResponseToolkit & any;
 
   beforeEach(() => {
     requestMock                 = {} as hapi.Request;
@@ -41,7 +40,7 @@ describe('A onResponseNginxRequestIDLifecycleMethod', () => {
     requestMock.app             = {};
     requestMock.app.requestID   = 'requestID';
 
-    hMock          = {} as Writeable<hapi.ResponseToolkit>;
+    hMock          = {} as hapi.ResponseToolkit as any;
     hMock.continue = Symbol('continue');
   });
 
