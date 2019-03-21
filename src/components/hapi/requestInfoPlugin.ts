@@ -19,7 +19,6 @@ export const requestInfoLifeCycleMethod: hapi.Lifecycle.Method = (request, h) =>
   return h.continue;
 };
 
-/* istanbul ignore next */
 export const requestInfoPlugin: hapi.Plugin<{}> = {
   name:     'hapi-request-log-info',
   register: (server: hapi.Server) => {
