@@ -6,21 +6,23 @@ declare module 'hapi' {
   }
 }
 
+export const requestInfoLifeCycleMethod: hapi.Lifecycle.Method = (request, h) => {
+  request.app.requestInfo = {
+    request: {
+      path:    request.path,
+      method:  request.method,
+      headers: request.headers,
+      query:   request.query,
+    },
+  };
+
+  return h.continue;
+};
+
+/* istanbul ignore next */
 export const requestInfoPlugin: hapi.Plugin<{}> = {
   name:     'hapi-request-log-info',
   register: (server: hapi.Server) => {
-    server.ext('onRequest', (request, h) => {
-      request.app.requestInfo = {
-        request: {
-          path:    request.path,
-          method:  request.method,
-          headers: request.headers,
-          query:   request.query,
-          payload: request.payload,
-        },
-      };
-
-      return h.continue;
-    });
+    server.ext('onRequest', requestInfoLifeCycleMethod);
   },
 };
