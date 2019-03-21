@@ -41,16 +41,17 @@ describe('A onResponseNginxRequestIDLifecycleMethod', () => {
   let hMock: Writeable<hapi.ResponseToolkit>;
 
   beforeEach(() => {
-    requestMock               = {} as hapi.Request;
-    requestMock.response      = {} as hapi.ResponseObject;
-    requestMock.app           = {};
-    requestMock.app.requestID = 'requestID';
+    requestMock                 = {} as hapi.Request;
+    requestMock.response        = {} as hapi.ResponseObject;
+    requestMock.response.header = () => undefined;
+    requestMock.app             = {};
+    requestMock.app.requestID   = 'requestID';
 
     hMock          = {} as Writeable<hapi.ResponseToolkit>;
     hMock.continue = Symbol('continue');
   });
 
-  describe('When no response is set', () => {
+  describe('No response is set', () => {
     it('Returns h.continue', () => {
       requestMock.response = undefined;
 
@@ -58,7 +59,7 @@ describe('A onResponseNginxRequestIDLifecycleMethod', () => {
     });
   });
 
-  describe('When response is error', () => {
+  describe('Response is error', () => {
     beforeEach(() => {
       requestMock.response = Boom.internal();
 
@@ -67,6 +68,18 @@ describe('A onResponseNginxRequestIDLifecycleMethod', () => {
 
     it('Sets request id as header', () => {
       expect(requestMock.response.output.headers['x-request-id']).toEqual('requestID');
+    });
+  });
+
+  describe('Response is normal response', () => {
+    beforeEach(() => {
+      spyOn(requestMock.response, 'header');
+
+      onResponseNginxRequestIDLifecycleMethod(requestMock, hMock);
+    });
+
+    it('Sets request id as header', () => {
+      expect(requestMock.response.header).toHaveBeenCalledWith('x-request-id', 'requestID');
     });
   });
 });
