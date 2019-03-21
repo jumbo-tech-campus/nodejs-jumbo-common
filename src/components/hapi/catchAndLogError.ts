@@ -1,14 +1,16 @@
 import hapi from 'hapi';
 import Boom from 'boom';
 import Logger from 'bunyan';
+import {createRequestLogInfo} from './createRequestLogInfo';
 
 export const catchAndLogError = (logger: Logger) => (lifecycleMethod: hapi.Lifecycle.Method): hapi.Lifecycle.Method => async (request, h) => {
   try {
     return await lifecycleMethod(request, h);
   } catch (error) {
     logger.error({
-      ...request.app.requestInfo,
-      error:   error,
+      request:    createRequestLogInfo(request),
+      request_id: request.app.requestID,
+      error:      error,
     }, 'Error in route');
 
     if (!Boom.isBoom(error)) {
