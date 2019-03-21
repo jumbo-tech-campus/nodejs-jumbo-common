@@ -7,7 +7,7 @@ export const catchAndLogError = (logger: Logger) => (lifecycleMethod: hapi.Lifec
     return await lifecycleMethod(request, h);
   } catch (error) {
     logger.error({
-      ...request.app.requestLogInfo,
+      ...request.app.requestInfo,
       error:   error,
     }, 'Error in route');
 

@@ -2,15 +2,15 @@ import * as hapi from 'hapi';
 
 declare module 'hapi' {
   interface ApplicationState {
-    requestLogInfo: Record<string, unknown>;
+    requestInfo: Record<string, unknown>;
   }
 }
 
-export const requestLogInfoPlugin: hapi.Plugin<{}> = {
+export const requestInfoPlugin: hapi.Plugin<{}> = {
   name:     'hapi-request-log-info',
-  register: (server: hapi.Server, options: {}) => {
+  register: (server: hapi.Server) => {
     server.ext('onRequest', (request, h) => {
-      request.app.requestLogInfo = {
+      request.app.requestInfo = {
         request: {
           path:    request.path,
           method:  request.method,
@@ -21,7 +21,7 @@ export const requestLogInfoPlugin: hapi.Plugin<{}> = {
       };
 
       if (request.app.requestID) {
-        request.app.requestLogInfo.request_id = request.app.requestID;
+        request.app.requestInfo.request_id = request.app.requestID;
       }
 
       return h.continue;
