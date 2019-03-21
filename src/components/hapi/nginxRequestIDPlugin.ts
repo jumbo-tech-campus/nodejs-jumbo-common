@@ -12,6 +12,10 @@ export const nginxRequestIDPlugin: hapi.Plugin<{}> = {
     server.ext('onRequest', (request, h) => {
       request.app.requestID = request.headers['x-request-id'];
 
+      if (request.app.requestInfo && request.app.requestID) {
+        request.app.requestInfo.request_id = request.app.requestID;
+      }
+
       return h.continue;
     });
 

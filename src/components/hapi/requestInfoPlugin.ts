@@ -20,10 +20,6 @@ export const requestInfoPlugin: hapi.Plugin<{}> = {
         },
       };
 
-      if (request.app.requestID) {
-        request.app.requestInfo.request_id = request.app.requestID;
-      }
-
       return h.continue;
     });
   },
