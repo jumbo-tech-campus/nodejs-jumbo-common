@@ -27,12 +27,6 @@ describe('A onRequestNginxRequestIDLifecycleMethod', () => {
     it('Sets the request id on the application state', () => {
       expect(requestMock.app.requestID).toEqual('requestID');
     });
-
-    it('Sets the request id on the request info', () => {
-      expect(requestMock.app.requestInfo).toEqual({
-        request_id: 'requestID',
-      });
-    });
   });
 });
 
