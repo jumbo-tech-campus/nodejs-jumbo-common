@@ -1,4 +1,5 @@
 import * as hapi from 'hapi';
+import {ServerEvents} from 'hapi';
 import Boom from 'boom';
 import {statsDMock} from '../../helpers/mocks/statsDMock';
 import {extractStatsDTagsFromRequest, hapiRequestMeasurer, HapiRequestMeasurerOptions, statsdTimingLifecycleMethod} from '../../../src/components/hapi/hapiRequestMeasurer';
@@ -15,6 +16,8 @@ describe('A hapiRequestMeasurer', () => {
 
   beforeEach(() => {
     serverMock.ext           = () => void 0;
+    serverMock.events        = {} as ServerEvents;
+    serverMock.events.on     = () => void 0;
     optionsMock.statsdClient = statsDMock;
     hMock.continue           = Symbol('continue');
     requestMock.app          = {};
@@ -66,7 +69,7 @@ describe('A hapiRequestMeasurer', () => {
 
     it('should time requests with correct tags', (done) => {
       spyOn(requestMock.app.statsdClient, 'timing');
-      onPreResponseLifecycleMethod(requestMock, hMock);
+      onPreResponseLifecycleMethod(requestMock);
       expect((requestMock.app.statsdClient.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
         jasmine.any(String),
         jasmine.any(Number),
@@ -78,7 +81,7 @@ describe('A hapiRequestMeasurer', () => {
       requestMock.response = error;
 
       spyOn(requestMock.app.statsdClient, 'timing');
-      onPreResponseLifecycleMethod(requestMock, hMock);
+      onPreResponseLifecycleMethod(requestMock);
       expect((requestMock.app.statsdClient.timing as jasmine.Spy).calls.argsFor(0)).toEqual([
         jasmine.any(String),
         jasmine.any(Number),

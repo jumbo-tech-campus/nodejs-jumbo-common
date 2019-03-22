@@ -5,6 +5,9 @@ import Boom from 'boom';
 
 describe('A catchAndLogError', () => {
   const requestMock        = {} as hapi.Request;
+  requestMock.app          = {
+    requestID: 'requestID',
+  } as hapi.ApplicationState;
   const hMock              = {} as hapi.ResponseToolkit;
   const responseObjectMock = {} as hapi.ResponseObject;
   hMock.response           = () => responseObjectMock;
@@ -80,10 +83,6 @@ describe('A catchAndLogError', () => {
 
     it('Expect error to be logged', () => {
       expect(loggerMock.error).toHaveBeenCalled();
-    });
-
-    it('Has a transaction ID', () => {
-      expect(Object.keys(error.output.headers)).toContain('transaction-id');
     });
   });
 });

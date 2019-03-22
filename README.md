@@ -54,12 +54,3 @@ Install following dependencies in main project
 * request-promise-native
 * @types/request
 * @types/request-promise-native
-
-### Hapi
-
-#### Bunyan TID Logger
-To use the bunyan logger you need to install the following dependencies 
-* uuid
-* boom
-* hapi
-* bunyan
