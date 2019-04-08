@@ -30,7 +30,7 @@ export class HTTPRequestTelemetry extends HTTPRequestDecorator {
       this.logger.warn({
         request:  this.options,
         response: response,
-      }, 'Unsuccessful HTTP Response');
+      }, 'HTTP Request returned an error response');
     }
 
     return response;
