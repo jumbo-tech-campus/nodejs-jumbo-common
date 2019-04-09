@@ -6,6 +6,7 @@ export const createRequestErrorLog = (request: hapi.Request, error: Error): Reco
     method:  request.method,
     headers: request.headers,
     query:   request.query,
+    body:    request.payload,
   },
   request_id: request.app.requestID,
   error:      error,
