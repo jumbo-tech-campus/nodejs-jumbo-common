@@ -3,6 +3,7 @@ import {HTTPRequestTelemetry} from '../../../src/components/httprequest/HTTPRequ
 import {asyncIt} from '../../helpers/JasmineHelper';
 import {HTTPRequestMeasurable} from '../../../src/components/httprequest/HTTPRequestMeasurable';
 import {AsyncTelemetry} from '../../../src/components/telemetry/AsyncTelemetry';
+import {loggerMock} from '../../helpers/mocks/loggerMock';
 
 describe('A HTTPRequestTelemetry', () => {
   const request      = {} as HTTPRequest & HTTPRequestMeasurable;
@@ -16,7 +17,7 @@ describe('A HTTPRequestTelemetry', () => {
 
   asyncIt('Should be able to debug a HTTPRequest', async () => {
     asyncTelemetry.execute = () => Promise.resolve({} as any);
-    const requestLogger    = new HTTPRequestTelemetry(request, asyncTelemetry);
+    const requestLogger    = new HTTPRequestTelemetry(request, loggerMock, asyncTelemetry);
 
     const response = await requestLogger.execute();
 
@@ -28,7 +29,7 @@ describe('A HTTPRequestTelemetry', () => {
       throw new Error('ETIMEDOUT');
     };
 
-    const requestLogger = new HTTPRequestTelemetry(request, asyncTelemetry);
+    const requestLogger = new HTTPRequestTelemetry(request, loggerMock, asyncTelemetry);
     try {
       await requestLogger.execute();
     } catch (error) {
