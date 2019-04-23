@@ -7,6 +7,7 @@ import * as vision from 'vision';
 import * as inert from 'inert';
 import {hapiRequestMeasurer} from './hapiRequestMeasurer';
 import {createRequestErrorLog} from './createRequestErrorLog';
+import {nginxRequestIDPlugin} from './nginxRequestIDPlugin';
 
 const hapiSwagger = require('hapi-swagger');
 
@@ -89,6 +90,9 @@ export class JumboHapiServer {
 
   private async registerHapiPlugins(): Promise<void> {
     await this.server.register([
+      {
+        plugin: nginxRequestIDPlugin,
+      },
       {
         plugin:  hapiSwagger,
         options: {
