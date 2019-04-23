@@ -6,6 +6,7 @@ import {StatsD} from 'hot-shots';
 import * as vision from 'vision';
 import * as inert from 'inert';
 import {hapiRequestMeasurer} from './hapiRequestMeasurer';
+import {createRequestErrorLog} from './createRequestErrorLog';
 
 const hapiSwagger = require('hapi-swagger');
 
@@ -55,6 +56,12 @@ export class JumboHapiServer {
       host: this.config.server,
       port: this.config.port,
     }, 'Service started');
+
+    process.on('SIGINT', async () => {
+      await this.server.stop({timeout: 10000});
+
+      this.logger.info('Service stopped');
+    });
   }
 
   private createServer(): hapi.Server {
@@ -63,19 +70,14 @@ export class JumboHapiServer {
       port:    this.config.port,
       routes:  {
         validate: {
-          failAction: async (request, h, err) => {
-            this.logger.warn({
-              request: {
-                path:    request.path,
-                method:  request.method,
-                headers: request.headers,
-                query:   request.query,
-                payload: request.payload,
-              },
-              error:   err,
-            }, 'Bad Request');
+          failAction: async (request, h, error) => {
+            if (!error) {
+              return h.continue;
+            }
+
+            this.logger.warn(createRequestErrorLog(request, error), 'Input validation failed');
             if (this.config.validationErrorWithDescription) {
-              throw err;
+              throw error;
             }
 
             throw Boom.badRequest('Invalid request payload input');
