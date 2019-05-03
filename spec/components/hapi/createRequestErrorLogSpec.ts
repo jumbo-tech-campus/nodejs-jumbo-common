@@ -25,6 +25,7 @@ describe('A createRequestErrorLog', () => {
           method:  'GET',
           headers: {},
           query:   {},
+          body:    undefined,
         },
         request_id: requestMock.app.requestID,
         error:      error,

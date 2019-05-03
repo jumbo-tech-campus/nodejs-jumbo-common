@@ -15,13 +15,16 @@ export class RedisInsert implements CacheQuery<void> {
     this.options = options;
   }
 
-  public execute(): Promise<void> {
-    return this.redis.client
-      .set(this.key, JSON.stringify(this.value))
-      .then(() => {
-        if (this.options.expiry) {
-          this.redis.client.expire(this.key, this.options.expiry);
-        }
-      });
+  public async execute(): Promise<void> {
+    let redisMulti = this.redis.client.multi();
+
+    redisMulti = redisMulti.set(this.key, JSON.stringify(this.value));
+    if (this.options.expiry) {
+      redisMulti = redisMulti.expire(this.key, this.options.expiry);
+    } else if (this.options.expireAt) {
+      redisMulti = redisMulti.expireat(this.key, this.options.expireAt);
+    }
+
+    await redisMulti.exec();
   }
 }
