@@ -24,12 +24,10 @@ export class MongoConnection {
 
     try {
       mongooseConnection = await mongoose.connect(this.config.mongoURL, {
-        user:   this.config.mongoUser,
-        pass:   this.config.mongoPass,
-        dbName: this.config.mongoDBName,
-        auth:   {
-          authdb: this.config.mongoAuthDB,
-        },
+        user:       this.config.mongoUser,
+        pass:       this.config.mongoPass,
+        dbName:     this.config.mongoDBName,
+        authSource: this.config.mongoAuthDB,
       });
     } catch (error) {
       this.logger.error({error: error}, 'Error connecting to MongoDB');
