@@ -7,7 +7,7 @@
         "text-summary"
     ],
     "exclude": [
-        "**/*Spec.ts"
+        "spec/**/*"
     ],
     "all": true
 }
