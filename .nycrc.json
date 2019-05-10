@@ -6,5 +6,8 @@
         "html",
         "text-summary"
     ],
-    "include": "dist/src"
+    "exclude": [
+        "spec/**/*"
+    ],
+    "all": true
 }
