@@ -6,7 +6,7 @@ import {RedisInsert} from '../../../src/components/redis/RedisInsert';
 describe('A RedisGet', () => {
   const ReplyError = require('ioredis').ReplyError;
   const clientMock = {} as IORedis.Redis;
-  const redisMock = {
+  const redisMock  = {
     client: clientMock,
   } as RedisClient;
   let redisInsert: RedisInsert;
@@ -15,7 +15,9 @@ describe('A RedisGet', () => {
     let result: any;
 
     beforeEach(async () => {
-      clientMock.set = () => Promise.resolve('');
+      clientMock.multi = () => clientMock as any;
+      clientMock.set   = () => clientMock as any;
+      clientMock.exec  = () => Promise.resolve();
 
       redisInsert = new RedisInsert(redisMock, '', {property: ''}, {} as CacheInsertOptions);
 
@@ -31,10 +33,12 @@ describe('A RedisGet', () => {
     let result: any;
 
     beforeEach(async () => {
-      clientMock.set = () => Promise.resolve('');
+      clientMock.multi = () => clientMock as any;
+      clientMock.exec  = () => Promise.resolve();
+      clientMock.set   = () => clientMock as any;
 
       redisInsert = new RedisInsert(redisMock, '', {});
-      result = await redisInsert.execute();
+      result      = await redisInsert.execute();
     });
 
     it('Inserts without error', async () => {
@@ -46,9 +50,13 @@ describe('A RedisGet', () => {
     let error: Error;
 
     beforeEach(async () => {
+      clientMock.multi = () => clientMock as any;
+      clientMock.exec  = () => Promise.resolve();
+      clientMock.set   = () => clientMock as any;
+
       redisInsert = new RedisInsert(redisMock, '', {property: ''}, {} as CacheInsertOptions);
 
-      clientMock.set = () => Promise.reject(new ReplyError());
+      clientMock.exec = () => Promise.reject(new ReplyError());
 
       try {
         await redisInsert.execute();
