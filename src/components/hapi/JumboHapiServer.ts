@@ -104,6 +104,7 @@ export class JumboHapiServer {
           jsonPath:          `${this.config.baseURL}/swagger.json`,
           documentationPath: `${this.config.baseURL}/documentation`,
           swaggerUIPath:     `${this.config.baseURL}/swaggerui/`,
+          grouping:          'tags',
         },
       },
       {
